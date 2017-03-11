@@ -52,7 +52,6 @@ CREATE TABLE 'web_visitor' {
   `create_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `visitor_name` varchar(45) NOT NULL COMMENT '访客名',
-  `nickname` varchar(45) NOT NULL COMMENT '访客昵称',
   `password` varchar(45) NOT NULL COMMENT '密码',
   `password_salt` VARCHAR(45) NOT NULL COMMENT '加密密码',
   `avatar` varchar(80) NOT NULL DEFAULT '/img/visitor.jpg' COMMENT '头像',
