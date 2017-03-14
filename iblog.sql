@@ -32,7 +32,7 @@ CREATE TABLE blog (
   category_id INT NOT NULL COMMENT '分类id',
 	title VARCHAR(128) NOT NULL COMMENT '文章标题',
 	blog_md TEXT NOT NULL COMMENT 'blog的md格式文本',
-  blog_html TEXT NOT NULL COMMENT 'blog的html格式文本',
+#   blog_html TEXT NOT NULL COMMENT 'blog的html格式文本',
 	read_times INT(11) NOT NULL COMMENT '阅读次数',
   comment_times INT(11) NOT NULL COMMENT '评论次数',
 	love_times INT(11) NOT NULL COMMENT '喜欢次数',
@@ -91,7 +91,7 @@ CREATE TABLE friend_link (
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='友情链接表';
 
-DROP TABLE IF EXISTS blog_thumbup;
+DROP TABLE IF EXISTS blog_love;
 
 CREATE TABLE blog_love (
   id             INT       NOT NULL AUTO_INCREMENT
