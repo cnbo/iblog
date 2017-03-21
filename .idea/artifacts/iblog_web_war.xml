@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="war" name="iblog-web:war">
-    <output-path>$PROJECT_DIR$/iblog-web/target</output-path>
-    <root id="archive" name="iblog-web.war">
-      <element id="artifact" artifact-name="iblog-web:war exploded" />
-    </root>
-  </artifact>
-</component>

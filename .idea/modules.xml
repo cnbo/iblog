@@ -3,11 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/iblog.iml" filepath="$PROJECT_DIR$/iblog.iml" />
-      <module fileurl="file://$PROJECT_DIR$/iblog-common/iblog-common.iml" filepath="$PROJECT_DIR$/iblog-common/iblog-common.iml" />
-      <module fileurl="file://$PROJECT_DIR$/iblog-dao/iblog-dao.iml" filepath="$PROJECT_DIR$/iblog-dao/iblog-dao.iml" />
-      <module fileurl="file://$PROJECT_DIR$/iblog-model/iblog-model.iml" filepath="$PROJECT_DIR$/iblog-model/iblog-model.iml" />
-      <module fileurl="file://$PROJECT_DIR$/iblog-service/iblog-service.iml" filepath="$PROJECT_DIR$/iblog-service/iblog-service.iml" />
-      <module fileurl="file://$PROJECT_DIR$/iblog-web/iblog-web.iml" filepath="$PROJECT_DIR$/iblog-web/iblog-web.iml" />
     </modules>
   </component>
 </project>
