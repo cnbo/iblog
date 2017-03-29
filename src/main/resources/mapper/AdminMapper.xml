@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.developer.iblog.dao.mapper.AdminMapper" >
+
+    <select id="selectAdminByName" resultType="com.developer.iblog.model.persistent.Admin"
+            parameterType="java.lang.String" >
+
+        SELECT
+        username, password
+        FROM
+        admin
+        WHERE
+        username = #{username, jdbcType=VARCHAR}
+    </select>
+
+    <update id="updateAdmin" parameterType="com.developer.iblog.model.persistent.Admin">
+      UPDATE
+        admin
+      <set>
+          <if test="password != null">
+              password = #{password, jdbcType=VARCHAR},
+          </if>
+          <if test="nickname != null" >
+              nickname = #{nickname, jdbcType=VARCHAR},
+          </if>
+          <if test="introduction != null" >
+              introduction = #{introduction, jdbcType=VARCHAR},
+          </if>
+          <if test="email != null" >
+              email = #{email, jdbcType=VARCHAR},
+          </if>
+          <if test="github != null" >
+              github = #{github, jdbcType=VARCHAR},
+          </if>
+          <if test="resumeMd != null" >
+              resume_md = #{resumeMd, jdbcType=VARCHAR},
+          </if>
+          <if test="avatar != null" >
+              avatar = #{avatar, jdbcType=VARCHAR},
+          </if>
+      </set>
+      WHERE
+      username = #{username, jdbcType=VARCHAR}
+    </update>
+
+</mapper>
