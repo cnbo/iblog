@@ -16,12 +16,12 @@
     <table>
         <tr>
             <td>
-                <a href="#">发布文章</a>
+                <a href="${pageContext.request.contextPath}/admin/blog/write.do">写博客</a>
             </td>
         </tr>
         <tr>
             <td>
-                <a href="#">文章管理</a>
+                <a href="#">博客管理</a>
             </td>
         </tr>
         <tr>

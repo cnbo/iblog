@@ -19,7 +19,6 @@ import java.io.IOException;
 @Controller
 @RequestMapping("/admin")
 public class AdminController extends AbstractController {
-    private static Logger logger = LoggerFactory.getLogger(AdminController.class);
 
     @Autowired
     private IAdminService adminService;
@@ -94,6 +93,10 @@ public class AdminController extends AbstractController {
 
     @RequestMapping(value = "/save/resume", produces = "application/json", method = RequestMethod.POST)
     public @ResponseBody Admin saveResume(@RequestBody Admin admin) {
+
+        admin.setUsername("cnbo");
+        adminService.updateAdmin(admin);
+
         logger.info(admin.getResumeMd());
 
         return admin;

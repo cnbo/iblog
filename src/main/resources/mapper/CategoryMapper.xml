@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.developer.iblog.dao.mapper.CategoryMapper">
+
+    <resultMap id="BaseResultMap" type="com.developer.iblog.model.persistent.BlogCategory">
+        <id column="id" property="id"  jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="category_name" property="categoryName" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <insert id="saveCategory" parameterType="com.developer.iblog.model.persistent.BlogCategory">
+        INSERT INTO
+        blog_category
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="categoryName != null">
+                category_name,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id, jdbcType=INTEGER},
+            </if>
+            <if test="categoryName != null">
+                #{categoryName, jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <delete id="deleteCategoryById" parameterType="java.lang.Integer">
+        DELETE FROM
+        blog_category
+        WHERE
+        id = #{id, jdbcType=INTEGER}
+    </delete>
+
+    <update id="updateCategory" parameterType="com.developer.iblog.model.persistent.BlogCategory">
+        UPDATE
+        blog_category
+        <set>
+            <if test="categoryName != null">
+                category_name = #{categoryName, jdbcType=VARCHAR}
+            </if>
+        </set>
+        WHERE
+        id = #{id, jdbcType=INTEGER}
+    </update>
+
+    <select id="getAllCategory" resultMap="BaseResultMap">
+        SELECT
+        id, create_time, update_time, category_name
+        FROM
+        blog_category
+    </select>
+
+    <select id="getByPage" resultMap="BaseResultMap">
+        SELECT
+        id, create_time, update_time, category_name
+        FROM
+        blog_category
+        <if test="categoryName != null">
+            WHERE
+            category_name
+            LIKE
+            "%${categoryName}%"
+        </if>
+        LIMIT
+        #{start, jdbcType=INTEGER}, #{pageCount, jdbcType=INTEGER}
+    </select>
+
+    <!--<select id="getByNamePage" resultMap="BaseResultMap">-->
+        <!--SELECT-->
+        <!--id, create_time, update_time, category_name-->
+        <!--FROM-->
+        <!--blog_category-->
+        <!--WHERE-->
+        <!--category_name-->
+        <!--LIKE-->
+        <!--"%$(categoryName)%"-->
+        <!--LIMIT-->
+        <!--#{start, jdbcType=INTEGER}, #{pageCount, jdbcType=INTEGER}-->
+    <!--</select>-->
+
+    <select id="getCategoryCount" resultType="java.lang.Integer">
+        SELECT
+        count(id)
+        FROM
+        blog_category
+    </select>
+
+</mapper>

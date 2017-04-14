@@ -2,6 +2,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.developer.iblog.dao.mapper.AdminMapper" >
 
+    <resultMap id="BaseResultMap" type="com.developer.iblog.model.persistent.Admin">
+        <result column="introduction" property="introduction" jdbcType="VARCHAR"/>
+        <result column="email" property="email" jdbcType="VARCHAR"/>
+        <result column="github" property="github" jdbcType="VARCHAR"/>
+        <result column="resume_md" property="resumeMd" jdbcType="VARCHAR"/>
+        <result column="avatar" property="avatar" jdbcType="VARCHAR"/>
+        <result column="nickname" property="nickname" jdbcType="VARCHAR"/>
+    </resultMap>
+    
     <select id="selectAdminByName" resultType="com.developer.iblog.model.persistent.Admin"
             parameterType="java.lang.String" >
 
@@ -11,6 +20,15 @@
         admin
         WHERE
         username = #{username, jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectAdmin" resultMap="BaseResultMap">
+        SELECT
+        introduction, email, github, resume_md, avatar, nickname
+        FROM
+        admin
+        WHERE
+        1 = 1
     </select>
 
     <update id="updateAdmin" parameterType="com.developer.iblog.model.persistent.Admin">

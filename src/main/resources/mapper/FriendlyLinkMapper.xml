@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.developer.iblog.dao.mapper.FriendlyLinkMapper">
+    <resultMap id="BaseResultMap" type="com.developer.iblog.model.persistent.FriendlyLink">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="friend_name" property="friendName" jdbcType="VARCHAR"/>
+        <result column="url" property="url" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <insert id="saveFriendlyLink" parameterType="com.developer.iblog.model.persistent.FriendlyLink">
+        INSERT INTO
+        friend_link
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="friendName != null">
+                friend_name,
+            </if>
+            <if test="url != null">
+                url,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id, jdbcType=INTEGER},
+            </if>
+            <if test="friendName != null">
+                #{friendName, jdbcType=VARCHAR},
+            </if>
+            <if test="url != null">
+                #{url, jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <delete id="deleteFriendlyLink" parameterType="java.lang.Integer">
+        DELETE FROM
+        friend_link
+        WHERE
+        id = #{id, jdbcType=INTEGER}
+    </delete>
+
+    <select id="getFriendlyLinksByPage" resultMap="BaseResultMap">
+        SELECT
+        id, create_time, update_time, friend_name, url
+        FROM
+        friend_link
+        <if test="friendName != null and url != null">
+            WHERE
+            friend_name
+            LIKE
+            "%${friendName}%"
+            OR
+            url
+            LIKE
+            "%${url}%"
+        </if>
+        LIMIT
+        #{start, jdbcType=INTEGER}, #{pageCount, jdbcType=INTEGER}
+    </select>
+
+    <select id="getFriendlyLinkCount" resultType="java.lang.Integer">
+        SELECT
+        COUNT(id)
+        FROM
+        friend_link
+        <if test="friendName != null and url != null">
+            WHERE
+            friend_name
+            LIKE
+            "%${friendName}%"
+            OR
+            url
+            LIKE
+            "%${url}%"
+        </if>
+    </select>
+
+</mapper>

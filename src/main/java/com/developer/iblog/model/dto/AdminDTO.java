@@ -9,9 +9,16 @@ import lombok.Data;
 @Data
 public class AdminDTO {
 
-
+    private String nickname;
 
     private String resumeMd;
 
+    private String introduction;
+
+    private String avatar;
+
+    private String email;
+
+    private String github;
 
 }
