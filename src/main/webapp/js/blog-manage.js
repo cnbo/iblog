@@ -40,18 +40,27 @@ function refresh(msg) {
         "<th>标题</th>" +
         "<th>创建时间</th>" +
         "<th>修改时间</th>" +
+        "<th>发布时间</th>" +
+        "<th>浏览次数</th>" +
+        "<th>点赞次数</th>" +
+        "<th>评论次数</th>" +
         "<th>操作</th>" +
         "</tr>" +
         "<thead>";
     for (var index = 0; index < blogs.length; index++) {
-        var id = blogs[index].id;
-        var title = blogs[index].title;
+        var blog = blogs[index];
+        var id = blogs.id;
+        var title = blogs.title;
         table += "<tr>" +
             "<td>" + id + "</td>" +
             "<td><input id='title-input-" + id + "' value='" +
             title + "' style='border-width: 0px;'></td>" +
-            "<td>" + blogs[index].createTime + "</td>" +
-            "<td>" + blogs[index].updateTime + "</td>" +
+            "<td>" + blogs.createTime + "</td>" +
+            "<td>" + blogs.updateTime + "</td>" +
+            "<td>" + blogs.publishTime + "</td>" +
+            "<td>" + 10 + "</td>" +
+            "<td>" + 10 + "</td>" +
+            "<td>" + 10 + "</td>" +
             "<td id='delete-update-" + id + "'>" +
             "<a type='button' class='btn btn-primary btn-lg'" +
             "href='edit/" + id + ".do' target='_blank'>编辑</a>" +
