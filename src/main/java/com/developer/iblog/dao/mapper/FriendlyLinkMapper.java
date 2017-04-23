@@ -12,9 +12,9 @@ public interface FriendlyLinkMapper {
 
     void saveFriendlyLink(FriendlyLink friendlyLink);
 
-    void deleteFriendlyLink(Integer id);
+    Integer deleteFriendlyLink(Integer id);
 
-    void updateFriendlyLink(FriendlyLink friendlyLink);
+    Integer updateFriendlyLink(FriendlyLink friendlyLink);
 
     List<FriendlyLink> getAllFriendlyLink();
 

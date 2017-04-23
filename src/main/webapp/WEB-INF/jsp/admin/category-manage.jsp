@@ -12,160 +12,9 @@
 <head>
     <meta charset="utf-8">
     <title>标签/分类</title>
-    <script type="application/javascript"
-            src="${pageContext.request.contextPath}/lib/jquery/jquery-1.12.4.js"></script>
-    <script type="application/javascript">
-        var currentPage, pages;
-        var pageNextHtml = "<button onclick='getCategoryByPage(currentPage+1)'>下一页</button>";
-        var pagePreviousHtml = "<button onclick='getCategoryByPage(currentPage-1)'>上一页</button>";
-        var searchKey;
-        var categories;
+    <link type="text/css" rel="stylesheet"
+            href="${pageContext.request.contextPath}/lib/bootstrap/css/bootstrap.css">
 
-        $(function () {
-           $("#add-category-form").submit(function () {
-              $.ajax({
-                  type          : "POST",
-                  url           : "add.do",
-                  data          : new FormData($("#add-category-form")[0]),
-                  processData   : false,
-                  contentType   : false,
-                  success       : function (msg) {
-                                    alert("add success");
-                                    if (pages == 0) {
-                                        getCategoryByPage(1);
-                                    } else {
-                                        getCategoryByPage(currentPage);
-                                    }
-                                }
-              });
-
-              return false;
-           });
-
-            getCategoryByPage(1);
-
-        });
-        function getCategoryByPage(page) {
-            var dataJSON;
-            if (searchKey != "" && searchKey != null) {
-                dataJSON = JSON.stringify({"page":page, "categoryName":searchKey});
-            } else {
-                dataJSON = JSON.stringify({"page":page});
-            }
-            $.ajax({
-                type        : "POST",
-                url         : "page.do",
-                success     : function (msg) {
-                                refresh(msg);
-
-                            },
-                data        : dataJSON,
-                dataType    : "json",
-                contentType : "application/json; charset=utf-8"
-            });
-        }
-
-
-        function refresh(msg) {
-            categories = msg.categories;
-            pages = msg.pages;
-            currentPage = msg.page;
-
-            var table = "<table>" +
-                            "<thead>" +
-                                "<tr>" +
-                                    "<th>ID</th>" +
-                                    "<th>分类</th>" +
-                                    "<th>创建时间</th>" +
-                                    "<th>修改时间</th>" +
-                                    "<th>操作</th>" +
-                                "</tr>" +
-                            "<thead>";
-            for (var index = 0; index < categories.length; index++) {
-                var id = categories[index].id;
-                table += "<tr onblur='deleteMode(" + id + ")'>" +
-                            "<td>" + id + "</td>" +
-                            "<td><input id='category-input-" + id + "' value='" +
-                            categories[index].categoryName +
-                            "' style='border-width: 0px;' onfocus='updateMode(" +
-                            id + ")'></td>" +
-                            "<td>" + categories[index].createTime + "</td>" +
-                            "<td>" + categories[index].updateTime + "</td>" +
-                            "<td id='delete-update-" + id +
-                            "'><button onclick='deleteCategory(" + id +")'>删除</button>" +
-                         "</tr>";
-            }
-            table += "</table>";
-
-            $("#category-table-div").html(table);
-
-
-            $("#page-next").html(pageNextHtml);
-            $("#page-previous").html(pagePreviousHtml);
-            if (currentPage == 1 || pages <= 1) {
-                $("#page-previous").html("");
-            }
-            if (currentPage == pages || pages == 0) {
-                $("#page-next").html("");
-            }
-        }
-
-        function search() {
-            searchKey = $("#searchKey").val();
-            getCategoryByPage(1);
-        }
-
-        function deleteCategory(id) {
-            $.ajax({
-                type        : "POST",
-                url         : "delete/" + id + ".do",
-                success     : function(msg) {
-                                alert("delete success");
-
-                                if (categories.length == 1 && currentPage > 1 && currentPage == pages) {
-                                    getCategoryByPage(currentPage - 1);
-                                } else if (currentPage != 0) {
-                                    getCategoryByPage(currentPage);
-                                }
-                            }
-            });
-        }
-
-        function updateMode(id) {
-            var updateBtn = "<button onclick='updateCategory(" + id + ")'>保存</button>";
-            var cancleBtn = "<button onclick='deleteMode(" + id + ")'>取消</button>";
-            $("#delete-update-"+id).html(updateBtn + cancleBtn);
-
-//            for (var index = 0; index < categories.length; index++) {
-//                if (id == categories[index].id) {
-//                    continue;
-//                }
-//                deleteMode(categories[index].id);
-//            }
-        }
-
-        function updateCategory(id) {
-            var categoryName = $("#category-input-"+id).val();
-
-            $.ajax({
-                type        : "POST",
-                url         : "update.do",
-                success     : function (msg) {
-                                alert("update success");
-                                deleteMode(id);
-                            },
-                data        : JSON.stringify({"id":id, "categoryName":categoryName}),
-                dataType    : "json",
-                contentType : "application/json; charset=utf-8"
-            });
-        }
-
-        function deleteMode(id) {
-            var deleteBtn = "<button onclick='deleteCategory(" + id + ")'>删除</button>";
-            $("#delete-update-"+id).html(deleteBtn);
-        }
-
-    </script>
 </head>
 <body>
 
@@ -189,6 +38,99 @@
         分类 <input type="text" name="categoryName" id="categoryName"> <br>
         <input type="submit" value="添加">
     </form>
+
+
+    <!-- 文章类别修改模态框 -->
+    <div id="modify-category-modal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">修改类别</h4>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="categoryId" value="" id="modify-id">
+                    <label class="col-xs-2 control-label">
+                        类别
+                    </label>
+                    <input type="text" name="categoryName" id="category-input" value="">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">
+                        取消
+                    </button>
+                    <button type="button" class="btn btn-primary" onclick="modifySubmit()">确定</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <!-- 文章类别删除模态框 -->
+    <div id="delete-category-modal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">删除类别</h4>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="categoryId" value="" id="delete-id">
+                    <p id="delete-warning"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">
+                        取消
+                    </button>
+                    <button type="button" class="btn btn-primary" onclick="deleteSubmit()">确定</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <table>
+        <tr>
+            <td>
+                <a href="${pageContext.request.contextPath}/admin/blog/write.do">写博客</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="${pageContext.request.contextPath}/admin/blog/manage.do">博客管理</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="${pageContext.request.contextPath}/admin/category/manage.do">标签/分类</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="${pageContext.request.contextPath}/admin/friendly-link/manage.do">友情链接</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="#">用户管理</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="#">评论管理</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="${pageContext.request.contextPath}/admin/profile.do">个人信息</a>
+            </td>
+        </tr>
+    </table>
+
+    <script type="application/javascript"
+            src="${pageContext.request.contextPath}/lib/jquery/jquery-1.12.4.js"></script>
+    <script type="application/javascript"
+            src="${pageContext.request.contextPath}/lib/bootstrap/js/bootstrap.js"></script>
+    <script type="application/javascript"
+            src="${pageContext.request.contextPath}/js/category-manage.js"></script>
 
 </body>
 </html>

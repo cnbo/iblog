@@ -56,10 +56,17 @@ public class FriendlyLinkController extends AbstractController {
     }
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
-    public String deleteLink(@PathVariable Integer id) {
-        friendlyLinkService.deleteLink(id);
+    public @ResponseBody Integer deleteLink(@PathVariable Integer id) {
+        Integer deleteResult = friendlyLinkService.deleteLink(id);
 
-        return "admin/friendly-link-manage";
+        return deleteResult;
+    }
+
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public @ResponseBody Integer updateLink(@RequestBody FriendlyLink friendlyLink) {
+        Integer updateResult = friendlyLinkService.updateLink(friendlyLink);
+
+        return updateResult;
     }
 
 }

@@ -39,8 +39,13 @@ public class FriendlyLinkServiceImpl implements IFriendlyLinkService {
     }
 
     @Override
-    public void deleteLink(Integer id) {
-        friendlyLinkMapper.deleteFriendlyLink(id);
+    public Integer deleteLink(Integer id) {
+        return friendlyLinkMapper.deleteFriendlyLink(id);
+    }
+
+    @Override
+    public Integer updateLink(FriendlyLink friendlyLink) {
+        return friendlyLinkMapper.updateFriendlyLink(friendlyLink);
     }
 
 }

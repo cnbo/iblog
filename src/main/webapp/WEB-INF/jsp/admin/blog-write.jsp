@@ -18,16 +18,92 @@
     <%--bootstrap-fileinput css--%>
     <link type="text/css" media="all" rel="stylesheet"
           href="${pageContext.request.contextPath}/lib/bootstrap-fileinput/css/fileinput.css">
-    <%--eitor.md css--%>
     <link type="text/css" media="all" rel="stylesheet"
           href="${pageContext.request.contextPath}/lib/editor-md/css/editormd.css">
-    <%--jqeury--%>
+
+</head>
+<body>
+    <c:if test="${requestScope.blog != null}">
+        <input type="hidden" id="edit-id" value="${requestScope.blog.id}">
+    </c:if>
+    <input type="text" name="title" id="title" required="true" value="无标题文章"> <br>
+    <select id="category-select">
+        <c:if test="${ empty requestScope.blogCategories}">
+            <option value="">java</option>
+        </c:if>
+        <c:if test="${requestScope.blogCategories != null && requestScope.blog != null}">
+            <c:forEach items="${requestScope.blogCategories}" var="category">
+                <c:if test="${category.id == requestScope.blog.categoryId}">
+                    <option value="${category.id}" selected="selected">${category.categoryName}</option>
+                </c:if>
+                <c:if test="${category.id != requestScope.blog.categoryId}">
+                    <option value="${category.id}">${category.categoryName}</option>
+                </c:if>
+            </c:forEach>
+        </c:if>
+        <c:if test="${requestScope.blogCategories != null && requestScope.blog == null}">
+            <c:forEach items="${requestScope.blogCategories}" var="category">
+                 <option value="${category.id}">${category.categoryName}</option>
+            </c:forEach>
+        </c:if>
+    </select> <br>
+    <button id="save-btn" onclick="saveOrUpdateBlog()">保存</button>
+    <button id="publish-btn" onclick="updateStatus(1)">发布</button>
+    <button id="draft-btn" onclick="updateStatus(1)">存为草稿</button>
+
+
+    <h3>blog</h3>
+    <div id="blog-editor">
+
+        <textarea>
+            <c:if test="${requestScope.blog != null}">
+${requestScope.blog.blogMd}
+            </c:if>
+        </textarea>
+    </div>
+
+    <table>
+        <tr>
+            <td>
+                <a href="${pageContext.request.contextPath}/admin/blog/write.do">写博客</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="${pageContext.request.contextPath}/admin/blog/manage.do">博客管理</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="${pageContext.request.contextPath}/admin/category/manage.do">标签/分类</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="${pageContext.request.contextPath}/admin/friendly-link/manage.do">友情链接</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="#">用户管理</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="#">评论管理</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="${pageContext.request.contextPath}/admin/profile.do">个人信息</a>
+            </td>
+        </tr>
+    </table>
+
     <script type="application/javascript"
             src="${pageContext.request.contextPath}/lib/jquery/jquery-1.12.4.js"></script>
-    <%--bootstrap js--%>
     <script type="application/javascript"
             src="${pageContext.request.contextPath}/lib/bootstrap/js/bootstrap.js"></script>
-    <%--bootstrap-fileinput js--%>
     <script type="application/javascript"
             src="${pageContext.request.contextPath}/lib/bootstrap-fileinput/js/plugins/canvas-to-blob.js"></script>
     <script type="application/javascript"
@@ -38,74 +114,9 @@
             src="${pageContext.request.contextPath}/lib/bootstrap-fileinput/js/fileinput.js"></script>
     <script type="application/javascript"
             src="${pageContext.request.contextPath}/lib/bootstrap-fileinput/js/zh.js"></script>
-    <%--editor.md js--%>
     <script type="application/javascript"
             src="${pageContext.request.contextPath}/lib/editor-md/js/editormd.js"></script>
-    <script type="application/javascript">
-        var blogEditor;
-        $(function () {
-            blogEditor = editormd("blog-editor", {
-                width               : "76%",
-                height              : 540,
-                syncScrolling       : "single",
-                toolbarIcons        : function() {
-                    return ["undo", "redo", "|",
-                        "bold", "del", "italic", "quote", "ucwords", "uppercase", "lowercase", "|",
-                        "h1", "h2", "h3", "h4", "h5", "h6", "|",
-                        "list-ul", "list-ol", "hr", "|",
-                        "link", "reference-link", "image", "code", "preformatted-text",
-                        "code-block", "table", "datetime", "html-entities", "pagebreak",  "|",
-                        "goto-line", "watch", "preview", "fullscreen", "|",
-                        "search", "clear", "help"
-                    ]
-                },
-                path                : "${pageContext.request.contextPath}/lib/editor-md/lib/"
-            });
-        });
-
-
-        function saveBlog() {
-            var dataJSON = JSON.stringify({"id":id, "categoryID":categoryID,
-                                            "categoryName":categoryName,
-                                            "title":title, "blogMD":blogMD});
-            $.ajax({
-                type         : "POST",
-                url          : "save.do",
-                dataType     : "json",
-                contentType  : "application/json;charset=utf-8",
-                data         : dataJSON,
-                success      : function (msg) {
-                    alert("save success");
-                },
-                error        : function () {
-                    alert("访问失败");
-                }
-            });
-        }
-
-    </script>
-</head>
-<body>
-
-    <input type="text" name="title" id="title" value="无标题文章"> <br>
-    <select id="category">
-        <c:if test="${ empty requestScope.blogCategories}">
-            <option>java</option>
-        </c:if>
-        <c:if test="${requestScope.blogCategories != null}">
-            <c:forEach items="${requestScope.blogCategories}" var="category">
-                <option value="${category.id}">${category.categoryName}</option>
-            </c:forEach>
-        </c:if>
-    </select> <br>
-    <button id="save-btn">保存</button>
-    <button id="publish-btn">发布</button>
-    <button id="draft-btn">存为草稿</button>
-
-
-    <h3>blog</h3>
-    <div id="blog-editor">
-        <textarea></textarea>
-    </div>
+    <script type="application/javascript"
+            src="${pageContext.request.contextPath}/js/blog-write.js"></script>
 </body>
 </html>

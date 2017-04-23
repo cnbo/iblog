@@ -11,141 +11,13 @@
 <head>
     <meta charset="UTF-8">
     <title>admin profile</title>
-    <%--Bootstrap css--%>
     <link type="text/css" rel="stylesheet"
         href="${pageContext.request.contextPath}/lib/bootstrap/css/bootstrap.css">
-    <%--bootstrap-fileinput css--%>
     <link type="text/css" media="all" rel="stylesheet"
         href="${pageContext.request.contextPath}/lib/bootstrap-fileinput/css/fileinput.css">
-    <%--eitor.md css--%>
     <link type="text/css" media="all" rel="stylesheet"
           href="${pageContext.request.contextPath}/lib/editor-md/css/editormd.css">
-    <%--jqeury--%>
-    <script type="application/javascript"
-        src="${pageContext.request.contextPath}/lib/jquery/jquery-1.12.4.js"></script>
-    <%--bootstrap js--%>
-    <script type="application/javascript"
-        src="${pageContext.request.contextPath}/lib/bootstrap/js/bootstrap.js"></script>
-    <%--bootstrap-fileinput js--%>
-    <script type="application/javascript"
-            src="${pageContext.request.contextPath}/lib/bootstrap-fileinput/js/plugins/canvas-to-blob.js"></script>
-    <script type="application/javascript"
-            src="${pageContext.request.contextPath}/lib/bootstrap-fileinput/js/plugins/sortable.js"></script>
-    <script type="application/javascript"
-            src="${pageContext.request.contextPath}/lib/bootstrap-fileinput/js/plugins/purify.js    "></script>
-    <script type="application/javascript"
-        src="${pageContext.request.contextPath}/lib/bootstrap-fileinput/js/fileinput.js"></script>
-    <script type="application/javascript"
-        src="${pageContext.request.contextPath}/lib/bootstrap-fileinput/js/zh.js"></script>
-    <%--editor.md js--%>
-    <script type="application/javascript"
-            src="${pageContext.request.contextPath}/lib/editor-md/js/editormd.js"></script>
-    <script type="application/javascript">
-        var resumeEditor;
-        $(function () {
-            resumeEditor = editormd("resume-editormd", {
-                width               : "76%",
-                height              : 540,
-                syncScrolling       : "single",
-                toolbarIcons        : function() {
-                                        return ["undo", "redo", "|",
-                                            "bold", "del", "italic", "quote", "uppercase", "|",
-                                            "h1", "h2", "h3", "h4", "h5", "h6", "|",
-                                            "list-ul", "list-ol", "hr", "|",
-                                            "link", "reference-link", "datetime", "|",
-                                            "goto-line", "watch", "preview", "fullscreen", "|",
-                                            "search", "clear", "help"
-                                        ]
-                                    },
-                path                : "${pageContext.request.contextPath}/lib/editor-md/lib/"
-            });
-//            $("#save-resume-btn").bind('click', function () {
-//
-//                $.ajax({
-//                    type        : "POST",
-//                    url         : "save/resume.do",
-//                    success     : function (msg) {
-//                        alert("save resume success");
-//                    },
-//                    data        : JSON.stringify({"resumeMd":resumeEditor.getMarkdown()}),
-//                    dataType    : "json",
-//                    contentType : "application/json; charset=utf-8"
-//               });
-//            });
 
-
-            var btnCust = '<button type="button" class="btn btn-default" title="Add picture tags" ' +
-                'onclick="alert(\'Call your custom code here.\')">' +
-                '<i class="glyphicon glyphicon-tag"></i>' +
-                '</button>';
-            //初始化文件上传插件
-            $("#avatar-file").fileinput({
-//                theme : "explorer",
-                language : "zh",
-                uploadAsync : true,
-                allowedFileExtensions : ["jpg", "png", "gif"],
-                showUpload : false,
-                overwriteInitial: true,
-                maxFileSize: 1500,
-                showClose: false,
-                showCaption: false,
-                browseLabel: '',
-                removeLabel: '',
-                browseIcon: '<i class="glyphicon glyphicon-folder-open"></i>',
-                removeIcon: '<i class="glyphicon glyphicon-remove"></i>',
-                removeTitle: 'Cancel or reset changes',
-                elErrorContainer: '#kv-avatar-errors-1',
-                msgErrorClass: 'alert alert-block alert-danger',
-                defaultPreviewContent: '<img src="${pageContext.request.contextPath}/uploads/default_avatar.jpg" alt="Your Avatar" style="width:160px">',
-                browseClass : "btn btn-primary"
-            });
-
-
-            $("#profile-form").submit(function () {
-                $.ajax({
-                    type : "POST",
-                    url : "profile.do",
-                    success : function (msg) {
-                        alert("save success");
-                    },
-                    data : new FormData($("#profile-form")[0]),
-                    processData : false,
-                    contentType : false
-                });
-
-                return false;
-            });
-
-            $("#modify-password-form").submit(function () {
-                $.ajax({
-                    type : "POST",
-                    url : "modify/pass.do",
-                    success : function (msg) {
-                        alert("modify success");
-                    },
-                    data : new FormData($("#modify-password-form")[0]),
-                    processData : false,
-                    contentType : false
-                });
-
-                return false;
-            });
-        });
-
-
-        function saveResume() {
-            $.ajax({
-                type        : "POST",
-                url         : "save/resume.do",
-                success     : function (msg) {
-                                alert(msg.resumeMd);
-                            },
-                data        : JSON.stringify({"resumeMd":resumeEditor.getMarkdown()}),
-                dataType    : "json",
-                contentType : "application/json; charset=utf-8"
-            });
-        }
-    </script>
     <style>
         .kv-avatar .file-preview-frame,.kv-avatar .file-preview-frame:hover {
             margin: 0;
@@ -191,5 +63,61 @@
 
     </div>
 
+    <table>
+        <tr>
+            <td>
+                <a href="${pageContext.request.contextPath}/admin/blog/write.do">写博客</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="${pageContext.request.contextPath}/admin/blog/manage.do">博客管理</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="${pageContext.request.contextPath}/admin/category/manage.do">标签/分类</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="${pageContext.request.contextPath}/admin/friendly-link/manage.do">友情链接</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="#">用户管理</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="#">评论管理</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="${pageContext.request.contextPath}/admin/profile.do">个人信息</a>
+            </td>
+        </tr>
+    </table>
+
+    <script type="application/javascript"
+            src="${pageContext.request.contextPath}/lib/jquery/jquery-1.12.4.js"></script>
+    <script type="application/javascript"
+            src="${pageContext.request.contextPath}/lib/bootstrap/js/bootstrap.js"></script>
+    <script type="application/javascript"
+            src="${pageContext.request.contextPath}/lib/bootstrap-fileinput/js/plugins/canvas-to-blob.js"></script>
+    <script type="application/javascript"
+            src="${pageContext.request.contextPath}/lib/bootstrap-fileinput/js/plugins/sortable.js"></script>
+    <script type="application/javascript"
+            src="${pageContext.request.contextPath}/lib/bootstrap-fileinput/js/plugins/purify.js    "></script>
+    <script type="application/javascript"
+            src="${pageContext.request.contextPath}/lib/bootstrap-fileinput/js/fileinput.js"></script>
+    <script type="application/javascript"
+            src="${pageContext.request.contextPath}/lib/bootstrap-fileinput/js/zh.js"></script>
+    <script type="application/javascript"
+            src="${pageContext.request.contextPath}/lib/editor-md/js/editormd.js"></script>
+    <script type="application/javascript"
+            src="${pageContext.request.contextPath}/js/profile.js"></script>
 </body>
 </html>

@@ -29,4 +29,7 @@ public class Blog extends BaseModel {
     private Integer commentTimes;
 
     private Date publishTime;
+
+    private Integer status;
+
 }

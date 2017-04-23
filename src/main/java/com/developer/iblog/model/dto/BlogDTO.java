@@ -9,9 +9,22 @@ import lombok.Data;
 @Data
 public class BlogDTO {
 
-    private Blog blog;
+    private String categoryName;
 
-    //用于用户识别时间
-    private String friendlyTime;
+    private Integer id;
+
+    private Integer categoryId;
+
+    private String title;
+
+    private String blogMd;
+
+    private Integer readTimes;
+
+    private Integer commentTimes;
+
+    private Integer loveTimes;
+
+    private Integer status;
 
 }

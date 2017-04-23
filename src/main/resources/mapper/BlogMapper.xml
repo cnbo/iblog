@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.developer.iblog.dao.mapper.BlogMapper" >
+
+    <resultMap id="BaseResultMap" type="com.developer.iblog.model.persistent.Blog">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="publish_time" property="publishTime" jdbcType="TIMESTAMP"/>
+        <result column="category_id" property="categoryId" jdbcType="INTEGER"/>
+        <result column="title" property="title" jdbcType="VARCHAR"/>
+        <result column="blog_md" property="blogMd" jdbcType="VARCHAR"/>
+        <result column="read_times" property="readTimes" jdbcType="INTEGER"/>
+        <result column="love_times" property="loveTimes" jdbcType="INTEGER"/>
+        <result column="comment_times" property="commentTimes" jdbcType="INTEGER"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <insert id="saveBlog" useGeneratedKeys="true" keyProperty="id"
+            parameterType="com.developer.iblog.model.persistent.Blog">
+      INSERT INTO
+      blog
+      <trim prefix="(" suffix=")" suffixOverrides=",">
+          <if test="id != null">
+              id,
+          </if>
+          <if test="categoryId != null">
+              category_id,
+          </if>
+          <if test="title != null">
+              title,
+          </if>
+          <if test="blogMd != null">
+              blog_md,
+          </if>
+          <if test="readTimes != null">
+              read_times,
+          </if>
+          <if test="loveTimes != null">
+              love_times,
+          </if>
+          <if test="commentTimes != null">
+              comment_times,
+          </if>
+          <if test="status != null">
+              status,
+          </if>
+      </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id, jdbcType=INTEGER},
+            </if>
+            <if test="categoryId != null">
+                #{categoryId, jdbcType=INTEGER},
+            </if>
+            <if test="title != null">
+                #{title, jdbcType=VARCHAR},
+            </if>
+            <if test="blogMd != null">
+                #{blogMd, jdbcType=VARCHAR},
+            </if>
+            <if test="readTimes != null">
+                #{readTimes, jdbcType=INTEGER},
+            </if>
+            <if test="loveTimes != null">
+                #{loveTimes, jdbcType=INTEGER},
+            </if>
+            <if test="commentTimes != null">
+                #{commentTimes, jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                #{status, jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+
+    <delete id="deleteBlogById" parameterType="java.lang.Integer">
+        DELETE FROM
+        blog
+        WHERE
+        id = #{id, jdbcType=INTEGER}
+    </delete>
+
+    <update id="updateBlog" useGeneratedKeys="true" keyProperty="id"
+            parameterType="com.developer.iblog.model.persistent.Blog">
+        UPDATE
+        blog
+        <set>
+            <if test="categoryId != null">
+                category_id = #{categoryId, jdbcType=INTEGER},
+            </if>
+            <if test="blogMd != null">
+                blog_md = #{blogMd, jdbcType=VARCHAR},
+            </if>
+            <if test="title != null">
+                title = #{title, jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status, jdbcType=INTEGER},
+            </if>
+        </set>
+        where
+        id = #{id, jdbcType=INTEGER}
+    </update>
+
+    <select id="getBlogById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        SELECT
+        id, create_time, update_time, publish_time,
+        category_id, title, blog_md, read_times,
+        comment_times, love_times, status
+        FROM
+        blog
+        WHERE
+        id = #{id, jdbcType=INTEGER}
+    </select>
+
+    <select id="getByPage" resultMap="BaseResultMap">
+        SELECT
+        id, create_time, update_time, publish_time,
+        category_id, title, blog_md, read_times,
+        comment_times, love_times, status
+        FROM
+        blog
+        <if test="title != null">
+            WHERE
+            title
+            LIKE
+            "%${title}%"
+        </if>
+        LIMIT
+        #{start, jdbcType=INTEGER}, #{pageCount, jdbcType=INTEGER}
+    </select>
+
+    <select id="getBlogCount" resultType="java.lang.Integer">
+        SELECT
+        count(id)
+        FROM
+        blog
+        WHERE
+        title
+        LIKE
+        "%${title}%"
+    </select>
+
+</mapper>

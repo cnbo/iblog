@@ -12,9 +12,11 @@ public interface CategoryMapper {
 
     void saveCategory(BlogCategory blogCategory);
 
-    void deleteCategoryById(Integer id);
+    Integer deleteCategoryById(Integer id);
 
-    void updateCategory(BlogCategory blogCategory);
+    Integer updateCategory(BlogCategory blogCategory);
+
+    BlogCategory getCategoryByName(String categoryName);
 
     List<BlogCategory> getAllCategory();
 
@@ -22,7 +24,7 @@ public interface CategoryMapper {
                                  @Param("pageCount") Integer pageCount,
                                  @Param("categoryName") String categoryName);
 
-    int getCategoryCount();
+    int getCategoryCount(@Param("categoryName") String categoryName);
 
 
 }

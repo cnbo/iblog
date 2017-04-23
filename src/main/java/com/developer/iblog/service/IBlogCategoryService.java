@@ -9,16 +9,16 @@ import java.util.List;
  */
 public interface IBlogCategoryService {
 
-    void saveCategory(String categoryName);
+    Integer saveCategory(String categoryName);
 
     List<BlogCategory> getAllBlogCategory();
 
     List<BlogCategory> getCategoriesByPage(Integer start, Integer pageCount, String categoryName);
 
-    Integer getPages(Integer pageCount);
+    Integer getPages(Integer pageCount, String categoryName);
 
-    void deleteCategory(Integer id);
+    Integer deleteCategory(Integer id);
 
-    void updateCategory(BlogCategory blogCategory);
+    Integer updateCategory(BlogCategory blogCategory);
 
 }

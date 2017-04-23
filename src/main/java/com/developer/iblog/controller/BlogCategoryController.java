@@ -34,12 +34,12 @@ public class BlogCategoryController extends AbstractController {
             pageCount,
             categoryPageDTO.getCategoryName());
 
-        Integer pages = blogCategoryService.getPages(pageCount);
+        Integer pages = blogCategoryService.getPages(pageCount, categoryPageDTO.getCategoryName());
         categoryPageDTO.setCategories(blogCategories);
         categoryPageDTO.setPage(page);
         categoryPageDTO.setPages(pages);
 
-        logger.info(page+categoryPageDTO.getCategoryName());
+//        logger.info(page+categoryPageDTO.getCategoryName());
 
         return categoryPageDTO;
     }
@@ -51,18 +51,21 @@ public class BlogCategoryController extends AbstractController {
     }
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
-    public String deleteCategory(@PathVariable Integer id) {
+    public @ResponseBody Integer deleteCategory(@PathVariable Integer id) {
 
-        blogCategoryService.deleteCategory(id);
+       Integer deleteResult = blogCategoryService.deleteCategory(id);
+//        logger.info(""+deleteId);
 
-        return "admin/category-manage";
+        return deleteResult;
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public @ResponseBody BlogCategory updateCategory(@RequestBody BlogCategory blogCategory) {
-        blogCategoryService.updateCategory(blogCategory);
+    public @ResponseBody Integer updateCategory(@RequestBody BlogCategory blogCategory) {
+        Integer updateResult = blogCategoryService.updateCategory(blogCategory);
 
-        return blogCategory;
+        logger.info("update result======" + updateResult);
+
+        return updateResult;
     }
 
 }
