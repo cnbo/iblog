@@ -7,6 +7,8 @@ import com.developer.iblog.model.persistent.Admin;
  */
 public interface AdminMapper {
 
+    Admin selectAdminByNamePassword(Admin admin);
+
     Admin selectAdminByName(String username);
 
     void updateAdmin(Admin admin);

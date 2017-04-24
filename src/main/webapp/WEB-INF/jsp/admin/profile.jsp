@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -36,12 +37,12 @@
 <body>
     <h2>个人信息</h2>
     <form id="profile-form" enctype="multipart/form-data">
-        昵称 <input type="text" name="nickname" id="nickname">    <br>
-        邮箱 <input type="email" name="email" id="email">         <br>
-        GitHub <input type="url" name="github" id="github">       <br>
-        座右铭 <input type="text" name="inroduction" id="inroduction"> <br>
+        昵称 <input type="text" name="nickname" id="nickname" value="${requestScope.admin.nickname}"><br>
+        邮箱 <input type="email" name="email" id="email" value="${requestScope.admin.email}"><br>
+        GitHub <input type="url" name="github" id="github" value="${requestScope.admin.github}"><br>
+        简介 <input type="text" name="introduction" id="introduction" value="${requestScope.admin.introduction}"><br>
         <div class="kv-avatar center-block" style="width:200px">
-            头像 <input type="file" id="avatar-file" name="file" class="file-loading"> <br>
+            头像 <input type="file" id="avatar-file" name="file" class="file-loading"><br>
         </div>
         <%--头像 <input type="file" name="file">--%>
         <input type="submit" title="保存">
@@ -59,7 +60,7 @@
     <button id="save-resume-btn" onclick="saveResume()">保存</button>
     <div id="resume-editormd">
             <textarea name="resumeMd">
-
+${requestScope.admin.resumeMd}
             </textarea>
 
     </div>
