@@ -9,7 +9,7 @@
         <result column="category_name" property="categoryName" jdbcType="VARCHAR"/>
     </resultMap>
 
-    <insert id="saveCategory" parameterType="com.developer.iblog.model.persistent.BlogCategory">
+    <insert id="saveCategory" useGeneratedKeys="true" keyProperty="id" parameterType="com.developer.iblog.model.persistent.BlogCategory">
         INSERT INTO
         blog_category
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -37,7 +37,7 @@
         id = #{id, jdbcType=INTEGER}
     </delete>
 
-    <update id="updateCategory" parameterType="com.developer.iblog.model.persistent.BlogCategory">
+    <update id="updateCategory" useGeneratedKeys="true" keyProperty="id" parameterType="com.developer.iblog.model.persistent.BlogCategory">
         UPDATE
         blog_category
         <set>
@@ -56,6 +56,15 @@
         blog_category
     </select>
 
+    <select id="getCategoryByName" resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT
+        id, create_time, update_time, category_name
+        FROM
+        blog_category
+        WHERE
+        category_name = #{categoryName, jdbcType=VARCHAR}
+    </select>
+
     <select id="getByPage" resultMap="BaseResultMap">
         SELECT
         id, create_time, update_time, category_name
@@ -71,24 +80,17 @@
         #{start, jdbcType=INTEGER}, #{pageCount, jdbcType=INTEGER}
     </select>
 
-    <!--<select id="getByNamePage" resultMap="BaseResultMap">-->
-        <!--SELECT-->
-        <!--id, create_time, update_time, category_name-->
-        <!--FROM-->
-        <!--blog_category-->
-        <!--WHERE-->
-        <!--category_name-->
-        <!--LIKE-->
-        <!--"%$(categoryName)%"-->
-        <!--LIMIT-->
-        <!--#{start, jdbcType=INTEGER}, #{pageCount, jdbcType=INTEGER}-->
-    <!--</select>-->
+
 
     <select id="getCategoryCount" resultType="java.lang.Integer">
         SELECT
         count(id)
         FROM
         blog_category
+        WHERE
+        category_name
+        LIKE
+        "%${categoryName}%"
     </select>
 
 </mapper>

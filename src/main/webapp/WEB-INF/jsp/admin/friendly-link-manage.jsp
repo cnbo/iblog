@@ -6,127 +6,14 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <title>友情链接</title>
-    <script type="application/javascript"
-            src="${pageContext.request.contextPath}/lib/jquery/jquery-1.12.4.js"></script>
-    <script type="application/javascript">
-        var currentPage, pages;
-        var pageNextHtml = "<button onclick='getCategoryByPage(currentPage+1)'>下一页</button>";
-        var pagePreviousHtml = "<button onclick='getCategoryByPage(currentPage-1)'>上一页</button>";
-        var searchKey;
-        var links;
-
-        $(function () {
-           $("#add-link-form").submit(function () {
-               $.ajax({
-                   type         : "POST",
-                   url          : "add.do",
-                   data         : new FormData($("#add-link-form")[0]),
-                   success      : function (msg) {
-                                    alert("add success");
-                                   if (pages == 0) {
-                                       getCategoryByPage(1);
-                                   } else {
-                                       getCategoryByPage(currentPage);
-                                   }
-                                },
-                   processData  : false,
-                   contentType  : false
-               });
-
-               return false;
-           });
-
-            getCategoryByPage(1);
-        });
-
-
-        function getCategoryByPage(page) {
-            var dataJSON;
-            if (searchKey != "" && searchKey != null) {
-                dataJSON = JSON.stringify({"page":page, "friendName":searchKey, "url":searchKey, "pageCount":2});
-            } else {
-                dataJSON = JSON.stringify({"page":page, "pageCount":2});
-            }
-            $.ajax({
-                type        : "POST",
-                url         : "page.do",
-                success     : function (msg) {
-//                                alert(msg.links.length);
-                                refresh(msg);
-                            },
-                data        : dataJSON,
-                dataType    : "json",
-                contentType : "application/json; charset=utf-8"
-            });
-        }
-
-        function refresh(msg) {
-            links = msg.links;
-            pages = msg.pages;
-            currentPage = msg.page;
-
-            var table = "<table>" +
-                "<thead>" +
-                "<tr>" +
-                "<th>ID</th>" +
-                "<th>名称</th>" +
-                "<th>URL</th>" +
-                "<th>创建时间</th>" +
-                "<th>修改时间</th>" +
-                "<th>操作</th>" +
-                "</tr>" +
-                "<thead>";
-            for (var index = 0; index < links.length; index++) {
-                var id = links[index].id;
-                table += "<tr>" +
-                    "<td>" + id + "</td>" +
-                    "<td>" + links[index].friendName + "</td>" +
-                    "<td>" + links[index].url + "</td>" +
-                    "<td>" + links[index].createTime + "</td>" +
-                    "<td>" + links[index].updateTime + "</td>" +
-                    "<td><button onclick='deleteLink(" + id + ")'>删除</button> " +
-                    "</tr>";
-            }
-            table += "</table>";
-
-            $("#friendly-link-table-div").html(table);
-
-
-            $("#page-next").html(pageNextHtml);
-            $("#page-previous").html(pagePreviousHtml);
-            if (currentPage == 1 || pages <= 1) {
-                $("#page-previous").html("");
-            }
-            if (currentPage == pages || pages == 0) {
-                $("#page-next").html("");
-            }
-        }
-
-        function search() {
-            searchKey = $("#searchKey").val();
-            getCategoryByPage(1);
-        }
-
-        function deleteLink(id) {
-            $.ajax({
-                type        : "POST",
-                url         : "delete/" + id + ".do",
-                success     : function (msg) {
-                                alert("delete success");
-                                if (links.length == 1 && currentPage > 1 && currentPage == pages) {
-                                    getCategoryByPage(currentPage - 1);
-                                } else if (currentPage != 0) {
-                                    getCategoryByPage(currentPage);
-                                }
-                            }
-            });
-        }
-    </script>
+    <link type="text/css" rel="stylesheet"
+          href="${pageContext.request.contextPath}/lib/bootstrap/css/bootstrap.css">
 </head>
 <body>
 
@@ -152,5 +39,114 @@
         链接 <input type="url" name="url" id="url"> <br>
         <input type="submit" value="保存">
     </form>
+
+    <!-- 友情链接修改模态框 -->
+    <div id="modify-link-modal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">修改类别</h4>
+                </div>
+                <form class="form-horizontal" enctype="multipart/form-data">
+                    <div class="modal-body">
+
+                        <input type="hidden" name="linkId" value="" id="modify-id">
+                        <div class="form-group">
+                            <label class="col-xs-2 control-label">
+                                昵称
+                            </label>
+                            <div class="col-xs-10">
+                                <input class="form-control" type="text" name="friendName" id="friend-name" value="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-2 control-label">
+                                链接
+                            </label>
+                            <div class="col-xs-10">
+                                <input class="form-control" type="text" name="url" id="friend-url" value="">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">
+                        取消
+                    </button>
+                    <button type="button" class="btn btn-primary" onclick="modifySubmit()">确定</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <!-- 友情链接删除模态框 -->
+    <div id="delete-link-modal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">删除友情链接</h4>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" value="" id="delete-id">
+                    <p id="delete-warning"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">
+                        取消
+                    </button>
+                    <button type="button" class="btn btn-primary" onclick="deleteSubmit()">确定</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <table>
+        <tr>
+            <td>
+                <a href="${pageContext.request.contextPath}/admin/blog/write.do">写博客</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="${pageContext.request.contextPath}/admin/blog/manage.do">博客管理</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="${pageContext.request.contextPath}/admin/category/manage.do">标签/分类</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="${pageContext.request.contextPath}/admin/friendly-link/manage.do">友情链接</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="#">用户管理</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="#">评论管理</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="${pageContext.request.contextPath}/admin/profile.do">个人信息</a>
+            </td>
+        </tr>
+    </table>
+
+    <script type="application/javascript"
+            src="${pageContext.request.contextPath}/lib/jquery/jquery-1.12.4.js"></script>
+    <script type="application/javascript"
+            src="${pageContext.request.contextPath}/lib/bootstrap/js/bootstrap.js"></script>
+    <script type="application/javascript"
+            src="${pageContext.request.contextPath}/js/friend-link-manage.js"></script>
 </body>
 </html>

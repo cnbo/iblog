@@ -17,13 +17,9 @@ public class AdminServiceImpl implements IAdminService {
 
     @Override
     public boolean isLogin(Admin admin) {
-        Admin rightAdmin = adminMapper.selectAdminByName(admin.getUsername());
+        Admin rightAdmin = adminMapper.selectAdminByNamePassword(admin);
 
-        if (rightAdmin != null && rightAdmin.getPassword().equals(admin.getPassword())) {
-            return true;
-        }
-
-        return false;
+        return (rightAdmin != null);
     }
 
     @Override
@@ -40,5 +36,15 @@ public class AdminServiceImpl implements IAdminService {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public Admin selectAdminByName(String username) {
+        return adminMapper.selectAdminByName(username);
+    }
+
+    @Override
+    public Admin selectAdmin() {
+        return adminMapper.selectAdmin();
     }
 }

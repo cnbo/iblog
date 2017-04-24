@@ -21,17 +21,17 @@
         </tr>
         <tr>
             <td>
-                <a href="#">博客管理</a>
+                <a href="${pageContext.request.contextPath}/admin/blog/manage.do">博客管理</a>
             </td>
         </tr>
         <tr>
             <td>
-                <a href="#">标签/分类</a>
+                <a href="${pageContext.request.contextPath}/admin/category/manage.do">标签/分类</a>
             </td>
         </tr>
         <tr>
             <td>
-                <a href="#">友情链接</a>
+                <a href="${pageContext.request.contextPath}/admin/friendly-link/manage.do">友情链接</a>
             </td>
         </tr>
         <tr>

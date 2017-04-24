@@ -18,10 +18,11 @@ public class BlogCategoryServiceImpl implements IBlogCategoryService {
     private CategoryMapper categoryMapper;
 
     @Override
-    public void saveCategory(String  categoryName) {
+    public Integer saveCategory(String  categoryName) {
         BlogCategory blogCategory = new BlogCategory();
         blogCategory.setCategoryName(categoryName);
         categoryMapper.saveCategory(blogCategory);
+        return blogCategory.getId();
     }
 
     @Override
@@ -35,21 +36,21 @@ public class BlogCategoryServiceImpl implements IBlogCategoryService {
     }
 
     @Override
-    public Integer getPages(Integer pageCount) {
-        int categoryCount = categoryMapper.getCategoryCount();
+    public Integer getPages(Integer pageCount, String categoryName) {
+        int categoryCount = categoryMapper.getCategoryCount(categoryName);
         int pages = (int) Math.ceil((double)categoryCount / pageCount);
 
         return pages;
     }
 
     @Override
-    public void deleteCategory(Integer id) {
-        categoryMapper.deleteCategoryById(id);
+    public Integer deleteCategory(Integer id) {
+        return categoryMapper.deleteCategoryById(id);
     }
 
     @Override
-    public void updateCategory(BlogCategory blogCategory) {
-        categoryMapper.updateCategory(blogCategory);
+    public Integer updateCategory(BlogCategory blogCategory) {
+       return categoryMapper.updateCategory(blogCategory);
     }
 
 }

@@ -12,4 +12,8 @@ public interface IAdminService {
     void updateAdmin(Admin admin);
 
     boolean modifyPassword(String username, String newPassword, String oldPassword);
+
+    Admin selectAdminByName(String username);
+
+    Admin selectAdmin();
 }

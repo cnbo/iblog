@@ -32,6 +32,7 @@ public class AdminController extends AbstractController {
     public String login(Admin admin) {
         boolean loginSuccess = adminService.isLogin(admin);
         if (loginSuccess) {
+            getSession().setAttribute("admin", admin.getUsername());
             return "redirect:index.do";
         } else {
             setModelAttribute("error", "username or password is error");
@@ -46,6 +47,10 @@ public class AdminController extends AbstractController {
 
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
     public String toProfile() {
+        Admin admin =
+            adminService.selectAdminByName((String) getSessionAttribute("admin"));
+        setModelAttribute("admin", admin);
+
         return "admin/profile";
     }
 
@@ -54,7 +59,7 @@ public class AdminController extends AbstractController {
      */
     @RequestMapping(value = "/profile", method = RequestMethod.POST)
     public void profile(Admin admin, @RequestParam("file") MultipartFile multipartFile) {
-        admin.setUsername("cnbo");
+        admin.setUsername((String) getSessionAttribute("admin"));
         adminService.updateAdmin(admin);
 
         if (!multipartFile.isEmpty()) {
@@ -81,7 +86,8 @@ public class AdminController extends AbstractController {
 
     @RequestMapping(value = "/modify/pass", method = RequestMethod.POST)
     public String modifyPassword(String newPassword, String oldPassword) {
-        boolean modifySuccess = adminService.modifyPassword("cnbo", newPassword, oldPassword);
+        String username = (String) getSessionAttribute("admin");
+        boolean modifySuccess = adminService.modifyPassword(username, newPassword, oldPassword);
         if (modifySuccess) {
             logger.info("success");
         } else {

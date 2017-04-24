@@ -43,6 +43,17 @@
         id = #{id, jdbcType=INTEGER}
     </delete>
 
+    <update id="updateFriendlyLink" parameterType="com.developer.iblog.model.persistent.FriendlyLink"
+        useGeneratedKeys="true" keyProperty="id">
+        UPDATE
+        friend_link
+        SET
+        friend_name = #{friendName, jdbcType=VARCHAR},
+        url = #{url, jdbcType=VARCHAR}
+        WHERE
+        id = #{id, jdbcType=INTEGER}
+    </update>
+
     <select id="getFriendlyLinksByPage" resultMap="BaseResultMap">
         SELECT
         id, create_time, update_time, friend_name, url

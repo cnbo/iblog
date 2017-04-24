@@ -10,12 +10,24 @@
         <result column="avatar" property="avatar" jdbcType="VARCHAR"/>
         <result column="nickname" property="nickname" jdbcType="VARCHAR"/>
     </resultMap>
-    
-    <select id="selectAdminByName" resultType="com.developer.iblog.model.persistent.Admin"
+
+    <select id="selectAdminByNamePassword" parameterType="com.developer.iblog.model.persistent.Admin"
+        resultType="com.developer.iblog.model.persistent.Admin">
+        SELECT
+        username
+        FROM
+        admin
+        WHERE
+        username = #{username, jdbcType=VARCHAR}
+        AND
+        password = #{password, jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectAdminByName" resultMap="BaseResultMap"
             parameterType="java.lang.String" >
 
         SELECT
-        username, password
+        introduction, email, github, resume_md, avatar, nickname
         FROM
         admin
         WHERE
