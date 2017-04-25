@@ -22,4 +22,9 @@ public interface IBlogService {
     List<Blog> getBlogByPage(Integer start, Integer pageCount, String title);
 
     Integer getPages(Integer pageCount, String titile);
+
+    List<Blog> getTopFiveBlog();
+
+    List<Blog> getRecentFiveBlog();
+
 }

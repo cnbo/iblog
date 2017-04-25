@@ -24,4 +24,8 @@ public interface BlogMapper {
 
     Integer getBlogCount(@Param("title") String title);
 
+    List<Blog> getTopFiveBlog();
+
+    List<Blog> getRecentFiveBlog();
+
 }

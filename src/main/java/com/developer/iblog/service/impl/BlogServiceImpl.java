@@ -86,4 +86,14 @@ public class BlogServiceImpl implements IBlogService {
         return pages;
     }
 
+    @Override
+    public List<Blog> getTopFiveBlog() {
+        return blogMapper.getTopFiveBlog();
+    }
+
+    @Override
+    public List<Blog> getRecentFiveBlog() {
+        return blogMapper.getRecentFiveBlog();
+    }
+
 }

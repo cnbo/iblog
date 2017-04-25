@@ -99,7 +99,7 @@
                 status = #{status, jdbcType=INTEGER},
             </if>
         </set>
-        where
+        WHERE
         id = #{id, jdbcType=INTEGER}
     </update>
 
@@ -140,6 +140,32 @@
         title
         LIKE
         "%${title}%"
+    </select>
+
+    <select id="getTopFiveBlog" resultMap="BaseResultMap">
+        SELECT
+        id, create_time, update_time, publish_time,
+        category_id, title, blog_md, read_times,
+        comment_times, love_times, status
+        FROM
+        blog
+        ORDER BY
+        read_times DESC, love_times DESC, comment_times DESC
+        LIMIT
+        5
+    </select>
+
+    <select id="getRecentFiveBlog" resultMap="BaseResultMap">
+        SELECT
+        id, create_time, update_time, publish_time,
+        category_id, title, blog_md, read_times,
+        comment_times, love_times, status
+        FROM
+        blog
+        ORDER BY
+        publish_time DESC
+        LIMIT
+        5
     </select>
 
 </mapper>

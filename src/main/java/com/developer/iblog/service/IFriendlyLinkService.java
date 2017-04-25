@@ -16,6 +16,8 @@ public interface IFriendlyLinkService {
 
     Integer getLinkCount(FriendlyLinkDTO friendlyLinkDTO);
 
+    List<FriendlyLink> getAll();
+
     Integer deleteLink(Integer id);
 
     Integer updateLink(FriendlyLink friendlyLink);

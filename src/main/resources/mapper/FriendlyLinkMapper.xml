@@ -73,6 +73,13 @@
         #{start, jdbcType=INTEGER}, #{pageCount, jdbcType=INTEGER}
     </select>
 
+    <select id="getAllFriendlyLink" resultMap="BaseResultMap">
+        SELECT
+        id, create_time, update_time, friend_name, url
+        FROM
+        friend_link
+    </select>
+
     <select id="getFriendlyLinkCount" resultType="java.lang.Integer">
         SELECT
         COUNT(id)
