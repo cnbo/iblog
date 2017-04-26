@@ -19,8 +19,11 @@ function getBlogByPage(page) {
         type        : "POST",
         url         : "page.do",
         success     : function (msg) {
-            refresh(msg);
-        },
+                        refresh(msg);
+                    },
+        error       : function () {
+                        alert("服务器请求失败");
+                    },
         data        : dataJSON,
         dataType    : "json",
         contentType : "application/json; charset=utf-8"
@@ -49,19 +52,19 @@ function refresh(msg) {
         "<thead>";
     for (var index = 0; index < blogs.length; index++) {
         var blog = blogs[index];
-        var id = blogs.id;
-        var title = blogs.title;
+        var id = blog.id;
+        var title = blog.title;
         table += "<tr>" +
             "<td>" + id + "</td>" +
             "<td><input id='title-input-" + id + "' value='" +
             title + "' style='border-width: 0px;'></td>" +
-            "<td>" + blogs.createTime + "</td>" +
-            "<td>" + blogs.updateTime + "</td>" +
-            "<td>" + blogs.publishTime + "</td>" +
+            "<td>" + blog.createTime + "</td>" +
+            "<td>" + blog.updateTime + "</td>" +
+            "<td>" + blog.publishTime + "</td>" +
             "<td>" + 10 + "</td>" +
             "<td>" + 10 + "</td>" +
             "<td>" + 10 + "</td>" +
-            "<td id='delete-update-" + id + "'>" +
+            "<td>" +
             "<a type='button' class='btn btn-primary btn-lg'" +
             "href='edit/" + id + ".do' target='_blank'>编辑</a>" +
             "<button type='button' class='btn btn-primary btn-lg'" +
@@ -106,20 +109,19 @@ function deleteSubmit() {
         type        : "POST",
         url         : "delete/" + id + ".do",
         success     : function(msg) {
-            if (msg > 0) {
-                alert("delete success");
-                if (blogs.length == 1 && currentPage > 1 && currentPage == pages) {
-                    getBlogByPage(currentPage - 1);
-                } else if (currentPage != 0) {
-                    getBlogByPage(currentPage);
-                }
-            } else {
-                alert("delete failure");
-            }
-        },
+                        if (msg > 0) {
+                            alert("delete success");
+                            if (blogs.length == 1 && currentPage > 1 && currentPage == pages) {
+                                getBlogByPage(currentPage - 1);
+                            } else if (currentPage != 0) {
+                                getBlogByPage(currentPage);
+                            }
+                        } else {
+                            alert("delete failure");
+                        }
+                    },
         error       : function () {
-            alert("服务器请求失败!");
-        }
+                        alert("服务器请求失败!");
+                    }
     });
 }
-
