@@ -22,6 +22,8 @@ public class Blog extends BaseModel {
 
     private String blogMd;
 
+    private String blogHtml;
+
     private Integer readTimes;
 
     private Integer loveTimes;

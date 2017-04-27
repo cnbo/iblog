@@ -19,6 +19,8 @@ public class BlogDTO {
 
     private String blogMd;
 
+    private String blogHtml;
+
     private Integer readTimes;
 
     private Integer commentTimes;

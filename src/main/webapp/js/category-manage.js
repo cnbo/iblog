@@ -1,6 +1,6 @@
 var currentPage, pages;
-var pageNextHtml = "<button onclick='getCategoryByPage(currentPage+1)'>下一页</button>";
-var pagePreviousHtml = "<button onclick='getCategoryByPage(currentPage-1)'>上一页</button>";
+var pageNextHtml = "<a type='button' class='btn btn-primary btn-lg' onclick='getCategoryByPage(currentPage+1)'>下一页</a>";
+var pagePreviousHtml = "<a type='button' class='btn btn-primary btn-lg' onclick='getCategoryByPage(currentPage-1)'>上一页</a>";
 var searchKey;
 var categories;
 
@@ -80,14 +80,14 @@ function refresh(msg) {
             "<td>" + category.createTime + "</td>" +
             "<td>" + category.updateTime + "</td>" +
             "<td>" +
-            "<button type='button' class='btn btn-primary btn-lg'" +
+            "<a type='button' class='btn btn-primary btn-lg'" +
             "onclick='modifyMode(" + id + ")' " +
             "data-toggle='modal' data-target='#modify-category-modal'>修改" +
-            "</button>" +
-            "<button type='button' class='btn btn-primary btn-lg'" +
+            "</a>" +
+            "<a type='button' class='btn btn-primary btn-lg'" +
             "onclick='deleteMode(" + id + ")' " +
             "data-toggle='modal' data-target='#delete-category-modal'>删除" +
-            "</button>" +
+            "</a>" +
             "</td>" +
             "</tr>";
     }

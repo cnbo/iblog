@@ -10,6 +10,7 @@
         <result column="category_id" property="categoryId" jdbcType="INTEGER"/>
         <result column="title" property="title" jdbcType="VARCHAR"/>
         <result column="blog_md" property="blogMd" jdbcType="VARCHAR"/>
+        <result column="blog_html" property="blogHtml" jdbcType="VARCHAR"/>
         <result column="read_times" property="readTimes" jdbcType="INTEGER"/>
         <result column="love_times" property="loveTimes" jdbcType="INTEGER"/>
         <result column="comment_times" property="commentTimes" jdbcType="INTEGER"/>
@@ -32,6 +33,9 @@
           </if>
           <if test="blogMd != null">
               blog_md,
+          </if>
+          <if test="blogHtml != null">
+              blog_html,
           </if>
           <if test="readTimes != null">
               read_times,
@@ -58,6 +62,9 @@
             </if>
             <if test="blogMd != null">
                 #{blogMd, jdbcType=VARCHAR},
+            </if>
+            <if test="blogHtml != null">
+                #{blogHtml, jdbcType=VARCHAR},
             </if>
             <if test="readTimes != null">
                 #{readTimes, jdbcType=INTEGER},
@@ -92,6 +99,9 @@
             <if test="blogMd != null">
                 blog_md = #{blogMd, jdbcType=VARCHAR},
             </if>
+            <if test="blogHtml != null">
+                blog_html = #{blogHtml, jdbcType=VARCHAR},
+            </if>
             <if test="title != null">
                 title = #{title, jdbcType=VARCHAR},
             </if>
@@ -106,7 +116,7 @@
     <select id="getBlogById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         SELECT
         id, create_time, update_time, publish_time,
-        category_id, title, blog_md, read_times,
+        category_id, title, blog_md, blog_html, read_times,
         comment_times, love_times, status
         FROM
         blog
@@ -117,7 +127,7 @@
     <select id="getByPage" resultMap="BaseResultMap">
         SELECT
         id, create_time, update_time, publish_time,
-        category_id, title, blog_md, read_times,
+        category_id, title, blog_md, blog_html, read_times,
         comment_times, love_times, status
         FROM
         blog
@@ -136,16 +146,18 @@
         count(id)
         FROM
         blog
-        WHERE
-        title
-        LIKE
-        "%${title}%"
+        <if test="title != null">
+            WHERE
+            title
+            LIKE
+            "%${title}%"
+        </if>
     </select>
 
     <select id="getTopFiveBlog" resultMap="BaseResultMap">
         SELECT
         id, create_time, update_time, publish_time,
-        category_id, title, blog_md, read_times,
+        category_id, title, blog_md, blog_html, read_times,
         comment_times, love_times, status
         FROM
         blog
@@ -158,7 +170,7 @@
     <select id="getRecentFiveBlog" resultMap="BaseResultMap">
         SELECT
         id, create_time, update_time, publish_time,
-        category_id, title, blog_md, read_times,
+        category_id, title, blog_md, blog_html, read_times,
         comment_times, love_times, status
         FROM
         blog
@@ -166,6 +178,17 @@
         publish_time DESC
         LIMIT
         5
+    </select>
+
+    <select id="getAllBlogByCategory" resultMap="BaseResultMap">
+        SELECT
+        id, create_time, update_time, publish_time,
+        category_id, title, blog_md, blog_html, read_times,
+        comment_times, love_times, status
+        FROM
+        blog
+        WHERE
+        category_id = #{categoryId, jdbcType=VARCHAR}
     </select>
 
 </mapper>

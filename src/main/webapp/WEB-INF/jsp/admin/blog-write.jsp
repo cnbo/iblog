@@ -52,6 +52,8 @@
     <button id="draft-btn" onclick="updateStatus(1)">存为草稿</button>
 
 
+
+
     <h3>blog</h3>
     <div id="blog-editor">
 
@@ -124,6 +126,7 @@ ${requestScope.blog.blogMd}
                 width               : "76%",
                 height              : 540,
                 syncScrolling       : "single",
+                saveHTMLToTextarea  : true,
                 toolbarIcons        : function() {
                     return ["undo", "redo", "|",
                         "bold", "del", "italic", "quote", "ucwords", "uppercase", "lowercase", "|",
@@ -145,21 +148,22 @@ ${requestScope.blog.blogMd}
             var categoryId = $("#category-select").val();
             var title = $("#title").val();
             var blogMd = blogEditor.getMarkdown();
+            var blogHtml = blogEditor.getHTML();
 
             switch (type) {
                 case "save":
                     return JSON.stringify({"categoryId":categoryId,
                         "categoryName":categoryName,
-                        "title":title, "blogMd":blogMd});
+                        "title":title, "blogMd":blogMd, "blogHtml":blogHtml});
                 case "update":
                     return JSON.stringify({"categoryId":categoryId,
                         "categoryName":categoryName,
-                        "title":title, "blogMd":blogMd,
+                        "title":title, "blogMd":blogMd, "blogHtml":blogHtml,
                         "id":blogId});
                 case "draftOrPublish":
                     return JSON.stringify({"categoryId":categoryId,
                         "categoryName":categoryName,
-                        "title":title, "blogMd":blogMd,
+                        "title":title, "blogMd":blogMd, "blogHtml":blogHtml,
                         "id":blogId,
                         "status":status});
             }
@@ -225,6 +229,11 @@ ${requestScope.blog.blogMd}
             updateBlog(getJsonData("draftOrPublish"));
         }
 
+
+        function showHtml() {
+            var html = blogEditor.getHTML();
+            $("#show-html-div").html(html);
+        }
     </script>
 </body>
 </html>

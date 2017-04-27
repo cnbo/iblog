@@ -28,4 +28,6 @@ public interface BlogMapper {
 
     List<Blog> getRecentFiveBlog();
 
+    List<Blog> getAllBlogByCategory(Integer categoryId);
+
 }

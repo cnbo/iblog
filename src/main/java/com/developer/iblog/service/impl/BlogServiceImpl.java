@@ -6,6 +6,8 @@ import com.developer.iblog.model.dto.BlogDTO;
 import com.developer.iblog.model.persistent.Blog;
 import com.developer.iblog.model.persistent.BlogCategory;
 import com.developer.iblog.service.IBlogService;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,6 +38,7 @@ public class BlogServiceImpl implements IBlogService {
         Blog blog = new Blog();
         blog.setCategoryId(blogDTO.getCategoryId());
         blog.setBlogMd(blogDTO.getBlogMd());
+        blog.setBlogHtml(blogDTO.getBlogHtml());
         blog.setTitle(blogDTO.getTitle());
         blog.setReadTimes(0);
         blog.setCommentTimes(0);
@@ -62,6 +65,7 @@ public class BlogServiceImpl implements IBlogService {
         blog.setId(blogDTO.getId());
         blog.setCategoryId(categoryId);
         blog.setBlogMd(blogDTO.getBlogMd());
+        blog.setBlogHtml(blogDTO.getBlogHtml());
         blog.setTitle(blogDTO.getTitle());
         blog.setStatus(blogDTO.getStatus());
 
@@ -75,7 +79,21 @@ public class BlogServiceImpl implements IBlogService {
 
     @Override
     public List<Blog> getBlogByPage(Integer start, Integer pageCount, String title) {
-        return blogMapper.getByPage(start, pageCount, title);
+        List<Blog> blogs = blogMapper.getByPage(start, pageCount, title);
+        transBlogHtmlToText(blogs);
+
+        return blogs;
+    }
+
+    public void transBlogHtmlToText(List<Blog> blogs) {
+        for (Blog blog : blogs) {
+            Document doc = Jsoup.parse(blog.getBlogHtml());
+            String blogText = doc.body().text();
+            if (blogText.length() > 100) {
+                blogText = blogText.substring(0, 100) + "...";
+            }
+            blog.setBlogHtml(blogText);
+        }
     }
 
     @Override

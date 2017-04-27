@@ -7,8 +7,6 @@ import com.developer.iblog.model.persistent.Blog;
 import com.developer.iblog.model.persistent.BlogCategory;
 import com.developer.iblog.model.persistent.FriendlyLink;
 import com.developer.iblog.service.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,8 +35,19 @@ public class WebController extends AbstractController {
     @Autowired
     private IBlogService blogService;
 
-    @RequestMapping(value = "index", method = RequestMethod.GET)
+    @RequestMapping(value = "/index", method = RequestMethod.GET)
     public String index() {
+        int pageCount = 5;
+        String pageStr =  getRequest().getParameter("page");
+        String title = getRequest().getParameter("title");
+        Integer page = 1;
+        if (pageStr != null) {
+            page = Integer.valueOf(pageStr);
+        }
+        List<Blog> blogs = blogService.getBlogByPage((page - 1) * pageCount,
+                pageCount, title);
+        int pages = blogService.getPages(pageCount, title);
+
         List<BlogCategory> categories = categoryService.getAllBlogCategory();
         List<FriendlyLink> friendlyLinks = friendlyLinkService.getAll();
         Admin admin = adminService.selectAdmin();
@@ -50,9 +59,13 @@ public class WebController extends AbstractController {
         setModelAttribute("admin", admin);
         setModelAttribute("topBlogs", topBlogs);
         setModelAttribute("recentBlogs", recentBlogs);
+        setModelAttribute("blogs", blogs);
+        setModelAttribute("page", page);
+        setModelAttribute("pages", pages);
 
         return "web/index";
     }
+
 
     @RequestMapping(value = "/author/resume", method = RequestMethod.GET)
     public String resume() {
@@ -62,5 +75,6 @@ public class WebController extends AbstractController {
 
         return "web/resume";
     }
+
 
 }
