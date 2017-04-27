@@ -13,13 +13,16 @@ $(function () {
             processData   : false,
             contentType   : false,
             success       : function (msg) {
-                alert("add success");
-                if (pages == 0) {
-                    getCategoryByPage(1);
-                } else {
-                    getCategoryByPage(currentPage);
-                }
-            }
+                                alert("add success");
+                                if (pages == 0) {
+                                    getCategoryByPage(1);
+                                } else {
+                                    getCategoryByPage(currentPage);
+                                }
+                            },
+            error         : function () {
+                                alert("服务器请求失败");
+                            }
         });
 
         return false;
@@ -39,9 +42,11 @@ function getCategoryByPage(page) {
         type        : "POST",
         url         : "page.do",
         success     : function (msg) {
-            refresh(msg);
-
-        },
+                        refresh(msg);
+                    },
+        error       : function () {
+                        alert("服务器请求失败");
+                    },
         data        : dataJSON,
         dataType    : "json",
         contentType : "application/json; charset=utf-8"
@@ -65,15 +70,16 @@ function refresh(msg) {
         "</tr>" +
         "<thead>";
     for (var index = 0; index < categories.length; index++) {
-        var id = categories[index].id;
-        var categoryName = categories[index].categoryName;
+        var category = categories[index];
+        var id = category.id;
+        var categoryName = category.categoryName;
         table += "<tr>" +
             "<td>" + id + "</td>" +
             "<td><input id='category-input-" + id + "' value='" +
             categoryName + "' style='border-width: 0px;'></td>" +
-            "<td>" + categories[index].createTime + "</td>" +
-            "<td>" + categories[index].updateTime + "</td>" +
-            "<td id='delete-update-" + id + "'>" +
+            "<td>" + category.createTime + "</td>" +
+            "<td>" + category.updateTime + "</td>" +
+            "<td>" +
             "<button type='button' class='btn btn-primary btn-lg'" +
             "onclick='modifyMode(" + id + ")' " +
             "data-toggle='modal' data-target='#modify-category-modal'>修改" +
@@ -119,16 +125,16 @@ function modifySubmit() {
         type        : "POST",
         url         : "update.do",
         success     : function (msg) {
-            if (msg > 0) {
-                alert("modify success");
-                $("#category-input" + id).val(categoryName);
-            } else {
-                alert("modify failure");
-            }
-        },
+                        if (msg > 0) {
+                            alert("modify success");
+                            $("#category-input" + id).val(categoryName);
+                        } else {
+                            alert("modify failure");
+                        }
+                    },
         error       : function () {
-            alert("服务器请求失败!");
-        },
+                        alert("服务器请求失败!");
+                    },
         data        : JSON.stringify({"id":id, "categoryName":categoryName}),
         dataType    : "json",
         contentType : "application/json; charset=utf-8"
@@ -149,20 +155,20 @@ function deleteSubmit() {
         type        : "POST",
         url         : "delete/" + id + ".do",
         success     : function(msg) {
-            if (msg > 0) {
-                alert("delete success");
-                if (categories.length == 1 && currentPage > 1 && currentPage == pages) {
-                    getCategoryByPage(currentPage - 1);
-                } else if (currentPage != 0) {
-                    getCategoryByPage(currentPage);
-                }
-            } else {
-                alert("delete failure");
-            }
-        },
+                        if (msg > 0) {
+                            alert("delete success");
+                            if (categories.length == 1 && currentPage > 1 && currentPage == pages) {
+                                getCategoryByPage(currentPage - 1);
+                            } else if (currentPage != 0) {
+                                getCategoryByPage(currentPage);
+                            }
+                        } else {
+                            alert("delete failure");
+                        }
+                    },
         error       : function () {
-            alert("服务器请求失败!");
-        }
+                        alert("服务器请求失败!");
+                    }
     });
 }
 
