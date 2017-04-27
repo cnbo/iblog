@@ -116,3 +116,7 @@ CREATE TABLE blog_comment (
   parents_comment_id VARCHAR(128) DEFAULT '0,' COMMENT '父级评论路径',
 	PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='blog评论表';
+
+
+--在表blog中新增一个blog_html字段
+ALTER TABLE blog ADD blog_html TEXT;
