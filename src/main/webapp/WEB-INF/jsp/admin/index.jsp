@@ -5,51 +5,12 @@
   Time: 下午2:29
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-    <meta charset="utf-8">
-    <title>admin index</title>
-</head>
-<body>
+<<<<<<< HEAD
 
-    <table>
-        <tr>
-            <td>
-                <a href="${pageContext.request.contextPath}/admin/blog/write.do">写博客</a>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <a href="${pageContext.request.contextPath}/admin/blog/manage.do">博客管理</a>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <a href="${pageContext.request.contextPath}/admin/category/manage.do">标签/分类</a>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <a href="${pageContext.request.contextPath}/admin/friendly-link/manage.do">友情链接</a>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <a href="#">用户管理</a>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <a href="#">评论管理</a>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <a href="${pageContext.request.contextPath}/admin/profile.do">个人信息</a>
-            </td>
-        </tr>
-    </table>
+=======
+<%@include file="header.jsp"%>
+
+<%@include file="footer.jsp"%>
+>>>>>>> 8047e67c300e58efe581a0efbaab2cb7e6585875
 </body>
 </html>

@@ -4,3 +4,4 @@ target
 .idea/
 iblog.iml
 logs/
+src/main/resources/iblog.properties
