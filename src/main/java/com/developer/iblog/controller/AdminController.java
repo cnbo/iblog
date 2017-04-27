@@ -32,11 +32,18 @@ public class AdminController extends AbstractController {
     public String login(Admin admin) {
         boolean loginSuccess = adminService.isLogin(admin);
         if (loginSuccess) {
-            getSession().setAttribute("admin", admin.getUsername());
+            adminLoginSuccess(admin);
             return "redirect:index.do";
         } else {
             setModelAttribute("error", "username or password is error");
         }
+        return "admin/login";
+    }
+
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    public String logout() {
+        adminLogoutSuccess();
+
         return "admin/login";
     }
 

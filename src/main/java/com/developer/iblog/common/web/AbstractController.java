@@ -1,5 +1,6 @@
 package com.developer.iblog.common.web;
 
+import com.developer.iblog.model.persistent.Admin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ui.Model;
@@ -13,6 +14,11 @@ import javax.servlet.http.HttpSession;
  * Created by cnbo on 17-3-23.
  */
 public abstract class AbstractController {
+
+    protected static final String ADMIN_ATTRIBUTE_NAME = "admin";
+
+    protected static final String USERNAME_ATTRIBUTE_NAME = "username";
+
 
     /**
      *  日志对象
@@ -39,6 +45,18 @@ public abstract class AbstractController {
     protected void setThreadLocal(HttpServletRequest request, Model model) {
         httpServletRequestThreadLocal.set(request);
         modelThreadLocal.set(model);
+    }
+
+
+    protected void adminLoginSuccess(Admin admin) {
+        setSessionAttribute(ADMIN_ATTRIBUTE_NAME, admin);
+    }
+
+    /**
+     * 成功注销后处理session
+     */
+    protected void adminLogoutSuccess() {
+        setSessionAttribute(ADMIN_ATTRIBUTE_NAME, null);
     }
 
     /**
