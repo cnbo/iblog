@@ -26,7 +26,7 @@
         <div class="topbar-left">
             <div class="text-center p-t-10" style="margin: 0 auto;">
                 <div class="pull-left" style="padding-left: 10px;">
-                    <a href="${pageContext.request.contextPath}/admin/blog/index.do">
+                    <a href="${pageContext.request.contextPath}/admin/index.do">
                         <img src="${pageContext.request.contextPath}/uploads/monkey_logo.jpg" width="50" height="50"/>
                     </a>
                 </div>
@@ -35,7 +35,7 @@
                 </div>
             </div>
         </div>
-        <div class="navbar navbar-default" role="navigation">
+        <div class="navbar navbar-default" role="navigation" style="margin-bottom: 0px">
             <div class="container">
                 <div class="">
                     <div class="pull-left">
