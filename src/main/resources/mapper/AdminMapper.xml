@@ -27,7 +27,7 @@
             parameterType="java.lang.String" >
 
         SELECT
-        introduction, email, github, resume_md, avatar, nickname
+        username, introduction, email, github, resume_md, avatar, nickname
         FROM
         admin
         WHERE

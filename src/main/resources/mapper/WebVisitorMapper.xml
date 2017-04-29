@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.developer.iblog.dao.mapper.WebVisitorMapper">
+
+    <sql id="visitor">
+        id, create_time, update_time, visitor_name, password
+    </sql>
+
+    <insert id="saveWebVisitor" parameterType="com.developer.iblog.model.persistent.WebVisitor"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO
+        web_visitor
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="visitorName != null and visitorName != ''">
+                visitor_name,
+            </if>
+            <if test="password != null and password != ''">
+                password,
+            </if>
+        </trim>
+        <trim prefix="VALUES(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id, jdbcType=INTEGER},
+            </if>
+            <if test="visitorName != null and visitorName != ''">
+                #{visitorName, jdbcType=VARCHAR},
+            </if>
+            <if test="password != null and password != ''">
+                #{password, jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <select id="getByName" parameterType="java.lang.String"
+            resultType="com.developer.iblog.model.persistent.WebVisitor">
+        SELECT
+        <include refid="visitor"/>
+        FROM
+        web_visitor
+        WHERE
+        visitor_name = #{visitorName, jdbcType=VARCHAR}
+    </select>
+
+</mapper>

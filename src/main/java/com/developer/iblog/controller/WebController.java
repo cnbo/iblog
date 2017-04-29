@@ -4,7 +4,6 @@ import com.developer.iblog.common.web.AbstractController;
 import com.developer.iblog.model.dto.AdminDTO;
 import com.developer.iblog.model.persistent.Admin;
 import com.developer.iblog.model.persistent.Blog;
-import com.developer.iblog.model.persistent.BlogCategory;
 import com.developer.iblog.model.persistent.FriendlyLink;
 import com.developer.iblog.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +21,6 @@ public class WebController extends AbstractController {
 
     @Autowired
     private IWebAuthorService webAuthorService;
-
-    @Autowired
-    private IBlogCategoryService categoryService;
 
     @Autowired
     private IFriendlyLinkService friendlyLinkService;
@@ -48,13 +44,11 @@ public class WebController extends AbstractController {
                 pageCount, title);
         int pages = blogService.getPages(pageCount, title);
 
-        List<BlogCategory> categories = categoryService.getAllBlogCategory();
         List<FriendlyLink> friendlyLinks = friendlyLinkService.getAll();
         Admin admin = adminService.selectAdmin();
         List<Blog> topBlogs = blogService.getTopFiveBlog();
         List<Blog> recentBlogs = blogService.getRecentFiveBlog();
 
-        setModelAttribute("categories", categories);
         setModelAttribute("friendlyLinks", friendlyLinks);
         setModelAttribute("admin", admin);
         setModelAttribute("topBlogs", topBlogs);
@@ -67,13 +61,13 @@ public class WebController extends AbstractController {
     }
 
 
-    @RequestMapping(value = "/author/resume", method = RequestMethod.GET)
+    @RequestMapping(value = "/about", method = RequestMethod.GET)
     public String resume() {
 
         AdminDTO adminDTO = webAuthorService.getAdminDTO();
         setModelAttribute("adminDTO", adminDTO);
 
-        return "web/resume";
+        return "web/about";
     }
 
 

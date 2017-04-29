@@ -15,6 +15,8 @@
     <title>iblog developer</title>
     <link type="text/css" rel="stylesheet"
           href="${pageContext.request.contextPath}/lib/bootstrap/css/bootstrap.css">
+
+
 </head>
 <body>
 <a href="${pageContext.request.contextPath}/index.do">${requestScope.admin.nickname}</a>
@@ -22,8 +24,19 @@
 <a href="${pageContext.request.contextPath}/index.do">HOME</a>
 <a href="${pageContext.request.contextPath}/author/resume.do">ABOUT</a>
 
-<a href="#">LOGIN</a>
-<a href="#">REGISTER</a>
+<c:choose>
+    <c:when test="${sessionScope.visitorName == null}">
+        <a href="#" data-toggle="modal" data-target="#loginModal">登录</a>
+        <a href="#" data-toggle="modal" data-target="#registModal">注册</a>
+    </c:when>
+    <c:otherwise>
+        ${sessionScope.visitorName}
+        <a href="javascript:void(0);" onclick="logout()">登出</a>
+     </c:otherwise>
+</c:choose>
+
+
+
 
 <div>
     ${requestScope.admin.introduction}
@@ -75,7 +88,8 @@
             </c:forEach>
         </c:if>
     </div>
-
+</div>
+<div>
     <h4>NEW BLOG</h4>
     <!-- 最新文章 -->
     <div>
@@ -87,15 +101,6 @@
     </div>
 </div>
 
-<!-- 类别 -->
-<div id="category-div">
-    <h4>BLOG CATEGORY</h4>
-    <c:if test="${requestScope.categories != null}">
-        <c:forEach items="${requestScope.categories}" var="category">
-            <a href="${category.id}">${category.categoryName}</a>
-        </c:forEach>
-    </c:if>
-</div>
 
 <!-- 友情链接 -->
 <div id="friend-link-div">
@@ -115,14 +120,18 @@
     &copy2017 by iblog developer
 </div>
 
+<%@include file="regist.jsp"%>
+<%@include file="login.jsp"%>
+
 <script type="application/javascript"
         src="${pageContext.request.contextPath}/lib/jquery/jquery-1.12.4.js"></script>
 <script type="application/javascript"
         src="${pageContext.request.contextPath}/lib/bootstrap/js/bootstrap.js"></script>
-<script type="text/javascript">
-
-
-
-</script>
+<script type="text/javascript"
+        src="${pageContext.request.contextPath}/js/regist.js"></script>
+<script type="text/javascript"
+        src="${pageContext.request.contextPath}/js/login.js"></script>
+<script type="application/javascript"
+        src="${pageContext.request.contextPath}/js/logout.js"></script>
 </body>
 </html>

@@ -1,6 +1,7 @@
 package com.developer.iblog.common.web;
 
 import com.developer.iblog.model.persistent.Admin;
+import com.developer.iblog.model.persistent.WebVisitor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ui.Model;
@@ -17,7 +18,7 @@ public abstract class AbstractController {
 
     protected static final String ADMIN_ATTRIBUTE_NAME = "admin";
 
-    protected static final String USERNAME_ATTRIBUTE_NAME = "username";
+    protected static final String VISITOR_ATTRIBUTE_NAME = "visitorName";
 
 
     /**
@@ -57,6 +58,14 @@ public abstract class AbstractController {
      */
     protected void adminLogoutSuccess() {
         setSessionAttribute(ADMIN_ATTRIBUTE_NAME, null);
+    }
+
+    protected void visitorLoginSuccess(WebVisitor visitor) {
+        setSessionAttribute(VISITOR_ATTRIBUTE_NAME, visitor.getVisitorName());
+    }
+
+    protected void visitotLogoutSuccess() {
+        setSessionAttribute(VISITOR_ATTRIBUTE_NAME, null);
     }
 
     /**

@@ -14,4 +14,6 @@ public class WebVisitor extends BaseModel {
 
     private String passwordSalt;
 
+    private String avatar;
+
 }

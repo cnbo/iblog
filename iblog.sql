@@ -120,3 +120,12 @@ CREATE TABLE blog_comment (
 
 --在表blog中新增一个blog_html字段
 ALTER TABLE blog ADD blog_html TEXT;
+
+ALTER TABLE web_visitor MODIFY visitor_name varchar(45) null;
+ALTER TABLE web_visitor MODIFY password varchar(45) null;
+ALTER TABLE web_visitor MODIFY password_salt varchar(45) null;
+ALTER TABLE web_visitor MODIFY avatar varchar(45) null;
+
+
+
+

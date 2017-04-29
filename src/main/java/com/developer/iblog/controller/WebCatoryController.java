@@ -19,7 +19,7 @@ public class WebCatoryController extends AbstractController {
     @Autowired
     private IWebCategoryBlogService webCategoryBlogService;
 
-    @RequestMapping(value = "/categories", method = RequestMethod.GET)
+    @RequestMapping(value = "/category", method = RequestMethod.GET)
     public String toCategories() {
         List<WebCateogriesBlogsDTO> webCateogriesBlogsDTOS =
                 webCategoryBlogService.getWebCategoriesBlogs();
