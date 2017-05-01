@@ -39,7 +39,7 @@ function refresh(msg) {
 
     if(blogs.length == 0) return;
 
-    var table = "<table class='table table-striped table-bordered'>" + "<thead>" +
+    var table = "<table class='table table-striped'>" + "<thead>" +
         "<tr>" +
         "<th>ID</th>" +
         "<th>标题</th>" +
@@ -51,14 +51,14 @@ function refresh(msg) {
         "<th>评论次数</th>" +
         "<th>操作</th>" +
         "</tr>" +
-        "<thead>";
+        "</thead><tbody>";
     for (var index = 0; index < blogs.length; index++) {
         var blog = blogs[index];
         var id = blog.id;
         var title = blog.title;
         table += "<tr>" +
             "<td>" + id + "</td>" +
-            "<td><input id='title-input-" + id + "' value='" +
+            "<td><input class='form-control' id='title-input-" + id + "' value='" +
             title + "' style='border-width: 0px;'></td>" +
             "<td>" + blog.createTime + "</td>" +
             "<td>" + blog.updateTime + "</td>" +
@@ -75,7 +75,7 @@ function refresh(msg) {
             "</a>" +
             "</tr>";
     }
-    table += "</table>";
+    table += "</tbody></table>";
 
     $("#blog-table-div").html(table);
 
