@@ -3,6 +3,7 @@ var pageNextHtml = "<a type='button' class='btn btn-primary btn-lg' onclick='get
 var pagePreviousHtml = "<a type='button' class='btn btn-primary btn-lg' onclick='getCategoryByPage(currentPage-1)'>上一页</a>";
 var searchKey;
 var links;
+var tale = new $.tale();
 
 $(function () {
     $("#add-link-form").submit(function () {
@@ -11,7 +12,7 @@ $(function () {
             url          : "add.do",
             data         : new FormData($("#add-link-form")[0]),
             success      : function (msg) {
-                alert("add success");
+                tale.alert("add success");
                 if (pages == 0) {
                     getCategoryByPage(1);
                 } else {
@@ -40,7 +41,7 @@ function getCategoryByPage(page) {
         type        : "POST",
         url         : "page.do",
         success     : function (msg) {
-//                                alert(msg.links.length);
+            // alert(msg.links.length);
             refresh(msg);
         },
         data        : dataJSON,
@@ -54,7 +55,7 @@ function refresh(msg) {
     pages = msg.pages;
     currentPage = msg.page;
 
-    var table = "<table>" +
+    var table = "<table class='table table-striped table-bordered'>" +
         "<thead>" +
         "<tr>" +
         "<th>ID</th>" +
@@ -81,13 +82,13 @@ function refresh(msg) {
             "<td>" + link.createTime + "</td>" +
             "<td>" + link.updateTime + "</td>" +
             "<td>" +
-            "<a type='button' class='btn btn-primary btn-lg'" +
+            "<a type='button' class='btn btn-primary btn-sm waves-effect waves-light m-b-5'" +
             "onclick='modifyMode(" + id + ")' " +
-            "data-toggle='modal' data-target='#modify-link-modal'>修改" +
+            "data-toggle='modal' data-target='#modify-link-modal'><i class='fa fa-edit'></i><span>修改`</span>" +
             "</a>" +
-            "<a type='button' class='btn btn-primary btn-lg'" +
+            "<a type='button' class='btn btn-danger btn-sm waves-effect waves-light m-b-5'" +
             "onclick='deleteMode(" + id + ")' " +
-            "data-toggle='modal' data-target='#delete-link-modal'>删除" +
+            "data-toggle='modal' data-target='#delete-link-modal'><i class='fa fa-trash-o'></i><span>删除</span>" +
             "</a>" +
             "</td>" +
             "</tr>";
@@ -127,7 +128,7 @@ function deleteSubmit() {
         url         : "delete/" + id + ".do",
         success     : function (msg) {
             if (msg > 0) {
-                alert("删除成功");
+                tale.alert("删除成功");
                 if (links.length == 1 && currentPage > 1 && currentPage == pages) {
                     getCategoryByPage(currentPage - 1);
                 } else if (currentPage != 0) {
@@ -164,15 +165,15 @@ function modifySubmit() {
         contentType : "application/json; charset=utf-8",
         success     : function (msg) {
             if (msg > 0) {
-                alert("修改成功");
+                tale.alert("修改成功");
                 $("#friend-name-"+id).val(friendName);
                 $("#url-"+id).val(url);
             } else {
-                alert("修改失败");
+                tale.alertError("修改失败");
             }
         },
         error       : function () {
-            alert("服务器请求失败!");
+            tale.alertError("服务器请求失败!");
         }
     });
 }

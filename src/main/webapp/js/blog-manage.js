@@ -3,6 +3,7 @@ var pageNextHtml = "<a type='button' class='btn btn-primary btn-lg' onclick='get
 var pagePreviousHtml = "<a type='button' class='btn btn-primary btn-lg' onclick='getBlogByPage(currentPage-1)'>上一页</a>";
 var searchKey;
 var blogs;
+var tale = new $.tale();
 
 $(function () {
     getBlogByPage(1);
@@ -22,7 +23,7 @@ function getBlogByPage(page) {
                         refresh(msg);
                     },
         error       : function () {
-                        alert("服务器请求失败");
+                        tale.alertError("服务器请求失败");
                     },
         data        : dataJSON,
         dataType    : "json",
@@ -111,18 +112,18 @@ function deleteSubmit() {
         url         : "delete/" + id + ".do",
         success     : function(msg) {
                         if (msg > 0) {
-                            alert("delete success");
+                            tale.alert("delete success");
                             if (blogs.length == 1 && currentPage > 1 && currentPage == pages) {
                                 getBlogByPage(currentPage - 1);
                             } else if (currentPage != 0) {
                                 getBlogByPage(currentPage);
                             }
                         } else {
-                            alert("delete failure");
+                            tale.alertError("delete failure");
                         }
                     },
         error       : function () {
-                        alert("服务器请求失败!");
+                        tale.alertError("服务器请求失败!");
                     }
     });
 }

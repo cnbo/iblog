@@ -75,8 +75,7 @@
 
 
 <%@include file="footer.jsp"%>
-<script type="application/javascript"
-        src="${pageContext.request.contextPath}/lib/jquery/jquery-1.12.4.js"></script>
+<%--<script type="application/javascript" src="${pageContext.request.contextPath}/lib/jquery/jquery-1.12.4.js"></script>--%>
 <script type="application/javascript"
         src="${pageContext.request.contextPath}/lib/bootstrap/js/bootstrap.js"></script>
 <script type="application/javascript"
