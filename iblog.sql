@@ -118,7 +118,7 @@ CREATE TABLE blog_comment (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='blog评论表';
 
 
---在表blog中新增一个blog_html字段
+# 在表blog中新增一个blog_html字段
 ALTER TABLE blog ADD blog_html TEXT;
 
 ALTER TABLE web_visitor MODIFY visitor_name varchar(45) null;

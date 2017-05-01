@@ -7,23 +7,41 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-    <meta charset="utf-8">
+<%@include file="header.jsp"%>
+<style>
+
+    .modal-body{
+        padding: 10px 0;
+        margin: 5px 0 5px 0;
+    }
+    .modal-body p#delete-warning{
+        margin:0px;
+        font-size: 16px;
+    }
+
+    .modal-footer{
+        padding-top:10px;
+    }
+</style>
     <title>博客管理</title>
     <link type="text/css" rel="stylesheet"
             href="${pageContext.request.contextPath}/lib/bootstrap/css/bootstrap.css">
 
-</head>
-<body>
 
-    <div>
-        <input type="text" id="searchKey">
-        <button onclick="search()">搜索</button>
+    <div class="col-sm-3" >
+        <div class="input-group">
+         <input type="text" id="searchKey" class="form-control" placeholder="搜索文章">
+            <span class="input-group-btn">
+                <button onclick="search()" class="btn btn-primary">搜索</button>
+            </span>
+        </div>
     </div>
 
-    <div id="blog-table-div">
+    <div class="col-sm-12">
+        <h4 class="page-title">文章管理</h4>
+    </div>
+
+    <div class="col-md-12" id="blog-table-div">
 
     </div>
 
@@ -38,16 +56,16 @@
     <!-- 文章类别删除模态框 -->
     <div id="delete-blog-modal" class="modal fade" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
-            <div class="modal-content">
+            <div class="modal-content" style="padding: 20px;">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">删除类别</h4>
+                    <h3 class="modal-title">删除类别</h3>
                 </div>
                 <div class="modal-body">
                     <input type="hidden" name="blogId" value="" id="delete-id">
                     <p id="delete-warning"></p>
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer" style="padding-top: 10px;">
                     <button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">
                         取消
                     </button>
@@ -58,49 +76,13 @@
     </div><!-- /.modal -->
 
 
-    <table>
-        <tr>
-            <td>
-                <a href="${pageContext.request.contextPath}/admin/blog/write.do">写博客</a>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <a href="${pageContext.request.contextPath}/admin/blog/manage.do">博客管理</a>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <a href="${pageContext.request.contextPath}/admin/category/manage.do">标签/分类</a>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <a href="${pageContext.request.contextPath}/admin/friendly-link/manage.do">友情链接</a>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <a href="#">用户管理</a>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <a href="#">评论管理</a>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <a href="${pageContext.request.contextPath}/admin/profile.do">个人信息</a>
-            </td>
-        </tr>
-    </table>
 
-    <script type="application/javascript"
-            src="${pageContext.request.contextPath}/lib/jquery/jquery-1.12.4.js"></script>
-    <script type="application/javascript"
-            src="${pageContext.request.contextPath}/lib/bootstrap/js/bootstrap.js"></script>
-    <script type="application/javascript"
-            src="${pageContext.request.contextPath}/js/blog-manage.js"></script>
+<%@include file="footer.jsp"%>
+<%--<script type="application/javascript" src="${pageContext.request.contextPath}/lib/jquery/jquery-1.12.4.js"></script>--%>
+<script type="application/javascript"
+        src="${pageContext.request.contextPath}/lib/bootstrap/js/bootstrap.js"></script>
+<script type="application/javascript"
+        src="${pageContext.request.contextPath}/js/blog-manage.js"></script>
+
 </body>
 </html>

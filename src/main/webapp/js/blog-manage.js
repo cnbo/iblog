@@ -3,6 +3,7 @@ var pageNextHtml = "<a type='button' class='btn btn-primary btn-lg' onclick='get
 var pagePreviousHtml = "<a type='button' class='btn btn-primary btn-lg' onclick='getBlogByPage(currentPage-1)'>上一页</a>";
 var searchKey;
 var blogs;
+var tale = new $.tale();
 
 $(function () {
     getBlogByPage(1);
@@ -22,7 +23,7 @@ function getBlogByPage(page) {
                         refresh(msg);
                     },
         error       : function () {
-                        alert("服务器请求失败");
+                        tale.alertError("服务器请求失败");
                     },
         data        : dataJSON,
         dataType    : "json",
@@ -36,8 +37,9 @@ function refresh(msg) {
     pages = msg.pages;
     currentPage = msg.page;
 
-    var table = "<table>" +
-        "<thead>" +
+    if(blogs.length == 0) return;
+
+    var table = "<table class='table table-striped table-bordered'>" + "<thead>" +
         "<tr>" +
         "<th>ID</th>" +
         "<th>标题</th>" +
@@ -65,11 +67,11 @@ function refresh(msg) {
             "<td>" + 10 + "</td>" +
             "<td>" + 10 + "</td>" +
             "<td>" +
-            "<a type='button' class='btn btn-primary btn-lg'" +
-            "href='edit/" + id + ".do' target='_blank'>编辑</a>" +
-            "<a type='button' class='btn btn-primary btn-lg'" +
+            "<a type='button' class='btn btn-primary btn-sm waves-effect waves-light m-b-5'" +
+            "href='edit/" + id + ".do' target='_blank' style='margin-left: 3px;margin-right: 3px;width:5rem;'><i class='fa fa-edit'></i><span>编辑</span></a>" +
+            "<a type='button' class='btn btn-danger btn-sm waves-effect waves-light m-b-5'" +
             "onclick='deleteMode(" + id + ")' " +
-            "data-toggle='modal' data-target='#delete-blog-modal'>删除" +
+            "data-toggle='modal' data-target='#delete-blog-modal' style='margin-left: 3px;margin-right: 3px; width: 5em';><i class='fa fa-trash-o'></i><span>删除</span>" +
             "</a>" +
             "</tr>";
     }
@@ -89,6 +91,7 @@ function refresh(msg) {
 }
 
 function search() {
+    console.log('search!')
     searchKey = $("#searchKey").val();
     getBlogByPage(1);
 }
@@ -110,18 +113,18 @@ function deleteSubmit() {
         url         : "delete/" + id + ".do",
         success     : function(msg) {
                         if (msg > 0) {
-                            alert("delete success");
+                            tale.alert("delete success");
                             if (blogs.length == 1 && currentPage > 1 && currentPage == pages) {
                                 getBlogByPage(currentPage - 1);
                             } else if (currentPage != 0) {
                                 getBlogByPage(currentPage);
                             }
                         } else {
-                            alert("delete failure");
+                            tale.alertError("delete failure");
                         }
                     },
         error       : function () {
-                        alert("服务器请求失败!");
+                        tale.alertError("服务器请求失败!");
                     }
     });
 }

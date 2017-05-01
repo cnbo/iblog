@@ -7,19 +7,19 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
+<%@include file="header.jsp"%>
     <title>友情链接</title>
-    <link type="text/css" rel="stylesheet"
-          href="${pageContext.request.contextPath}/lib/bootstrap/css/bootstrap.css">
-</head>
-<body>
 
-    <div>
-        <input type="text" id="searchKey">
-        <button onclick="search()">搜索</button>
+    <div class="col-sm-3" >
+        <div class="input-group">
+         <input type="text" id="searchKey" class="form-control" placeholder="搜索友链">
+            <span class="input-group-btn">
+                <button onclick="search()" class="btn btn-primary">搜索</button>
+            </span>
+        </div>
+    </div>
+    <div class="col-sm-12">
+        <h4 class="page-title">友链管理</h4>
     </div>
 
     <div id="friendly-link-table-div">
@@ -33,12 +33,35 @@
 
     </div>
 
-    <h3>添加友链</h3>
-    <form id="add-link-form">
-        昵称 <input type="text" name="friendName" id="friendName"> <br>
-        链接 <input type="url" name="url" id="url"> <br>
-        <input type="submit" value="保存">
-    </form>
+
+<div class="col-md-12">
+    <div class="panel panel-primary">
+        <div class="panel-heading"><h3 class="panel-title">保存友链</h3></div>
+        <div class="panel-body">
+
+            <form id="add-link-form" class="form-inline" role="form" novalidate="novalidate">
+
+                <input type="hidden" id="mid" name="mid"/>
+
+                <div class="form-group">
+                    <label class="sr-only">链接标题</label>
+                    <input type="text"  class="form-control" name="friendName" id="friendName" placeholder="请输入链接名称"
+                           required aria-required="true"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="sr-only">链接URL</label>
+                    <input type="url" id="url" name="url" class="form-control" placeholder="请输入链接地址" required
+                           aria-required="true"/>
+                </div>
+
+
+                <button type="submit" class="btn btn-success waves-effect waves-light m-l-10">保存链接</button>
+            </form>
+        </div> <!-- panel-body -->
+    </div> <!-- panel -->
+</div>
+
 
     <!-- 友情链接修改模态框 -->
     <div id="modify-link-modal" class="modal fade" tabindex="-1" role="dialog">
@@ -104,49 +127,12 @@
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
 
-    <table>
-        <tr>
-            <td>
-                <a href="${pageContext.request.contextPath}/admin/blog/write.do">写博客</a>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <a href="${pageContext.request.contextPath}/admin/blog/manage.do">博客管理</a>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <a href="${pageContext.request.contextPath}/admin/category/manage.do">标签/分类</a>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <a href="${pageContext.request.contextPath}/admin/friendly-link/manage.do">友情链接</a>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <a href="#">用户管理</a>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <a href="#">评论管理</a>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <a href="${pageContext.request.contextPath}/admin/profile.do">个人信息</a>
-            </td>
-        </tr>
-    </table>
 
-    <script type="application/javascript"
-            src="${pageContext.request.contextPath}/lib/jquery/jquery-1.12.4.js"></script>
+<%@include file="footer.jsp"%>
+
+    <%--<script type="application/javascript" src="${pageContext.request.contextPath}/lib/jquery/jquery-1.12.4.js"></script>--%>
     <script type="application/javascript"
             src="${pageContext.request.contextPath}/lib/bootstrap/js/bootstrap.js"></script>
-    <script type="application/javascript"
-            src="${pageContext.request.contextPath}/js/friend-link-manage.js"></script>
+    <script type="application/javascript" src="${pageContext.request.contextPath}/js/friend-link-manage.js"></script>
 </body>
 </html>
