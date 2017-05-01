@@ -57,7 +57,7 @@ function refresh(msg) {
 
     if(links.length == 0) return;
 
-    var table = "<table  class='table table-striped table-bordered'>" +
+    var table = "<table  class='table table-striped'>" +
         "<thead>" +
         "<tr>" +
         "<th>ID</th>" +

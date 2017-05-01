@@ -8,7 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 <%@include file="header.jsp"%>
-    <title>友情链接</title>
+    <%--<title>友情链接</title>--%>
 
     <div class="col-sm-3" >
         <div class="input-group">
@@ -131,8 +131,8 @@
 <%@include file="footer.jsp"%>
 
     <%--<script type="application/javascript" src="${pageContext.request.contextPath}/lib/jquery/jquery-1.12.4.js"></script>--%>
-    <script type="application/javascript"
-            src="${pageContext.request.contextPath}/lib/bootstrap/js/bootstrap.js"></script>
+    <%--<script type="application/javascript"--%>
+            <%--src="${pageContext.request.contextPath}/lib/bootstrap/js/bootstrap.js"></script>--%>
     <script type="application/javascript" src="${pageContext.request.contextPath}/js/friend-link-manage.js"></script>
 </body>
 </html>
