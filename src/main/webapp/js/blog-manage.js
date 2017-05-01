@@ -36,7 +36,7 @@ function refresh(msg) {
     pages = msg.pages;
     currentPage = msg.page;
 
-    var table = "<table>" +
+    var table = "<table class='table table-striped table-bordered'>" +
         "<thead>" +
         "<tr>" +
         "<th>ID</th>" +
@@ -65,11 +65,11 @@ function refresh(msg) {
             "<td>" + 10 + "</td>" +
             "<td>" + 10 + "</td>" +
             "<td>" +
-            "<a type='button' class='btn btn-primary btn-lg'" +
-            "href='edit/" + id + ".do' target='_blank'>编辑</a>" +
-            "<a type='button' class='btn btn-primary btn-lg'" +
+            "<a type='button' class='btn btn-primary btn-sm waves-effect waves-light m-b-5'" +
+            "href='edit/" + id + ".do' target='_blank' style='margin-left: 3px;margin-right: 3px;width:5rem;'><i class='fa fa-edit'></i><span>编辑</span></a>" +
+            "<a type='button' class='btn btn-danger btn-sm waves-effect waves-light m-b-5'" +
             "onclick='deleteMode(" + id + ")' " +
-            "data-toggle='modal' data-target='#delete-blog-modal'>删除" +
+            "data-toggle='modal' data-target='#delete-blog-modal' style='margin-left: 3px;margin-right: 3px; width: 5em';><i class='fa fa-trash-o'></i><span>删除</span>" +
             "</a>" +
             "</tr>";
     }
@@ -89,6 +89,7 @@ function refresh(msg) {
 }
 
 function search() {
+    console.log('search!')
     searchKey = $("#searchKey").val();
     getBlogByPage(1);
 }

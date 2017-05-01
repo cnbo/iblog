@@ -85,11 +85,7 @@ j Created by IntelliJ IDEA.
 
 <div id="blog-editor">
 
-        <textarea>
-            <c:if test="${requestScope.blog != null}">
-                ${requestScope.blog.blogMd}
-            </c:if>
-        </textarea>
+        <textarea><c:if test="${requestScope.blog != null}">${requestScope.blog.blogMd}</c:if></textarea>
 </div>
 
 <div class="text-right" id="blog-editor">
@@ -104,8 +100,9 @@ j Created by IntelliJ IDEA.
     </button>
 </div>
 
-<script type="application/javascript"
-        src="${pageContext.request.contextPath}/lib/jquery/jquery-1.12.4.js"></script>
+<%@include file="footer.jsp"%>
+
+<%--<script type="application/javascript" src="${pageContext.request.contextPath}/lib/jquery/jquery-1.12.4.js"></script>--%>
 <script src="//cdn.bootcss.com/select2/3.4.8/select2.min.js"></script>
 <script type="application/javascript"
         src="${pageContext.request.contextPath}/lib/bootstrap/js/bootstrap.js"></script>
@@ -122,6 +119,7 @@ j Created by IntelliJ IDEA.
 <script type="application/javascript"
         src="${pageContext.request.contextPath}/lib/editor-md/js/editormd.js"></script>
     <script type="application/javascript">
+        var tale = new $.tale();
         var blogEditor, blogId = "", status = 0;
         var updateUrl = "update.do";
         $(document).ready(function () {
@@ -204,13 +202,13 @@ j Created by IntelliJ IDEA.
                 success      : function (msg) {
                     if (msg > 0) {
                         blogId = msg;
-                        alert("save blog success");
+                        tale.alertOk("save blog success");
                     } else {
-                        alert("save failure");
+                        tale.alertError("save failure");
                     }
                 },
                 error        : function () {
-                    alert("访问失败");
+                    tale.alertError("访问失败");
                 }
             });
         }
@@ -224,13 +222,13 @@ j Created by IntelliJ IDEA.
                 data         : dataJSON,
                 success      : function (msg) {
                     if (msg > 0) {
-                        alert("update blog success");
+                        tale.alerOk("更新内容成功！");
                     } else {
-                        alert("update failure");
+                        tale.alertError("更新内容失败!");
                     }
                 },
                 error        : function () {
-                    alert("访问失败");
+                    tale.alertError("访问服务器失败!");
                 }
             });
         }
@@ -250,6 +248,5 @@ j Created by IntelliJ IDEA.
 
 
     </script>
-<%@include file="footer.jsp"%>
 </body>
 </html>
