@@ -23,9 +23,9 @@
         padding-top:10px;
     }
 </style>
-    <title>博客管理</title>
-    <link type="text/css" rel="stylesheet"
-            href="${pageContext.request.contextPath}/lib/bootstrap/css/bootstrap.css">
+    <%--<title>博客管理</title>--%>
+    <%--<link type="text/css" rel="stylesheet"--%>
+            <%--href="${pageContext.request.contextPath}/lib/bootstrap/css/bootstrap.css">--%>
 
 
     <div class="col-sm-3" >
@@ -79,8 +79,8 @@
 
 <%@include file="footer.jsp"%>
 <%--<script type="application/javascript" src="${pageContext.request.contextPath}/lib/jquery/jquery-1.12.4.js"></script>--%>
-<script type="application/javascript"
-        src="${pageContext.request.contextPath}/lib/bootstrap/js/bootstrap.js"></script>
+<%--<script type="application/javascript"--%>
+        <%--src="${pageContext.request.contextPath}/lib/bootstrap/js/bootstrap.js"></script>--%>
 <script type="application/javascript"
         src="${pageContext.request.contextPath}/js/blog-manage.js"></script>
 

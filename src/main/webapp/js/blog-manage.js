@@ -39,7 +39,7 @@ function refresh(msg) {
 
     if(blogs.length == 0) return;
 
-    var table = "<table class='table table-striped table-bordered'>" + "<thead>" +
+    var table = "<table class='table table-striped'>" + "<thead>" +
         "<tr>" +
         "<th>ID</th>" +
         "<th>标题</th>" +
