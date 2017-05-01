@@ -7,20 +7,36 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
+<%@include file="header.jsp"%>
+<style>
+    #page-next, #page-previous{
+        float: right;
+        margin-right: 10px;
+    }
+
+    .modal-body{
+        padding: 10px 0;
+        margin: 5px 0 5px 0;
+    }
+    .modal-body p#delete-warning{
+        margin:0px;
+        font-size: 16px;
+    }
+
+</style>
     <meta charset="utf-8">
     <title>标签/分类</title>
-    <link type="text/css" rel="stylesheet"
-            href="${pageContext.request.contextPath}/lib/bootstrap/css/bootstrap.css">
 
-</head>
-<body>
-
-    <div>
-        <input type="text" id="searchKey">
-        <button onclick="search()">搜索</button>
+    <div class="col-sm-3" >
+        <div class="input-group">
+         <input type="text" id="searchKey" class="form-control" placeholder="搜索友链">
+            <span class="input-group-btn">
+                <button onclick="search()" class="btn btn-primary">搜索</button>
+            </span>
+        </div>
+    </div>
+    <div class="col-sm-12">
+        <h4 class="page-title">分类标签管理</h4>
     </div>
 
     <div id="category-table-div">
@@ -34,10 +50,22 @@
 
     </div>
 
-    <form id="add-category-form">
-        分类 <input type="text" name="categoryName" id="categoryName"> <br>
-        <input type="submit" value="添加">
-    </form>
+    <div class="col-md-12" style="margin-top:20px">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <form id="add-category-form" class="form-inline" role="form">
+                    <input type="hidden" id="mid"/>
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="categoryName" id="categoryName" placeholder="请输入分类名称">
+                    </div>
+                    <button id="save-category-btn" type="submit"
+                            class="btn btn-success waves-effect waves-light m-l-10">保存分类
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
 
 
     <!-- 文章类别修改模态框 -->
@@ -46,7 +74,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">修改类别</h4>
+                    <h3 class="modal-title">修改类别</h3>
                 </div>
                 <div class="modal-body">
                     <input type="hidden" name="categoryId" value="" id="modify-id">
@@ -55,7 +83,7 @@
                     </label>
                     <input type="text" name="categoryName" id="category-input" value="">
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer" style="padding-top: 10px;">
                     <button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">
                         取消
                     </button>
@@ -71,13 +99,13 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">删除类别</h4>
+                    <h3 class="modal-title">删除类别</h3>
                 </div>
                 <div class="modal-body">
                     <input type="hidden" name="categoryId" value="" id="delete-id">
                     <p id="delete-warning"></p>
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer" style="padding-top: 10px;">
                     <button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">
                         取消
                     </button>
@@ -87,50 +115,12 @@
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
 
-    <table>
-        <tr>
-            <td>
-                <a href="${pageContext.request.contextPath}/admin/blog/write.do">写博客</a>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <a href="${pageContext.request.contextPath}/admin/blog/manage.do">博客管理</a>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <a href="${pageContext.request.contextPath}/admin/category/manage.do">标签/分类</a>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <a href="${pageContext.request.contextPath}/admin/friendly-link/manage.do">友情链接</a>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <a href="#">用户管理</a>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <a href="#">评论管理</a>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <a href="${pageContext.request.contextPath}/admin/profile.do">个人信息</a>
-            </td>
-        </tr>
-    </table>
-
-    <script type="application/javascript"
-            src="${pageContext.request.contextPath}/lib/jquery/jquery-1.12.4.js"></script>
-    <script type="application/javascript"
-            src="${pageContext.request.contextPath}/lib/bootstrap/js/bootstrap.js"></script>
-    <script type="application/javascript"
-            src="${pageContext.request.contextPath}/js/category-manage.js"></script>
+<%@include file="footer.jsp"%>
+<%--<script type="application/javascript" src="${pageContext.request.contextPath}/lib/jquery/jquery-1.12.4.js"></script>--%>
+<script type="application/javascript"
+        src="${pageContext.request.contextPath}/lib/bootstrap/js/bootstrap.js"></script>
+<script type="application/javascript"
+        src="${pageContext.request.contextPath}/js/category-manage.js"></script>
 
 </body>
 </html>

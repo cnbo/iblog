@@ -19,6 +19,9 @@
         font-size: 16px;
     }
 
+    .modal-footer{
+        padding-top:10px;
+    }
 </style>
     <title>博客管理</title>
     <link type="text/css" rel="stylesheet"

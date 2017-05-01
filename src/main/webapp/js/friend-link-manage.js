@@ -55,7 +55,9 @@ function refresh(msg) {
     pages = msg.pages;
     currentPage = msg.page;
 
-    var table = "<table class='table table-striped table-bordered'>" +
+    if(links.length == 0) return;
+
+    var table = "<table  class='table table-striped table-bordered'>" +
         "<thead>" +
         "<tr>" +
         "<th>ID</th>" +

@@ -18,6 +18,9 @@
             </span>
         </div>
     </div>
+    <div class="col-sm-12">
+        <h4 class="page-title">友链管理</h4>
+    </div>
 
     <div id="friendly-link-table-div">
 
@@ -30,9 +33,6 @@
 
     </div>
 
-    <div class="col-sm-12">
-        <h4 class="page-title">友链管理</h4>
-    </div>
 
 <div class="col-md-12">
     <div class="panel panel-primary">
@@ -133,6 +133,6 @@
     <%--<script type="application/javascript" src="${pageContext.request.contextPath}/lib/jquery/jquery-1.12.4.js"></script>--%>
     <script type="application/javascript"
             src="${pageContext.request.contextPath}/lib/bootstrap/js/bootstrap.js"></script>
-    <%--<script type="application/javascript" src="${pageContext.request.contextPath}/js/friend-link-manage.js"></script>--%>
+    <script type="application/javascript" src="${pageContext.request.contextPath}/js/friend-link-manage.js"></script>
 </body>
 </html>

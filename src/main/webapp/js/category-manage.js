@@ -1,8 +1,9 @@
 var currentPage, pages;
-var pageNextHtml = "<a type='button' class='btn btn-primary btn-lg' onclick='getCategoryByPage(currentPage+1)'>下一页</a>";
-var pagePreviousHtml = "<a type='button' class='btn btn-primary btn-lg' onclick='getCategoryByPage(currentPage-1)'>上一页</a>";
+var pageNextHtml = "<a type='button' class='btn btn-primary' onclick='getCategoryByPage(currentPage+1)'>下一页</a>";
+var pagePreviousHtml = "<a type='button' class='btn btn-primary' onclick='getCategoryByPage(currentPage-1)'>上一页</a>";
 var searchKey;
 var categories;
+var tale = new $.tale();
 
 $(function () {
     $("#add-category-form").submit(function () {
@@ -13,7 +14,7 @@ $(function () {
             processData   : false,
             contentType   : false,
             success       : function (msg) {
-                                alert("add success");
+                                tale.alert("add success");
                                 if (pages == 0) {
                                     getCategoryByPage(1);
                                 } else {
@@ -21,7 +22,7 @@ $(function () {
                                 }
                             },
             error         : function () {
-                                alert("服务器请求失败");
+                                tale.alertError("服务器请求失败");
                             }
         });
 
@@ -59,7 +60,7 @@ function refresh(msg) {
     pages = msg.pages;
     currentPage = msg.page;
 
-    var table = "<table>" +
+    var table = "<table class='table table-bordered table-strippd'>" +
         "<thead>" +
         "<tr>" +
         "<th>ID</th>" +
@@ -75,18 +76,18 @@ function refresh(msg) {
         var categoryName = category.categoryName;
         table += "<tr>" +
             "<td>" + id + "</td>" +
-            "<td><input id='category-input-" + id + "' value='" +
+            "<td><input class='form-control' id='category-input-" + id + "' value='" +
             categoryName + "' style='border-width: 0px;'></td>" +
             "<td>" + category.createTime + "</td>" +
             "<td>" + category.updateTime + "</td>" +
             "<td>" +
-            "<a type='button' class='btn btn-primary btn-lg'" +
+            "<a type='button' style='margin: 0 5px 0 5px;' class='btn btn-primary btn-sm waves-effect waves-light m-b-5'" +
             "onclick='modifyMode(" + id + ")' " +
-            "data-toggle='modal' data-target='#modify-category-modal'>修改" +
+            "data-toggle='modal' data-target='#modify-category-modal'><i class='fa fa-edit'></i><span>修改" +
             "</a>" +
-            "<a type='button' class='btn btn-primary btn-lg'" +
+            "<a type='button' style='margin: 0 5px 0 5px;' class='btn btn-danger btn-sm waves-effect waves-light m-b-5'" +
             "onclick='deleteMode(" + id + ")' " +
-            "data-toggle='modal' data-target='#delete-category-modal'>删除" +
+            "data-toggle='modal' data-target='#delete-category-modal'><i class='fa fa-trash-o'></i><span>删除</span>" +
             "</a>" +
             "</td>" +
             "</tr>";
@@ -126,14 +127,14 @@ function modifySubmit() {
         url         : "update.do",
         success     : function (msg) {
                         if (msg > 0) {
-                            alert("modify success");
+                            tale.alert("modify success");
                             $("#category-input" + id).val(categoryName);
                         } else {
-                            alert("modify failure");
+                            tale.alertError("modify failure");
                         }
                     },
         error       : function () {
-                        alert("服务器请求失败!");
+                        tale.alertError("服务器请求失败!");
                     },
         data        : JSON.stringify({"id":id, "categoryName":categoryName}),
         dataType    : "json",
@@ -156,18 +157,18 @@ function deleteSubmit() {
         url         : "delete/" + id + ".do",
         success     : function(msg) {
                         if (msg > 0) {
-                            alert("delete success");
+                            tale.alert("delete success");
                             if (categories.length == 1 && currentPage > 1 && currentPage == pages) {
                                 getCategoryByPage(currentPage - 1);
                             } else if (currentPage != 0) {
                                 getCategoryByPage(currentPage);
                             }
                         } else {
-                            alert("delete failure");
+                            tale.alertError("delete failure");
                         }
                     },
         error       : function () {
-                        alert("服务器请求失败!");
+                        tale.alertError("服务器请求失败!");
                     }
     });
 }
