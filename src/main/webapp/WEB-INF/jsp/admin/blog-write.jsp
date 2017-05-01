@@ -85,18 +85,14 @@ j Created by IntelliJ IDEA.
 
 <div id="blog-editor">
 
-        <textarea>
-            <c:if test="${requestScope.blog != null}">
-                ${requestScope.blog.blogMd}
-            </c:if>
-        </textarea>
+        <textarea><c:if test="${requestScope.blog != null}">${requestScope.blog.blogMd}></c:if></textarea>
 </div>
 
 <div class="text-right" id="blog-editor">
     <button type="button" id="save-btn" class="btn btn-primary waves-effect waves-light" onclick="saveOrUpdateBlog()">
         保存文章
     </button>
-    <button type="button" id="save-btn" class="btn btn-primary waves-effect waves-light" onclick="updateStatus(1)">
+    <button type="button" id="publish-btn" class="btn btn-primary waves-effect waves-light" onclick="updateStatus(1)">
         发布文章
     </button>
     <button type="button" class="btn btn-warning waves-effect waves-light" onclick="updateStatus(1)">
@@ -245,10 +241,6 @@ j Created by IntelliJ IDEA.
             var html = blogEditor.getHTML();
             $("#show-html-div").html(html);
         }
-
-
-
-
     </script>
 <%@include file="footer.jsp"%>
 </body>
