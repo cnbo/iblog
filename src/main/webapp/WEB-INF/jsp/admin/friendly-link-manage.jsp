@@ -8,6 +8,28 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 <%@include file="header.jsp"%>
+<style>
+
+    .modal-body{
+        padding: 10px 0 !important;
+        margin: 5px 0 5px 0 !important;
+    }
+    .modal-body p#delete-warning{
+        margin:0px;
+        font-size: 16px;
+    }
+
+    .modal-footer{
+        padding-top:10px !important;
+    }
+
+    #page-next, #page-previous{
+        text-align: center;
+        margin:5px;
+    }
+
+</style>
+
     <%--<title>友情链接</title>--%>
 
     <div class="col-sm-3" >
@@ -34,7 +56,7 @@
     </div>
 
 
-<div class="col-md-12">
+<div class="col-md-12" style="margin-top: 30px;">
     <div class="panel panel-primary">
         <div class="panel-heading"><h3 class="panel-title">保存友链</h3></div>
         <div class="panel-body">

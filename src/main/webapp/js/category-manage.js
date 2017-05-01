@@ -1,6 +1,6 @@
 var currentPage, pages;
-var pageNextHtml = "<a type='button' class='btn btn-primary' onclick='getCategoryByPage(currentPage+1)'>下一页</a>";
-var pagePreviousHtml = "<a type='button' class='btn btn-primary' onclick='getCategoryByPage(currentPage-1)'>上一页</a>";
+var pageNextHtml = "<a type='button' class='btn btn-primary btn-lg' onclick='getCategoryByPage(currentPage+1)'>下一页</a>";
+var pagePreviousHtml = "<a type='button' class='btn btn-primary btn-lg' onclick='getCategoryByPage(currentPage-1)'>上一页</a>";
 var searchKey;
 var categories;
 var tale = new $.tale();
@@ -14,7 +14,7 @@ $(function () {
             processData   : false,
             contentType   : false,
             success       : function (msg) {
-                                tale.alert("add success");
+                                tale.alertOk("add success");
                                 if (pages == 0) {
                                     getCategoryByPage(1);
                                 } else {
@@ -46,7 +46,7 @@ function getCategoryByPage(page) {
                         refresh(msg);
                     },
         error       : function () {
-                        alert("服务器请求失败");
+                        tale.alertError("服务器请求失败");
                     },
         data        : dataJSON,
         dataType    : "json",
@@ -127,7 +127,7 @@ function modifySubmit() {
         url         : "update.do",
         success     : function (msg) {
                         if (msg > 0) {
-                            tale.alert("modify success");
+                            tale.alertOk("modify success");
                             $("#category-input" + id).val(categoryName);
                         } else {
                             tale.alertError("modify failure");
@@ -157,7 +157,7 @@ function deleteSubmit() {
         url         : "delete/" + id + ".do",
         success     : function(msg) {
                         if (msg > 0) {
-                            tale.alert("delete success");
+                            tale.alerOkt("delete success");
                             if (categories.length == 1 && currentPage > 1 && currentPage == pages) {
                                 getCategoryByPage(currentPage - 1);
                             } else if (currentPage != 0) {

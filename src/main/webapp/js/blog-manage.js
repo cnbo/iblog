@@ -113,7 +113,7 @@ function deleteSubmit() {
         url         : "delete/" + id + ".do",
         success     : function(msg) {
                         if (msg > 0) {
-                            tale.alert("delete success");
+                            tale.alertOk("delete success");
                             if (blogs.length == 1 && currentPage > 1 && currentPage == pages) {
                                 getBlogByPage(currentPage - 1);
                             } else if (currentPage != 0) {

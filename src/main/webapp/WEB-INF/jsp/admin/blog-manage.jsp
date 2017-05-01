@@ -22,6 +22,10 @@
     .modal-footer{
         padding-top:10px;
     }
+        #page-next, #page-previous{
+        text-align: center;
+        margin:5px;
+    }
 </style>
     <%--<title>博客管理</title>--%>
     <%--<link type="text/css" rel="stylesheet"--%>

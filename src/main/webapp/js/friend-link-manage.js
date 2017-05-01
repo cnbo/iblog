@@ -12,7 +12,7 @@ $(function () {
             url          : "add.do",
             data         : new FormData($("#add-link-form")[0]),
             success      : function (msg) {
-                tale.alert("add success");
+                tale.alertOk("add success");
                 if (pages == 0) {
                     getCategoryByPage(1);
                 } else {
@@ -67,18 +67,18 @@ function refresh(msg) {
         "<th>修改时间</th>" +
         "<th>操作</th>" +
         "</tr>" +
-        "<thead>";
+        "<thead><tbody>";
     for (var index = 0; index < links.length; index++) {
         var link = links[index];
         var id = link.id;
         table += "<tr>" +
             "<td>" + id + "</td>" +
             "<td>" +
-            "<input id='friend-name-" + id + "' value='" + link.friendName + "'" +
+            "<input class='form-control' id='friend-name-" + id + "' value='" + link.friendName + "'" +
             "style='border-width: 0px;'>" +
             "</td>" +
             "<td>" +
-            "<input id='url-" + id + "' value='" + link.url + "'" +
+            "<input class='form-control' id='url-" + id + "' value='" + link.url + "'" +
             "style='border-width: 0px;'>" +
             "</td>" +
             "<td>" + link.createTime + "</td>" +
@@ -86,16 +86,16 @@ function refresh(msg) {
             "<td>" +
             "<a type='button' class='btn btn-primary btn-sm waves-effect waves-light m-b-5'" +
             "onclick='modifyMode(" + id + ")' " +
-            "data-toggle='modal' data-target='#modify-link-modal'><i class='fa fa-edit'></i><span>修改`</span>" +
+            "data-toggle='modal' style='margin: 0 5px 0 5px;' data-target='#modify-link-modal'><i class='fa fa-edit'></i><span>修改</span>" +
             "</a>" +
             "<a type='button' class='btn btn-danger btn-sm waves-effect waves-light m-b-5'" +
             "onclick='deleteMode(" + id + ")' " +
-            "data-toggle='modal' data-target='#delete-link-modal'><i class='fa fa-trash-o'></i><span>删除</span>" +
+            "data-toggle='modal' style='margin: 0 5px  0 5px;' data-target='#delete-link-modal'><i class='fa fa-trash-o'></i><span>删除</span>" +
             "</a>" +
             "</td>" +
             "</tr>";
     }
-    table += "</table>";
+    table += "</tbody></table>";
 
     $("#friendly-link-table-div").html(table);
 
@@ -130,18 +130,18 @@ function deleteSubmit() {
         url         : "delete/" + id + ".do",
         success     : function (msg) {
             if (msg > 0) {
-                tale.alert("删除成功");
+                tale.alertOk("删除成功");
                 if (links.length == 1 && currentPage > 1 && currentPage == pages) {
                     getCategoryByPage(currentPage - 1);
                 } else if (currentPage != 0) {
                     getCategoryByPage(currentPage);
                 }
             } else {
-                alert("删除失败");
+                tale.alertError("删除失败");
             }
         },
         error      : function () {
-            alert("请求失败")
+            tale.alertError("请求失败")
         }
     });
 }
@@ -167,7 +167,7 @@ function modifySubmit() {
         contentType : "application/json; charset=utf-8",
         success     : function (msg) {
             if (msg > 0) {
-                tale.alert("修改成功");
+                tale.alertOk("修改成功");
                 $("#friend-name-"+id).val(friendName);
                 $("#url-"+id).val(url);
             } else {

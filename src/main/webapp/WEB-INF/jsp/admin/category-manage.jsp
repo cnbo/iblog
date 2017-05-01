@@ -9,10 +9,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@include file="header.jsp"%>
 <style>
-    #page-next, #page-previous{
-        float: right;
-        margin-right: 10px;
-    }
 
     .modal-body{
         padding: 10px 0;
@@ -21,6 +17,11 @@
     .modal-body p#delete-warning{
         margin:0px;
         font-size: 16px;
+    }
+
+    #page-next, #page-previous{
+        text-align: center;
+        margin:5px;
     }
 
 </style>

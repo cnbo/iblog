@@ -11,8 +11,7 @@ j Created by IntelliJ IDEA.
 <meta charset="UTF-8">
 <title>write blog</title>
 <%--Bootstrap css--%>
-<link type="text/css" rel="stylesheet"
-      href="${pageContext.request.contextPath}/lib/bootstrap/css/bootstrap.css">
+<%--<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/lib/bootstrap/css/bootstrap.css">--%>
 <%--bootstrap-fileinput css--%>
 <link type="text/css" media="all" rel="stylesheet"
       href="${pageContext.request.contextPath}/lib/bootstrap-fileinput/css/fileinput.css">
@@ -30,9 +29,9 @@ j Created by IntelliJ IDEA.
         box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
     }
 
-    .container{
-        width: 90%;
-    }
+    /*.container{*/
+        /*width: 90%;*/
+    /*}*/
 
     #blog-editor{
         margin-top: 130px;
@@ -104,8 +103,7 @@ j Created by IntelliJ IDEA.
 
 <%--<script type="application/javascript" src="${pageContext.request.contextPath}/lib/jquery/jquery-1.12.4.js"></script>--%>
 <script src="//cdn.bootcss.com/select2/3.4.8/select2.min.js"></script>
-<script type="application/javascript"
-        src="${pageContext.request.contextPath}/lib/bootstrap/js/bootstrap.js"></script>
+<%--<script type="application/javascript" src="${pageContext.request.contextPath}/lib/bootstrap/js/bootstrap.js"></script>--%>
 <script type="application/javascript"
         src="${pageContext.request.contextPath}/lib/bootstrap-fileinput/js/plugins/canvas-to-blob.js"></script>
 <script type="application/javascript"
