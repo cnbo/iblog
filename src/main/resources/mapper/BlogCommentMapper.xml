@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.developer.iblog.dao.mapper.BlogCommentMapper">
+    <resultMap id="BaseResultMap" type="com.developer.iblog.model.persistent.BlogComment">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+        <result column="web_visitor_id" property="webVisitorId" jdbcType="INTEGER"/>
+        <result column="blog_id" property="blogId" jdbcType="INTEGER"/>
+        <result column="comment" property="comment" jdbcType="VARCHAR"/>
+        <result column="reply_comment_id" property="replyCommentId" jdbcType="INTEGER"/>
+        <result column="parents_comment_id" property="parentsCommentId" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, create_time, update_time, web_visitor_id, blog_id, comment, reply_comment_id, parents_comment_id
+    </sql>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        blog_comment
+        WHERE
+        id = #{id, jdbcType=INTEGER}
+    </select>
+
+    <delete id="deleteCommentByPrimaryKey" parameterType="java.lang.Integer">
+        DELETE FROM
+        blog_comment
+        WHERE
+        id = #{id, jdbcType=INTEGER}
+    </delete>
+
+    <insert id="insertComment" useGeneratedKeys="true" keyProperty="id" parameterType="com.developer.iblog.model.persistent.BlogComment">
+        INSERT INTO
+        blog_comment
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="webVisitorId != null">
+                web_visitor_id,
+            </if>
+            <if test="blogId != null">
+                blog_id,
+            </if>
+            <if test="comment != null">
+                comment,
+            </if>
+            <if test="replyCommentId != null">
+                reply_comment_id,
+            </if>
+            <if test="parentsCommentId != null">
+                parents_comment_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id, jdbcType=INTEGER},
+            </if>
+            <if test="webVisitorId != null">
+                #{webVisitorId, jdbcType=INTEGER},
+            </if>
+            <if test="blogId != null">
+                #{blogId, jdbcType=INTEGER},
+            </if>
+            <if test="comment != null">
+                #{comment, jdbcType=VARCHAR},
+            </if>
+            <if test="replyCommentId != null">
+                #{replyCommentId, jdbcType=INTEGER},
+            </if>
+            <if test="parentsCommentId != null">
+                #{parentsCommentId, jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateComment" parameterType="com.developer.iblog.model.persistent.BlogComment">
+        UPDATE
+        blog_comment
+        <set>
+            <if test="webVisitorId != null">
+                web_visitor_id = #{webVisitorId, jdbcType=INTEGER},
+            </if>
+            <if test="blogId != null">
+                blog_id = #{blogId, jdbcType=INTEGER},
+            </if>
+            <if test="comment != null">
+                comment = #{comment, jdbcType=VARCHAR},
+            </if>
+            <if test="replyCommentId != null">
+                reply_comment_id = #{replyCommentId, jdbcType=INTEGER},
+            </if>
+            <if test="parentsCommentId != null">
+                parents_comment_id = #{parentsCommentId, jdbcType=VARCHAR},
+            </if>
+        </set>
+        WHERE id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <select id="getCommentByBlogKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        blog_comment
+        WHERE
+        blog_id = #{blogId, jdbcType=INTEGER}
+        AND
+        reply_comment_id = 0
+    </select>
+
+    <select id="getReplyCommentByCommentKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        blog_comment
+        WHERE
+        parents_comment_id LIKE concat('0,',concat(#{id, jdbcType=INTEGER},',%'))
+    </select>
+</mapper>

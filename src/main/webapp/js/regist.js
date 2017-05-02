@@ -40,7 +40,7 @@ function registSubmit(){
         data        : jsonData,
         dataType    : "Json",
         contentType : "application/json; charset=utf-8",
-        url         : "visitor/regist.do",
+        url         : "/iblog/visitor/regist.do",
         success     : function(msg){
                         if (msg == true) {
                             alert("注册成功");

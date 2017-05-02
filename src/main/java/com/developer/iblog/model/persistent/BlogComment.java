@@ -16,6 +16,6 @@ public class BlogComment extends BaseModel {
 
     private Integer replyCommentId;
 
-    private Integer parentsCommentId;
+    private String parentsCommentId;
 
 }

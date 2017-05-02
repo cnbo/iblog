@@ -37,6 +37,7 @@ public class WebVisitorController extends AbstractController {
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public @ResponseBody Boolean login(@RequestBody WebVisitor visitor) {
         Boolean loginSuccess = visitorService.loginSuccess(visitor);
+
         if (loginSuccess) {
             visitorLoginSuccess(visitor);
         }

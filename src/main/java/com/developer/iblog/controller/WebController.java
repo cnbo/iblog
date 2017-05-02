@@ -65,7 +65,10 @@ public class WebController extends AbstractController {
     public String resume() {
 
         AdminDTO adminDTO = webAuthorService.getAdminDTO();
+        Admin admin = adminService.selectAdmin();
+
         setModelAttribute("adminDTO", adminDTO);
+        setModelAttribute("admin", admin);
 
         return "web/about";
     }

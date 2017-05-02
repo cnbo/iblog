@@ -1,7 +1,7 @@
 function logout() {
     $.ajax({
         type     : "GET",
-        url      : "visitor/logout.do",
+        url      : "/iblog/visitor/logout.do",
         success  : function (msg) {
                         window.location.reload();
                    },

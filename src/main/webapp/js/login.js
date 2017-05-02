@@ -34,7 +34,7 @@ function loginSubmit(){
     var jsonData = JSON.stringify({"visitorName":visitotName, "password":password});
     $.ajax({
         type        : "POST",
-        url         : "visitor/login.do",
+        url         : "/iblog/visitor/login.do",
         data        : jsonData,
         dataType    : "json",
         contentType : "application/json; charset=utf-8",
