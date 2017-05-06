@@ -33,6 +33,9 @@
             resize:none;  //去掉右下角的三角
         }
 
+        .comment {
+            margin-top: 15px;
+        }
 
     </style>
 </head>
@@ -51,15 +54,18 @@
         <a href="#" data-toggle="modal" data-target="#registModal">REGISTER</a>
     </c:when>
     <c:otherwise>
-        ${sessionScope.visitorName}
+        <img src="/iblog/uploads/monkey_logo.jpg"
+             width="45" height="45"
+             style="float: left; border-radius: 100%;"/>
         <a href="javascript:void(0);" onclick="logout()">LOGOUT</a>
+        <input type="hidden" id="visitor-name" value="${sessionScope.visitorName}">
     </c:otherwise>
 </c:choose>
 
 
 <div>
     <h4>${blog.title}<h4>
-    发表于<fmt:formatDate value="${blog.publishTime}"  dateStyle="long"/>
+    发表于<fmt:formatDate value="${blog.publishTime}"  pattern="yyyy-MM-dd HH:mm"/>
     浏览 ${blog.readTimes}
     评论 ${blog.commentTimes}
     喜欢 ${blog.loveTimes}
@@ -101,55 +107,88 @@
     </c:choose>
 </div>
 
+
+<h2>评论</h2>
 <!-- 展示评论 -->
 <div id="comments-block" style="clear: both">
-    <!-- 一级评论 -->
-    <div id="comment-1" class="one-level-comment" >
-        <div>
-            <div id="comment-header">
-                <img src="${pageContext.request.contextPath}/uploads/monkey_logo.jpg" width="45" height="45"
-                style="float: left; border-radius: 100%;"/>
-                <div>
+
+    <c:choose>
+        <c:when test="${empty requestScope.commentsAndReplies}">
+            无评论的显示仿简书
+        </c:when>
+        <c:otherwise>
+            <c:forEach items="${requestScope.commentsAndReplies}" var="commentAndReply">
+                <!-- 一级评论 -->
+                <div id="comment-${commentAndReply.comment.id}" class="comment" >
                     <div>
-                        <span>用户A</span>
+                        <div id="comment-header">
+                            <%--用户头像--%>
+                            <img src="/iblog/uploads/monkey_logo.jpg"
+                                 width="45" height="45"
+                                 style="float: left; border-radius: 100%;"/>
+                            <div>
+                                <div>
+                                    <%--用户名--%>
+                                    <span id="name-${commentAndReply.comment.id}">
+                                        ${commentAndReply.visitor.visitorName}</span>
+                                </div>
+                                <div>
+                                    <%--评论时间--%>
+                                    <span><fmt:formatDate value="${commentAndReply.comment.createTime}"
+                                                          pattern="yyyy-MM-dd HH:mm"/></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="comment-content" style="margin-top: 10px;">
+                            <%--评论内容--%>
+                            <span>${commentAndReply.comment.comment}</span>
+                        </div>
+                        <div id="comment-footer">
+                            <a href="javascript:void(0);"
+                               onclick="showReplyTextarea(${commentAndReply.comment.id},
+                                   ${commentAndReply.comment.id})">回复</a>
+                        </div>
                     </div>
-                    <div>
-                        <span>2017-5-1</span>
+
+                    <!-- 一级评论下的回复 -->
+                    <div id="reply-block-${commentAndReply.comment.id}" style="border-left: 5px solid red;">
+                        <c:if test="${not empty commentAndReply.blogCommentDTOS}">
+                            <c:forEach items="${commentAndReply.blogCommentDTOS}" var="blogCommentDTO">
+                                <div id="reply-${blogCommentDTO.comment.id}">
+                                    <div>
+                                        <div>
+                                            <span id="name-${blogCommentDTO.comment.id}">
+                                                ${blogCommentDTO.visitor.visitorName}</span>
+                                            <span>：@</span>
+                                            <span>${blogCommentDTO.parentVisitor.visitorName}&nbsp&nbsp</span>
+                                            <spqn>${blogCommentDTO.comment.comment}</spqn>
+                                        </div>
+                                        <div>
+                                            <span><fmt:formatDate value="${blogCommentDTO.comment.createTime}"
+                                                                  pattern="yyyy-MM-dd HH:mm"/></span>
+                                            <a href="javascript:void(0);"
+                                               onclick="showReplyTextarea(${commentAndReply.comment.id},
+                                               ${blogCommentDTO.comment.id})">回复</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </c:forEach>
+                            <div id="add-comment-${commentAndReply.comment.id}">
+                                <a href="javascript:void(0);"
+                                   onclick="showReplyTextarea(${commentAndReply.comment.id},
+                                    ${commentAndReply.comment.id})">添加新平论</a>
+                            </div>
+                        </c:if>
+                        <c:if test="${empty commentAndReply.blogCommentDTOS}">
+                            <div id="add-comment-${commentAndReply.comment.id}"></div>
+                        </c:if>
+                        <div id="reply-area-${commentAndReply.comment.id}"></div>
                     </div>
                 </div>
-            </div>
-            <div id="comment-content" style="margin-top: 10px;">
-                <span>this is a good blog!</span>
-            </div>
-            <div id="comment-footer">
-                <a href="javascript:void(0);" onclick="showReplyTextarea(1)">回复</a>
-            </div>
-        </div>
+            </c:forEach>
+        </c:otherwise>
+    </c:choose>
 
-        <!-- 一级评论下的回复 -->
-        <div id="reply-block-1" style="border-left: 5px solid red;">
-            <div id="comment-3">
-                <div>
-                    <div>
-                        <span>用户B</span>：@<span>用户A&nbsp&nbsp</span> <spqn>your's comment is interesting</spqn>
-                    </div>
-                    <div>
-                        <span>2017-5-1</span>
-                        <a href="javascript:void(0);" onclick="showReplyTextarea(1)">回复</a>
-                    </div>
-                </div>
-            </div>
-            <div id="add-comment-1">
-                <a href="javascript:void(0);" onclick="showReplyTextarea(1)">添加新平论</a>
-            </div>
-            <div id="reply-textarea-1">
-
-            </div>
-        </div>
-    </div>
-
-
-    <input id="last-comment-id" type="hidden" value="comment-1"/>
 </div>
 
 <!-- footer -->
@@ -197,8 +236,10 @@
         });
 
         function showOpertateBtn() {
-            $("#operate-btn").html("<a href='javascript:void(0);' type='button' onclick='cancleComment()'>取消</a> " +
-                "<a href='javascript:void(0);' type='button' class='btn btn-primary' onclick='publishComment()'>发表</a>");
+            $("#operate-btn").html(
+                "<a href='javascript:void(0);' type='button' onclick='cancleComment()'>取消</a> " +
+                "<a href='javascript:void(0);' type='button' class='btn btn-primary' " +
+                "onclick='publishComment()'>发表</a>");
         }
 
         function cancleComment() {
@@ -218,9 +259,12 @@
                 contentType : "application/json; charset=utf-8",
                 success     : function (msg) {
                                 if (msg.id > 0) {
-                                    var commentHtml = generateOneLevelCommentHtml(msg);
-                                    var lastCommentId = $("#last-comment-id").val();
-                                    $("#" + lastCommentId).after(commentHtml);
+                                    var commentHtml = generateCommentHtml(msg);
+                                    $("#comments-block").append(commentHtml);
+                                    cancleComment();
+                                    $("#a-"+msg.id).click(function () {
+                                        showReplyTextarea(msg.id, msg.id);
+                                    });
                                 }
                             },
                 error       : function () {
@@ -231,54 +275,143 @@
 
         }
 
-        function generateOneLevelCommentHtml(blogComment) {
+        function generateCommentHtml(blogComment) {
+            var visitorName = $("#visitor-name").val();
+            var commentId = blogComment.id;
+            var createTime = formatDate(blogComment.createTime);
             var commentHtml =
-                "<div id='" + blogComment.id + "' class='one-level-comment'>" +
-                    "<div id='comment-header'>" +
-                        "<img src='${pageContext.request.contextPath}/uploads/monkey_logo.jpg' width='45' height='45'" +
-                        "style='float: left; border-radius: 100%;'/>" +
-                        "<div>" +
+                "<div id='comment-$" + commentId + "' class='comment' >" +
+                    "<div>" +
+                        "<div id='comment-header'>" +
+                            "<img src='/iblog/uploads/monkey_logo.jpg'" +
+                                "width='45' height='45' style='float: left; border-radius: 100%;'/>" +
                             "<div>" +
-                            "<span>${sessionScope.visitorName}}</span>" +
+                                "<div>" +
+                                    "<span>" + visitorName + "</span>" +
+                                "</div>" +
+                                "<div>" +
+                                    "<span>" + createTime + "</span>" +
+                                "</div>" +
                             "</div>" +
-                        "<div>" +
-                        "<span>2017-5-1</span>" +
+                        "</div>" +
+                        "<div id='comment-content' style='margin-top: 10px;'>" +
+                            "<span>" + blogComment.comment + "</span>" +
+                        "</div>" +
+                        "<div id='comment-footer'>" +
+                            "<a href='javascript:void(0);' id='a-" + commentId + "'>回复</a>" +
+                        "</div>" +
                     "</div>" +
+                    "<div id='reply-block-" + commentId + "' style='border-left: 5px solid red;'>" +
+                        "<div id='add-comment-" + commentId + "'></div>" +
+                        "<div id='reply-area-" + commentId + "'></div>" +
                     "</div>" +
-                    "</div>" +
-                    "<div id='comment-content' style='margin-top: 10px;'>" +
-                        "<span>" + blogComment.comment + "</span>" +
-                    "</div>" +
-                    "<div id='comment-footer'>" +
-                        "<a href='javascript:void(0);' onclick='showReplyTextarea(" + blogComment.id + ")'>回复</a>" +
-                    "</div>" +
-                "</div>" +
-                "<div id='reply-block-" + blogComment.id + "' style='border-left: 5px solid red;'>" +
-                    "<div id='add-comment-1" + blogComment.id + "'></div>" +
-                    "<div id='reply-textarea-" + blogComment.id + "'></div>" +
                 "</div>";
 
             return commentHtml;
         }
 
-        function showReplyTextarea(id) {
+        function formatDate(createTime) {
+            var date = new Date(createTime);
+            var year = date.getFullYear();
+            var month = date.getMonth();
+            var day = date.getDay();
+            var hour = date.getHours();
+            var minute = date.getMinutes();
+
+            month = month < 10 ? ("0" + month) : month;
+            day = day < 10 ? ("0" + day) : day;
+            hour = hour < 10 ? ("0" + hour) : hour;
+            minute = minute < 10 ? ("0" + minute) : minute;
+
+            createTime = year + "-" + month + "-" + day + " " + hour + ":" + minute;
+            return createTime;
+        }
+
+        function showReplyTextarea(commentId, replyCommentId) {
             var replyTextareaHtml = "";
             replyTextareaHtml += "<form class='new-comment' style='display: block; '>" +
                                     "<div class='panel-body comment-text'>" +
-                                        "<input type='hidden' name='blogId'>" +
-                                        "<textarea id='write-comment-textarea' class='comment-textarea' placeholder='写下你的评论…' maxlength='2000'></textarea>" +
+                                        "<textarea id='reply-textarea-" + commentId + "'" +
+                                                "class='comment-textarea' placeholder='写下你的评论…' " +
+                                                "maxlength='2000'></textarea>" +
                                         "<div>" +
-                                            "<a href='javascript:void(0);' type='button' onclick='cancleReply(" + id + ")'>取消</a>" +
-                                            "<a href='javascript:void(0);' type='button' class='btn btn-primary' onclick='publishComment()'>发表</a>" +
+                                            "<a href='javascript:void(0);' type='button' " +
+                                                "onclick='cancleReply(" + commentId + ")'>取消</a>" +
+                                            "<a href='javascript:void(0);' type='button' " +
+                                                    "class='btn btn-primary' " +
+                                                 "id='publish-reply-" + replyCommentId + "'>发表</a>" +
                                         "</div>" +
                                     "</div>" +
                                 "</form>";
-            $("#reply-textarea-" + id).html(replyTextareaHtml);
+            $("#reply-area-" + commentId).html(replyTextareaHtml);
+            $("#publish-reply-"+replyCommentId).click(function () {
+                publishReply(commentId, replyCommentId);
+            });
+        }
+
+        function publishReply(commentId, replyCommentId) {
+            var blogId = $("#blog-id").val();
+            var replyComment = $("#reply-textarea-"+commentId).val();
+
+            $.ajax({
+                type        : "POST",
+                url         : "comment.do",
+                data        : JSON.stringify({"blogId":blogId, "comment":replyComment,
+                                                "replyCommentId":replyCommentId}),
+                dataType    : "json",
+                contentType : "application/json; charset=utf-8",
+                success     : function (msg) {
+                                if (msg.id > 0) {
+                                    var replyHtml = generateReplyHtml(commentId, replyCommentId, msg);
+                                    $("#add-comment-"+commentId).before(replyHtml);
+                                    cancleReply(commentId);
+                                    $("#a-"+msg.id).click(function () {
+                                        showReplyTextarea(commentId, msg.id);
+                                    });
+                                    if ($("#add-comment-"+commentId).html().length <= 0) {
+                                        var addCommentHtml =
+                                            "<a href='javascript:void(0);' >添加新平论</a>";
+                                        $("#add-comment-"+commentId).html(addCommentHtml);
+                                        $("#add-comment-"+commentId+" > a").click(function () {
+                                            showReplyTextarea(commentId, replyCommentId);
+                                        });
+                                    }
+                                }
+                            },
+                error       : function () {
+                                alert("服务器请求失败");
+                            }
+            });
+
 
         }
 
+        function generateReplyHtml(superCommentId, replyCommentId, blogComment) {
+            var commentId = blogComment.id;
+            var visitorName = $("#visitor-name").val();
+            var replyVisitorName = superCommentId != replyCommentId ? $("#name-"+replyCommentId).val() : "";
+            var createTime = formatDate(blogComment.createTime);
+            var replyHtml =
+                "<div id='reply-" + commentId + "'>" +
+                    "<div>" +
+                        "<div>" +
+                            "<span id='name-" + commentId + "'>" + visitorName + "</span>" +
+                            "<span>：@</span>" +
+                            "<span>" + replyVisitorName + "</span>" +
+                            "<spqn>" + blogComment.comment + "</spqn>" +
+                        "</div>" +
+                        "<div>" +
+                            "<span>" + createTime + "</span>" +
+                            "<a href='javascript:void(0);' id='a-" + commentId + "'>回复</a>" +
+                        "</div>" +
+                    "</div>" +
+                "</div>";
+
+            return replyHtml;
+        }
+
         function cancleReply(id) {
-            $("#reply-textarea-" + id).html("");
+            $("#reply-area-" + id).html("");
         }
 
 

@@ -1,6 +1,7 @@
 package com.developer.iblog.service;
 
 import com.developer.iblog.model.dto.BlogCommentAndReplyDTO;
+import com.developer.iblog.model.dto.BlogCommentDTO;
 import com.developer.iblog.model.persistent.BlogComment;
 
 import java.util.List;
@@ -14,7 +15,7 @@ public interface ICommentService {
     List<BlogCommentAndReplyDTO> getCommentInfo(Integer blogId);
 
     //查询评论的回复
-    List<BlogComment> getCommentReplyInfo(Integer commentId);
+    List<BlogCommentDTO> getCommentReplyInfo(Integer commentId);
 
     //添加评论/回复
     BlogComment insertComment(BlogComment comment, String visitorName);

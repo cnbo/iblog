@@ -1,6 +1,7 @@
 package com.developer.iblog.controller;
 
 import com.developer.iblog.common.web.AbstractController;
+import com.developer.iblog.model.dto.BlogCommentAndReplyDTO;
 import com.developer.iblog.model.persistent.Admin;
 import com.developer.iblog.model.persistent.Blog;
 import com.developer.iblog.model.persistent.BlogComment;
@@ -11,6 +12,8 @@ import com.developer.iblog.service.ICommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * Created by cnbo on 17-4-27.
@@ -31,8 +34,11 @@ public class WebBlogController extends AbstractController {
     public String toWebBlog(@PathVariable Integer id) {
         Blog blog = blogService.getBlogById(id);
         Admin admin = adminService.selectAdmin();
+        List<BlogCommentAndReplyDTO> commentAndReplyDTOS = commentService.getCommentInfo(id);
+
         setModelAttribute("blog", blog);
         setModelAttribute("admin", admin);
+        setModelAttribute("commentsAndReplies", commentAndReplyDTOS );
         return "web/blog";
     }
 

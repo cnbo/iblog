@@ -54,7 +54,7 @@
                     ${blog.blogHtml}
             </div>
             <div>
-                发表于<fmt:formatDate value="${blog.publishTime}"  dateStyle="long"/>
+                发表于<fmt:formatDate value="${blog.publishTime}"  pattern="yyyy-MM-dd HH:mm"/>
                 浏览 ${blog.readTimes}
                 评论 ${blog.commentTimes}
                 喜欢 ${blog.loveTimes}
@@ -70,7 +70,9 @@
             <a href="index.do?page=${requestScope.page + 1}">下一页</a>
         </c:when>
         <c:otherwise>
-            <a href="index.do?page=${requestScope.page - 1}">上一页</a>
+            <c:if test="${requestScope.page > 1}">
+                <a href="index.do?page=${requestScope.page - 1}">上一页</a>
+            </c:if>
             <c:if test="${requestScope.page != requestScope.pages}">
                 <a href="index.do?page=${requestScope.page + 1}">下一页</a>
             </c:if>

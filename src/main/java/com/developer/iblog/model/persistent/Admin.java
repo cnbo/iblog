@@ -1,5 +1,6 @@
 package com.developer.iblog.model.persistent;
 
+
 import lombok.Data;
 
 /**

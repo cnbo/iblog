@@ -2,6 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.developer.iblog.dao.mapper.WebVisitorMapper">
 
+    <resultMap id="BaseResultMap" type="com.developer.iblog.model.persistent.WebVisitor">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="visitor_name" property="visitorName" jdbcType="VARCHAR"/>
+        <result column="password" property="password" jdbcType="VARCHAR"/>
+    </resultMap>
+
     <sql id="visitor">
         id, create_time, update_time, visitor_name, password
     </sql>
@@ -34,8 +42,7 @@
         </trim>
     </insert>
 
-    <select id="getByName" parameterType="java.lang.String"
-            resultType="com.developer.iblog.model.persistent.WebVisitor">
+    <select id="getByName" parameterType="java.lang.String" resultMap="BaseResultMap">
         SELECT
         <include refid="visitor"/>
         FROM
@@ -44,8 +51,7 @@
         visitor_name = #{visitorName, jdbcType=VARCHAR}
     </select>
 
-    <select id="getByKey" parameterType="java.lang.Integer"
-            resultType="com.developer.iblog.model.persistent.WebVisitor">
+    <select id="getByKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         SELECT
         <include refid="visitor"/>
         FROM
