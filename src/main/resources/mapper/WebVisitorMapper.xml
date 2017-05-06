@@ -44,4 +44,14 @@
         visitor_name = #{visitorName, jdbcType=VARCHAR}
     </select>
 
+    <select id="getByKey" parameterType="java.lang.Integer"
+            resultType="com.developer.iblog.model.persistent.WebVisitor">
+        SELECT
+        <include refid="visitor"/>
+        FROM
+        web_visitor
+        WHERE
+        id = #{id, jdbcType=VARCHAR}
+    </select>
+
 </mapper>

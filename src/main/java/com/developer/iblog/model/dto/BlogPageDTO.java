@@ -6,7 +6,7 @@ import lombok.Data;
 import java.util.List;
 
 /**
- * Created by cnbo on 17-4-20.
+ * Created by cnbo on 17-5-6.
  */
 @Data
 public class BlogPageDTO {

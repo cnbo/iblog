@@ -3,8 +3,10 @@ package com.developer.iblog.service.impl;
 import com.developer.iblog.common.bean.ExceptionType;
 import com.developer.iblog.common.exception.BusinessException;
 import com.developer.iblog.dao.mapper.BlogCommentMapper;
+import com.developer.iblog.dao.mapper.WebVisitorMapper;
 import com.developer.iblog.model.dto.BlogCommentAndReplyDTO;
 import com.developer.iblog.model.persistent.BlogComment;
+import com.developer.iblog.model.persistent.WebVisitor;
 import com.developer.iblog.service.ICommentService;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.slf4j.Logger;
@@ -12,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,6 +30,9 @@ public class CommentServiceImpl implements ICommentService {
     @Autowired
     private BlogCommentMapper commentMapper;
 
+    @Autowired
+    private WebVisitorMapper visitorMapper;
+
     /**
      * 查看评论
      * @param blogId
@@ -34,6 +40,18 @@ public class CommentServiceImpl implements ICommentService {
      */
     @Override
     public List<BlogCommentAndReplyDTO> getCommentInfo(Integer blogId) {
+
+        //获取主评论
+        List<BlogComment> blogComments = commentMapper.getCommentByBlogKey(blogId);
+
+        //用于返回结果集
+        List<BlogCommentAndReplyDTO> blogCommentAndReplyDTOS = new ArrayList<>();
+
+        for (BlogComment blogComment : blogComments) {
+            WebVisitor visitor = visitorMapper.getByKey(blogComment.getWebVisitorId());
+            
+
+        }
 
         return null;
     }
@@ -52,11 +70,10 @@ public class CommentServiceImpl implements ICommentService {
     /**
      * 添加评论/回复
      * @param comment
-     * @param visitorId
      * @return
      */
     @Override
-    public Integer insertComment(BlogComment comment, Integer visitorId) {
+    public BlogComment insertComment(BlogComment comment, String visitorName) {
         comment.setComment(StringEscapeUtils.unescapeHtml4(comment.getComment()));
         BlogComment commentInsert = new BlogComment();
 
@@ -72,14 +89,14 @@ public class CommentServiceImpl implements ICommentService {
         }
 
         commentInsert.setComment(comment.getComment());
-        commentInsert.setWebVisitorId(visitorId);
+        commentInsert.setWebVisitorId(visitorMapper.getByName(visitorName).getId());
 
         int insertResult = commentMapper.insertComment(commentInsert);
 
         if (insertResult > 0) {
             //更新文章评论的条数
 
-            return insertResult;
+            return commentInsert;
         } else {
             throw new BusinessException(ExceptionType.DATA_NOT_FOUND);
         }

@@ -109,6 +109,7 @@
         blog_id = #{blogId, jdbcType=INTEGER}
         AND
         reply_comment_id = 0
+        ORDER BY id ASC
     </select>
 
     <select id="getReplyCommentByCommentKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
@@ -118,5 +119,6 @@
         blog_comment
         WHERE
         parents_comment_id LIKE concat('0,',concat(#{id, jdbcType=INTEGER},',%'))
+        ORDER BY id ASC
     </select>
 </mapper>

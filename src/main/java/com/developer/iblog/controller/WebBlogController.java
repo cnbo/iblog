@@ -3,13 +3,14 @@ package com.developer.iblog.controller;
 import com.developer.iblog.common.web.AbstractController;
 import com.developer.iblog.model.persistent.Admin;
 import com.developer.iblog.model.persistent.Blog;
+import com.developer.iblog.model.persistent.BlogComment;
+import com.developer.iblog.model.persistent.WebVisitor;
 import com.developer.iblog.service.IAdminService;
 import com.developer.iblog.service.IBlogService;
+import com.developer.iblog.service.ICommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by cnbo on 17-4-27.
@@ -23,6 +24,9 @@ public class WebBlogController extends AbstractController {
     @Autowired
     private IAdminService adminService;
 
+    @Autowired
+    private ICommentService commentService;
+
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public String toWebBlog(@PathVariable Integer id) {
         Blog blog = blogService.getBlogById(id);
@@ -30,6 +34,14 @@ public class WebBlogController extends AbstractController {
         setModelAttribute("blog", blog);
         setModelAttribute("admin", admin);
         return "web/blog";
+    }
+
+    @RequestMapping(value = "/comment", method = RequestMethod.POST)
+    public @ResponseBody BlogComment comment(@RequestBody BlogComment blogComment) {
+        String visitorName = (String) getSession().getAttribute(VISITOR_ATTRIBUTE_NAME);
+        blogComment = commentService.insertComment(blogComment, visitorName);
+
+        return blogComment;
     }
 
 }

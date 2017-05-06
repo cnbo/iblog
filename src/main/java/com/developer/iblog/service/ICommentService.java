@@ -17,6 +17,6 @@ public interface ICommentService {
     List<BlogComment> getCommentReplyInfo(Integer commentId);
 
     //添加评论/回复
-    Integer insertComment(BlogComment comment, Integer visitorId);
+    BlogComment insertComment(BlogComment comment, String visitorName);
     
 }

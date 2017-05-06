@@ -11,4 +11,6 @@ public interface WebVisitorMapper {
 
     Integer saveWebVisitor(WebVisitor webVisitor);
 
+    WebVisitor getByKey(Integer id);
+
 }

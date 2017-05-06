@@ -26,12 +26,12 @@
 
 <c:choose>
     <c:when test="${sessionScope.visitorName == null}">
-        <a href="#" data-toggle="modal" data-target="#loginModal">登录</a>
-        <a href="#" data-toggle="modal" data-target="#registModal">注册</a>
+        <a href="#" data-toggle="modal" data-target="#loginModal">LOGIN</a>
+        <a href="#" data-toggle="modal" data-target="#registModal">REGISTER</a>
     </c:when>
     <c:otherwise>
         ${sessionScope.visitorName}
-        <a href="javascript:void(0);" onclick="logout()">登出</a>
+        <a href="javascript:void(0);" onclick="logout()">LOGOUT</a>
      </c:otherwise>
 </c:choose>
 

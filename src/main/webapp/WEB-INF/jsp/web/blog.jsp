@@ -37,6 +37,9 @@
     </style>
 </head>
 <body>
+<!-- blogId -->
+<input type="hidden" id="blog-id" value="${requestScope.blog.id}">
+
 <a href="${pageContext.request.contextPath}/index.do">${requestScope.admin.nickname}</a>
 
 <a href="${pageContext.request.contextPath}/index.do">HOME</a>
@@ -44,17 +47,15 @@
 
 <c:choose>
     <c:when test="${sessionScope.visitorName == null}">
-        <a href="#" data-toggle="modal" data-target="#loginModal">登录</a>
-        <a href="#" data-toggle="modal" data-target="#registModal">注册</a>
+        <a href="#" data-toggle="modal" data-target="#loginModal">LOGIN</a>
+        <a href="#" data-toggle="modal" data-target="#registModal">REGISTER</a>
     </c:when>
     <c:otherwise>
         ${sessionScope.visitorName}
-        <a href="javascript:void(0);" onclick="logout()">登出</a>
+        <a href="javascript:void(0);" onclick="logout()">LOGOUT</a>
     </c:otherwise>
 </c:choose>
 
-<a href="#">LOGIN</a>
-<a href="#">REGISTER</a>
 
 <div>
     <h4>${blog.title}<h4>
@@ -101,7 +102,7 @@
 </div>
 
 <!-- 展示评论 -->
-<div id="" style="clear: both">
+<div id="comments-block" style="clear: both">
     <!-- 一级评论 -->
     <div id="comment-1" class="one-level-comment" >
         <div>
@@ -121,7 +122,7 @@
                 <span>this is a good blog!</span>
             </div>
             <div id="comment-footer">
-                <a href="javascript:void(0);" onclick="showReplyTextarea()">回复</a>
+                <a href="javascript:void(0);" onclick="showReplyTextarea(1)">回复</a>
             </div>
         </div>
 
@@ -134,12 +135,12 @@
                     </div>
                     <div>
                         <span>2017-5-1</span>
-                        <a href="javascript:void(0);" onclick="showReplyTextarea()">回复</a>
+                        <a href="javascript:void(0);" onclick="showReplyTextarea(1)">回复</a>
                     </div>
                 </div>
             </div>
             <div id="add-comment-1">
-                <a href="javascript:void(0);" onclick="showReplyTextarea()">添加新平论</a>
+                <a href="javascript:void(0);" onclick="showReplyTextarea(1)">添加新平论</a>
             </div>
             <div id="reply-textarea-1">
 
@@ -148,7 +149,7 @@
     </div>
 
 
-    <input id="laste-comment-id" type="hidden" value="comment-1"/>
+    <input id="last-comment-id" type="hidden" value="comment-1"/>
 </div>
 
 <!-- footer -->
@@ -206,48 +207,78 @@
         }
         
         function publishComment() {
-            var commentHtml = "<div id='comment-2' class='one-level-comment'>" +
-                                  "<div id='comment-header'>" +
-                                      "<img src='${pageContext.request.contextPath}/uploads/monkey_logo.jpg' width='45' height='45'" +
-                                      "style='float: left; border-radius: 100%;'/>" +
-                                      "<div>" +
-                                          "<div>" +
-                                          "<span>用户A</span>" +
-                                          "</div>" +
-                                          "<div>" +
-                                          "<span>2017-5-1</span>" +
-                                          "</div>" +
-                                      "</div>" +
-                                  "</div>" +
-                                  "<div id='comment-content' style='margin-top: 10px;'>" +
-                                      "<span>this is a good blog!</span>" +
-                                  "</div>" +
-                                  "<div id='comment-footer'>" +
-                                      "<a href='javascript:void(0);'>回复</a>" +
-                                  "</div>" +
-                              "</div>";
-            var lastCommentId = $("#laste-comment-id").val();
-            $("#" + lastCommentId).after(commentHtml);
+            var blogId = $("#blog-id").val();
+            var comment = $("#write-comment-textarea").val();
+
+            $.ajax({
+                type        : "POST",
+                url         : "comment.do",
+                data        : JSON.stringify({"blogId":blogId, "comment":comment}),
+                dataType    : "json",
+                contentType : "application/json; charset=utf-8",
+                success     : function (msg) {
+                                if (msg.id > 0) {
+                                    var commentHtml = generateOneLevelCommentHtml(msg);
+                                    var lastCommentId = $("#last-comment-id").val();
+                                    $("#" + lastCommentId).after(commentHtml);
+                                }
+                            },
+                error       : function () {
+                                alert("服务器请求失败");
+                            }
+            });
+
+
         }
 
-        function showReplyTextarea() {
+        function generateOneLevelCommentHtml(blogComment) {
+            var commentHtml =
+                "<div id='" + blogComment.id + "' class='one-level-comment'>" +
+                    "<div id='comment-header'>" +
+                        "<img src='${pageContext.request.contextPath}/uploads/monkey_logo.jpg' width='45' height='45'" +
+                        "style='float: left; border-radius: 100%;'/>" +
+                        "<div>" +
+                            "<div>" +
+                            "<span>${sessionScope.visitorName}}</span>" +
+                            "</div>" +
+                        "<div>" +
+                        "<span>2017-5-1</span>" +
+                    "</div>" +
+                    "</div>" +
+                    "</div>" +
+                    "<div id='comment-content' style='margin-top: 10px;'>" +
+                        "<span>" + blogComment.comment + "</span>" +
+                    "</div>" +
+                    "<div id='comment-footer'>" +
+                        "<a href='javascript:void(0);' onclick='showReplyTextarea(" + blogComment.id + ")'>回复</a>" +
+                    "</div>" +
+                "</div>" +
+                "<div id='reply-block-" + blogComment.id + "' style='border-left: 5px solid red;'>" +
+                    "<div id='add-comment-1" + blogComment.id + "'></div>" +
+                    "<div id='reply-textarea-" + blogComment.id + "'></div>" +
+                "</div>";
+
+            return commentHtml;
+        }
+
+        function showReplyTextarea(id) {
             var replyTextareaHtml = "";
             replyTextareaHtml += "<form class='new-comment' style='display: block; '>" +
                                     "<div class='panel-body comment-text'>" +
                                         "<input type='hidden' name='blogId'>" +
                                         "<textarea id='write-comment-textarea' class='comment-textarea' placeholder='写下你的评论…' maxlength='2000'></textarea>" +
                                         "<div>" +
-                                            "<a href='javascript:void(0);' type='button' onclick='cancleReply()'>取消</a>" +
+                                            "<a href='javascript:void(0);' type='button' onclick='cancleReply(" + id + ")'>取消</a>" +
                                             "<a href='javascript:void(0);' type='button' class='btn btn-primary' onclick='publishComment()'>发表</a>" +
                                         "</div>" +
                                     "</div>" +
                                 "</form>";
-            $("#reply-textarea-1").html(replyTextareaHtml);
+            $("#reply-textarea-" + id).html(replyTextareaHtml);
 
         }
 
-        function cancleReply() {
-            $("#reply-textarea-1").html("");
+        function cancleReply(id) {
+            $("#reply-textarea-" + id).html("");
         }
 
 
