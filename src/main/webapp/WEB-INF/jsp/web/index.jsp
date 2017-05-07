@@ -174,7 +174,7 @@
         <c:forEach items="${requestScope.blogs}" var="blog">
 
           <div class="post-preview">
-            <a href="blog/${blog.id}" target="_blank">
+            <a href="blog/${blog.id}.do" target="_blank">
               <h2 class="post-title">
                   ${blog.title}
               </h2>
@@ -231,7 +231,7 @@
         <hr/><h5><a href="/tags/">TOP BLOG</a></h5>
         <c:if test="${requestScope.topBlogs != null}">
           <c:forEach items="${requestScope.topBlogs}" var="blog">
-            <a href="${blog.id}">${blog.title}</a><br/>
+            <a href="blog/${blog.id}.do">${blog.title}</a><br/>
           </c:forEach>
         </c:if>
 
@@ -241,7 +241,7 @@
         <hr/><h5><a href="/tags/">NEW BLOG</a></h5>
         <c:if test="${requestScope.recentBlogs != null}">
           <c:forEach items="${requestScope.recentBlogs}" var="blog">
-            <a href="${blog.id}">${blog.title}</a><br/>
+            <a href="blog/${blog.id}.do">${blog.title}</a><br/>
           </c:forEach>
         </c:if>
       </section>
