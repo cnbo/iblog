@@ -18,6 +18,9 @@
     <link type="text/css" rel="stylesheet"
           href="${pageContext.request.contextPath}/lib/bootstrap/css/bootstrap.css">
 
+ <!-- Custom CSS -->
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/hux-blog.min.css">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
     <style>
         .editormd-html-preview {
@@ -34,42 +37,190 @@
         }
 
         .comment {
-            margin-top: 15px;
+            width:600px;
+            margin: 30px auto;
         }
-
+        .comment-info{
+            padding-left: 61px;
+        }
+        #comment-content{
+            max-resolution: 10px;
+            padding-left:60px;
+        }
+        #comment-footer{
+            text-align: right;
+        }
+        #operate-btn a[type='button']{
+            float: right;
+            margin-left: 10px;
+        }
+        #operate-btn a#cancel{
+            display: block;
+            padding:15px 20px;
+            line-height:1.4;
+        }
+        #write-comment-textarea{
+            padding: 10px 15px;
+            font-size: 13px;
+            border: 1px solid #dcdcdc;
+            border-radius: 4px;
+            background-color: hsla(0,0%,71%,.1);
+            resize: none;
+            display: inline-block;
+            vertical-align: top;
+            outline-style: none;
+            margin-bottom: 20px;
+            width: 540px;
+        }
     </style>
 </head>
 <body>
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header page-scroll">
+      <button type="button" class="navbar-toggle">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+        <a class="navbar-brand" href="${pageContext.request.contextPath}/index.do">IBLOG</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div id="huxblog_navbar">
+      <div class="navbar-collapse">
+        <ul class="nav navbar-nav navbar-right">
+
+
+          <li>
+            <a href="${pageContext.request.contextPath}/index.do">${requestScope.admin.nickname}</a>
+          </li>
+          <li>
+            <a href="${pageContext.request.contextPath}/index.do">HOME</a>
+          </li>
+
+          <li>
+            <a href="${pageContext.request.contextPath}/author/resume.do">ABOUT</a>
+          </li>
+
+          <li>
+            <a href="${pageContext.request.contextPath}/category.do">CATEGORY</a>
+          </li>
+
+
+          <%--<li>--%>
+          <%--<a href="/portfolio/">Portfolio</a>--%>
+          <%--</li>--%>
+
+         <c:choose>
+            <c:when test="${sessionScope.visitorName == null}">
+              <li>
+                <a href="#" data-toggle="modal" data-target="#loginModal">LOGIN</a>
+              </li>
+              <li>
+                <a href="#" data-toggle="modal" data-target="#registModal">REGISTER</a>
+              </li>
+            </c:when>
+            <c:otherwise>
+              ${sessionScope.visitorName}
+              <li>
+                <a href="javascript:void(0);" onclick="logout()">LOGOUT</a>
+              </li>
+            </c:otherwise>
+          </c:choose>
+
+        </ul>
+      </div>
+    </div>
+    <!-- /.navbar-collapse -->
+  </div>
+  <!-- /.container -->
+</nav>
 <!-- blogId -->
+
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    var __HuxNav__ = {
+        close: function() {
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function() {
+                // prevent frequently toggle
+                if ($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            }, 400)
+        },
+        open: function() {
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+
+    // Bind Event
+    $toggle.addEventListener('click', function(e) {
+        if ($navbar.className.indexOf('in') > 0) {
+            __HuxNav__.close()
+        } else {
+            __HuxNav__.open()
+        }
+    })
+
+    /**
+     * Since Fastclick is used to delegate 'touchstart' globally
+     * to hack 300ms delay in iOS by performing a fake 'click',
+     * Using 'e.stopPropagation' to stop 'touchstart' event from
+     * $toggle/$collapse will break global delegation.
+     *
+     * Instead, we use a 'e.target' filter to prevent handler
+     * added to document close HuxNav.
+     *
+     * Also, we use 'click' instead of 'touchstart' as compromise
+     */
+    document.addEventListener('click', function(e) {
+        if (e.target == $toggle) return;
+        if (e.target.className == 'icon-bar') return;
+        __HuxNav__.close();
+    })
+</script>
+
 <input type="hidden" id="blog-id" value="${requestScope.blog.id}">
+<!-- Page Header -->
+<header class="intro-header" style="background-image: url('${pageContext.request.contextPath}/uploads/home-bg.jpg')">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 ">
+        <div class="post-heading">
+          <h1>${blog.title}</h1>
+          <!--<hr class="small">-->
+          <span class="subheading">
+            ${requestScope.admin.introduction}
+          </span>
+            <span class="meta">
+              <fmt:formatDate value="${blog.publishTime}" pattern="yyyy-MM-dd HH:mm" /> 浏览 ${blog.readTimes} 评论 ${blog.commentTimes} 喜欢 ${blog.loveTimes}
+            </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
 
-<a href="${pageContext.request.contextPath}/index.do">${requestScope.admin.nickname}</a>
-
-<a href="${pageContext.request.contextPath}/index.do">HOME</a>
-<a href="${pageContext.request.contextPath}/author/resume.do">ABOUT</a>
-
-<c:choose>
-    <c:when test="${sessionScope.visitorName == null}">
-        <a href="#" data-toggle="modal" data-target="#loginModal">LOGIN</a>
-        <a href="#" data-toggle="modal" data-target="#registModal">REGISTER</a>
-    </c:when>
-    <c:otherwise>
-        <img src="/iblog/uploads/monkey_logo.jpg"
-             width="45" height="45"
-             style="float: left; border-radius: 100%;"/>
-        <a href="javascript:void(0);" onclick="logout()">LOGOUT</a>
-        <input type="hidden" id="visitor-name" value="${sessionScope.visitorName}">
-    </c:otherwise>
-</c:choose>
-
-
-<div>
-    <h4>${blog.title}<h4>
-    发表于<fmt:formatDate value="${blog.publishTime}"  pattern="yyyy-MM-dd HH:mm"/>
-    浏览 ${blog.readTimes}
-    评论 ${blog.commentTimes}
-    喜欢 ${blog.loveTimes}
-</div>
+<%--<div>--%>
+    <%--<h4>${blog.title}<h4>--%>
+    <%--发表于<fmt:formatDate value="${blog.publishTime}"  pattern="yyyy-MM-dd HH:mm"/>--%>
+    <%--浏览 ${blog.readTimes}--%>
+    <%--评论 ${blog.commentTimes}--%>
+    <%--喜欢 ${blog.loveTimes}--%>
+<%--</div>--%>
 
 <div id="layout">
     <div id="blog-editormd">
@@ -80,14 +231,14 @@
 </div>
 
 <!-- 评论部分 -->
-<div style="margin: 0 auto; max-width: 600px; display: block;">
-    <div style="float: left; margin-right: 10px;">
+<div style="margin: 100px auto; width: 600px;; display: block;">
+    <div style="display: inline-block; vertical-align: middle; margin-right: 10px;">
         <img style="border-radius: 100%; " src="${pageContext.request.contextPath}/uploads/monkey_logo.jpg" width="45" height="45"/>
     </div>
     <c:choose>
         <c:when test="${sessionScope.visitorName == null}">
             <!-- 提示用户登录后才能评论 -->
-            <div style="float: left; position: relative; border: 1px solid #dcdcdc; width: 480px; height: 90px; background-color: hsla(0,0%,71%,.1);">
+            <div style="display: inline-block; position: relative; border: 1px solid #dcdcdc; width: 480px; height: 90px; background-color: hsla(0,0%,71%,.1);">
                 <div style="margin: 25px auto; width: 200px;">
                     <a href="#" data-toggle="modal" data-target="#loginModal" class="btn btn-primary">登录</a>
                     <span>后发表评论</span>
@@ -95,7 +246,7 @@
             </div>
         </c:when>
         <c:otherwise>
-            <div style="float: left;">
+            <div style="display:inline-block;">
                 <input type='hidden' name='blogId'>
                 <textarea id='write-comment-textarea' class='comment-textarea' placeholder='写下你的评论…' maxlength='2000'
                           onclick="showOpertateBtn();"></textarea>
@@ -108,7 +259,7 @@
 </div>
 
 
-<h2>评论</h2>
+<%--<h2>评论</h2>--%>
 <!-- 展示评论 -->
 <div id="comments-block" style="clear: both">
 
@@ -127,12 +278,12 @@
                                  width="45" height="45"
                                  style="float: left; border-radius: 100%;"/>
                             <div>
-                                <div>
+                                <div class="comment-info">
                                     <%--用户名--%>
                                     <span id="name-${commentAndReply.comment.id}">
                                         ${commentAndReply.visitor.visitorName}</span>
                                 </div>
-                                <div>
+                                <div class="comment-info">
                                     <%--评论时间--%>
                                     <span><fmt:formatDate value="${commentAndReply.comment.createTime}"
                                                           pattern="yyyy-MM-dd HH:mm"/></span>
@@ -192,12 +343,74 @@
 </div>
 
 <!-- footer -->
-<div class="footer-class">
-    <a href="${requestScope.admin.github}">这里放一个github图标</a>
-    <a href="mailto:${requestScope.admin.email}">这里放一个邮箱图标</a>
 
-    &copy2017 by iblog developer
-</div>
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center">
+
+
+
+          <!-- add Weibo, Zhihu by Hux, add target = "_blank" to <a> by Hux -->
+
+          <%--<li>--%>
+            <%--<a target="_blank" href="https://www.zhihu.com/people/huxpro">--%>
+                            <%--<span class="fa-stack fa-lg">--%>
+                                <%--<i class="fa fa-circle fa-stack-2x"></i>--%>
+                                <%--<i class="fa  fa-stack-1x fa-inverse">知</i>--%>
+                            <%--</span>--%>
+            <%--</a>--%>
+          <%--</li>--%>
+
+
+          <%--<li>--%>
+            <%--<a target="_blank" href="http://weibo.com/huxpro">--%>
+                            <%--<span class="fa-stack fa-lg">--%>
+                                <%--<i class="fa fa-circle fa-stack-2x"></i>--%>
+                                <%--<i class="fa fa-weibo fa-stack-1x fa-inverse"></i>--%>
+                            <%--</span>--%>
+            <%--</a>--%>
+          <%--</li>--%>
+
+
+
+
+          <%--<li>--%>
+            <%--<a target="_blank" href="https://www.facebook.com/huxpro">--%>
+                            <%--<span class="fa-stack fa-lg">--%>
+                                <%--<i class="fa fa-circle fa-stack-2x"></i>--%>
+                                <%--<i class="fa fa-facebook fa-stack-1x fa-inverse"></i>--%>
+                            <%--</span>--%>
+            <%--</a>--%>
+          <%--</li>--%>
+            <li>
+                <a target="_blank" href="mailto:${requestScope.admin.email}">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                        <i class="fa fa-envelope-o fa-stack-1x fa-inverse"></i>
+                            </span>
+                </a>
+            </li>
+            <li>
+            <a target="_blank" href="${requestScope.admin.github}">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+            </a>
+          </li>
+
+
+        </ul>
+        <p class="copyright text-muted">
+          Copyright &copy; 2017 by iblog deveploer
+          <br>
+       </p>
+      </div>
+    </div>
+  </div>
+</footer>
 
 
 <%@include file="regist.jsp"%>
@@ -237,9 +450,10 @@
 
         function showOpertateBtn() {
             $("#operate-btn").html(
-                "<a href='javascript:void(0);' type='button' onclick='cancleComment()'>取消</a> " +
-                "<a href='javascript:void(0);' type='button' class='btn btn-primary' " +
-                "onclick='publishComment()'>发表</a>");
+                "<a href='javascript:void(0);' type='button' id='submit' class='btn btn-primary' " +
+                "onclick='publishComment()'>发表</a>" +
+                "<a href='javascript:void(0);' type='button' id='cancel' onclick='cancleComment()'>取消</a>"
+            )
         }
 
         function cancleComment() {
