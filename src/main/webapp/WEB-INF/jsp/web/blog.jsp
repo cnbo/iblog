@@ -23,6 +23,29 @@
   <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
     <style>
+        .addComment a{
+            font-size:14px;
+            color: #969696 !important;
+        }
+        .commentC{
+            margin:0 0 5px;
+            font-size:14px;
+            line-height:1.5;
+        }
+        .dateTime{
+            font-size:12px;
+            color: #969696;
+        }
+        .dateTime a{
+            font-size:12px;
+            margin-left: 10px;
+            color: #969696 !important;
+        }
+        .reply-block{
+            border-left:2px solid #d9d9d9;
+            margin-top: 20px;
+            padding:5px 0 5px 20px;
+        }
         .editormd-html-preview {
             width: 90%;
             margin: 0 auto;
@@ -50,16 +73,16 @@
         #comment-footer{
             text-align: right;
         }
-        #operate-btn a[type='button']{
+        .operate-btn a[type='button']{
             float: right;
             margin-left: 10px;
         }
-        #operate-btn a#cancel{
+        .operate-btn a.cancel{
             display: block;
             padding:15px 20px;
             line-height:1.4;
         }
-        #write-comment-textarea{
+        .comment-textarea{
             padding: 10px 15px;
             font-size: 13px;
             border: 1px solid #dcdcdc;
@@ -71,6 +94,32 @@
             outline-style: none;
             margin-bottom: 20px;
             width: 540px;
+        }
+        #no-comment{
+            text-align:center;
+            font-size: 12px;
+        }
+        #no-comment div.pic{
+            background: url("${pageContext.request.contextPath}/uploads/no-comment.png") no-repeat;
+            margin: 30px auto 20px;
+            width: 226px;
+            height:92px;
+            background-size: contain;
+        }
+        #no-comment a{
+            color: #3194d0;
+            cursor: pointer;
+            text-decoration: none;;
+        }
+        #comments-block{
+            width: 600px;
+            margin:0 auto;
+        }
+        #comments-block div.top{
+            padding-bottom: 20px;
+            font-size:  17px;
+            font-weight: 700;
+            border-bottom:1px solid #f0f0f0;
         }
     </style>
 </head>
@@ -250,7 +299,7 @@
                 <input type='hidden' name='blogId'>
                 <textarea id='write-comment-textarea' class='comment-textarea' placeholder='写下你的评论…' maxlength='2000'
                           onclick="showOpertateBtn();"></textarea>
-                <div id="operate-btn">
+                <div class="operate-btn">
 
                 </div>
             </div>
@@ -262,10 +311,19 @@
 <%--<h2>评论</h2>--%>
 <!-- 展示评论 -->
 <div id="comments-block" style="clear: both">
-
+    <div class="top">
+        <span>评论</span>
+    </div>
     <c:choose>
         <c:when test="${empty requestScope.commentsAndReplies}">
-            无评论的显示仿简书
+            <div id="no-comment">
+                <div class="pic"></div>
+                <div class="text">
+                    智慧如你，不想
+                    <a>发表一点看法</a>
+                    咩？
+                </div>
+            </div>
         </c:when>
         <c:otherwise>
             <c:forEach items="${requestScope.commentsAndReplies}" var="commentAndReply">
@@ -302,36 +360,36 @@
                     </div>
 
                     <!-- 一级评论下的回复 -->
-                    <div id="reply-block-${commentAndReply.comment.id}" style="border-left: 5px solid red;">
+                    <div class='reply-block' id="reply-block-${commentAndReply.comment.id}" >
                         <c:if test="${not empty commentAndReply.blogCommentDTOS}">
                             <c:forEach items="${commentAndReply.blogCommentDTOS}" var="blogCommentDTO">
                                 <div id="reply-${blogCommentDTO.comment.id}">
                                     <div>
-                                        <div>
+                                        <div class="commentC">
                                             <span id="name-${blogCommentDTO.comment.id}">
                                                 ${blogCommentDTO.visitor.visitorName}</span>
                                             <span>：@</span>
                                             <span>${blogCommentDTO.parentVisitor.visitorName}&nbsp&nbsp</span>
                                             <spqn>${blogCommentDTO.comment.comment}</spqn>
                                         </div>
-                                        <div>
+                                        <div class="dateTime">
                                             <span><fmt:formatDate value="${blogCommentDTO.comment.createTime}"
                                                                   pattern="yyyy-MM-dd HH:mm"/></span>
-                                            <a href="javascript:void(0);"
-                                               onclick="showReplyTextarea(${commentAndReply.comment.id},
+                                            <a class="reply" href="javascript:void(0);"
+                                               onclick="shkwReplyTextarea(${commentAndReply.comment.id},
                                                ${blogCommentDTO.comment.id})">回复</a>
                                         </div>
                                     </div>
                                 </div>
                             </c:forEach>
-                            <div id="add-comment-${commentAndReply.comment.id}">
-                                <a href="javascript:void(0);"
+                            <div class="addComment" class='addComment' id="add-comment-${commentAndReply.comment.id}">
+                                <a href="javascript:void(0);
                                    onclick="showReplyTextarea(${commentAndReply.comment.id},
-                                    ${commentAndReply.comment.id})">添加新平论</a>
+                                    ${commentAndReply.comment.id})">添加新评论</a>
                             </div>
                         </c:if>
                         <c:if test="${empty commentAndReply.blogCommentDTOS}">
-                            <div id="add-comment-${commentAndReply.comment.id}"></div>
+                            <div class="addComment" id="add-comment-${commentAndReply.comment.id}"></div>
                         </c:if>
                         <div id="reply-area-${commentAndReply.comment.id}"></div>
                     </div>
@@ -449,10 +507,10 @@
         });
 
         function showOpertateBtn() {
-            $("#operate-btn").html(
-                "<a href='javascript:void(0);' type='button' id='submit' class='btn btn-primary' " +
+            $(".operate-btn").html(
+                "<a href='javascript:void(0);' type='button'  class='submit btn btn-primary' " +
                 "onclick='publishComment()'>发表</a>" +
-                "<a href='javascript:void(0);' type='button' id='cancel' onclick='cancleComment()'>取消</a>"
+                "<a href='javascript:void(0);' type='button' class='cancel' onclick='cancleComment()'>取消</a>"
             )
         }
 
@@ -500,10 +558,10 @@
                             "<img src='/iblog/uploads/monkey_logo.jpg'" +
                                 "width='45' height='45' style='float: left; border-radius: 100%;'/>" +
                             "<div>" +
-                                "<div>" +
+                                "<div class='comment-info' >" +
                                     "<span>" + visitorName + "</span>" +
                                 "</div>" +
-                                "<div>" +
+                                "<div class='comment-info'>" +
                                     "<span>" + createTime + "</span>" +
                                 "</div>" +
                             "</div>" +
@@ -516,7 +574,7 @@
                         "</div>" +
                     "</div>" +
                     "<div id='reply-block-" + commentId + "' style='border-left: 5px solid red;'>" +
-                        "<div id='add-comment-" + commentId + "'></div>" +
+                        "<div class='addComment' id='add-comment-" + commentId + "'></div>" +
                         "<div id='reply-area-" + commentId + "'></div>" +
                     "</div>" +
                 "</div>";
@@ -545,15 +603,15 @@
             var replyTextareaHtml = "";
             replyTextareaHtml += "<form class='new-comment' style='display: block; '>" +
                                     "<div class='panel-body comment-text'>" +
-                                        "<textarea id='reply-textarea-" + commentId + "'" +
+                                        "<textarea style='width: 567pxstyle='width: 567px' ' id='reply-textarea-" + commentId + "'" +
                                                 "class='comment-textarea' placeholder='写下你的评论…' " +
                                                 "maxlength='2000'></textarea>" +
-                                        "<div>" +
+                                        "<div class='operate-btn'>" +
                                             "<a href='javascript:void(0);' type='button' " +
-                                                "onclick='cancleReply(" + commentId + ")'>取消</a>" +
-                                            "<a href='javascript:void(0);' type='button' " +
-                                                    "class='btn btn-primary' " +
+                                                    "class='submit btn btn-primary' " +
                                                  "id='publish-reply-" + replyCommentId + "'>发表</a>" +
+                                            "<a href='javascript:void(0);' class='cancel' type='button' " +
+                                            "onclick='cancleReply(" + commentId + ")'>取消</a>" +
                                         "</div>" +
                                     "</div>" +
                                 "</form>";
