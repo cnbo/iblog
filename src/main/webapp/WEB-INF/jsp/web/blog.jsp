@@ -25,6 +25,7 @@
     <style>
         .addComment a{
             font-size:14px;
+            cursor: pointer;
             color: #969696 !important;
         }
         .commentC{
@@ -375,16 +376,15 @@
                                         <div class="dateTime">
                                             <span><fmt:formatDate value="${blogCommentDTO.comment.createTime}"
                                                                   pattern="yyyy-MM-dd HH:mm"/></span>
-                                            <a class="reply" href="javascript:void(0);"
-                                               onclick="shkwReplyTextarea(${commentAndReply.comment.id},
+                                            <a class="reply"
+                                               onclick="showReplyTextarea(${commentAndReply.comment.id},
                                                ${blogCommentDTO.comment.id})">回复</a>
                                         </div>
                                     </div>
                                 </div>
                             </c:forEach>
-                            <div class="addComment" class='addComment' id="add-comment-${commentAndReply.comment.id}">
-                                <a href="javascript:void(0);
-                                   onclick="showReplyTextarea(${commentAndReply.comment.id},
+                            <div  class='addComment' id="add-comment-${commentAndReply.comment.id}">
+                                <a onclick="showReplyTextarea(${commentAndReply.comment.id},
                                     ${commentAndReply.comment.id})">添加新评论</a>
                             </div>
                         </c:if>
@@ -570,7 +570,7 @@
                             "<span>" + blogComment.comment + "</span>" +
                         "</div>" +
                         "<div id='comment-footer'>" +
-                            "<a href='javascript:void(0);' id='a-" + commentId + "'>回复</a>" +
+                            "<a onclick='showReplyTextarea(commentId, commentId)' id='a-" + commentId + "'>回复</a>" +
                         "</div>" +
                     "</div>" +
                     "<div id='reply-block-" + commentId + "' style='border-left: 5px solid red;'>" +
@@ -642,11 +642,11 @@
                                     });
                                     if ($("#add-comment-"+commentId).html().length <= 0) {
                                         var addCommentHtml =
-                                            "<a href='javascript:void(0);' >添加新平论</a>";
+                                            "<a onclick='showReplyTextarea(commentId, commentId)'>添加新评论</a>";
                                         $("#add-comment-"+commentId).html(addCommentHtml);
-                                        $("#add-comment-"+commentId+" > a").click(function () {
-                                            showReplyTextarea(commentId, replyCommentId);
-                                        });
+//                                        $("#add-comment-"+commentId+" > a").click(function () {
+//                                            showReplyTextarea(commentId, commentId);
+//                                        });
                                     }
                                 }
                             },
@@ -666,13 +666,13 @@
             var replyHtml =
                 "<div id='reply-" + commentId + "'>" +
                     "<div>" +
-                        "<div>" +
+                        "<div class='commentC'>" +
                             "<span id='name-" + commentId + "'>" + visitorName + "</span>" +
                             "<span>：@</span>" +
                             "<span>" + replyVisitorName + "</span>" +
                             "<spqn>" + blogComment.comment + "</spqn>" +
                         "</div>" +
-                        "<div>" +
+                        "<div class='dateTime'>" +
                             "<span>" + createTime + "</span>" +
                             "<a href='javascript:void(0);' id='a-" + commentId + "'>回复</a>" +
                         "</div>" +
