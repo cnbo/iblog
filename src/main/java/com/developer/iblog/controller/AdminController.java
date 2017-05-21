@@ -54,8 +54,9 @@ public class AdminController extends AbstractController {
 
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
     public String toProfile() {
+        String name = ((Admin) getSessionAttribute("admin")).getUsername();
         Admin admin =
-            adminService.selectAdminByName((String) getSessionAttribute("admin"));
+            adminService.selectAdminByName(name);
         setModelAttribute("admin", admin);
 
         return "admin/profile";
@@ -66,7 +67,8 @@ public class AdminController extends AbstractController {
      */
     @RequestMapping(value = "/profile", method = RequestMethod.POST)
     public void profile(Admin admin, @RequestParam("file") MultipartFile multipartFile) {
-        admin.setUsername((String) getSessionAttribute("admin"));
+        Admin sessionAdmin = (Admin) getSessionAttribute("admin");
+        admin.setUsername(sessionAdmin.getUsername());
         adminService.updateAdmin(admin);
 
         if (!multipartFile.isEmpty()) {
