@@ -23,7 +23,7 @@
 </head>
 <body>
     <a href="${pageContext.request.contextPath}/index.do">HOME</a>
-    <a href="${pageContext.request.contextPath}/author/resume.do">ABOUT</a>
+    <a href="${pageContext.request.contextPath}/about.do">ABOUT</a>
     <div id="layout">
         <div id="resume-editormd">
             <textarea id="append-test" style="display:none;">

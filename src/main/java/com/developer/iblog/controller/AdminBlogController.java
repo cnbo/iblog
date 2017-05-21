@@ -3,6 +3,7 @@ package com.developer.iblog.controller;
 import com.developer.iblog.common.web.AbstractController;
 import com.developer.iblog.model.dto.BlogDTO;
 import com.developer.iblog.model.dto.BlogPageDTO;
+import com.developer.iblog.model.dto.MdImageUploadDTO;
 import com.developer.iblog.model.persistent.Blog;
 import com.developer.iblog.model.persistent.BlogCategory;
 import com.developer.iblog.service.IBlogCategoryService;
@@ -10,7 +11,10 @@ import com.developer.iblog.service.IBlogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 
@@ -34,6 +38,49 @@ public class AdminBlogController extends AbstractController {
         setModelAttribute("blogCategories", blogCategories);
 
         return "admin/blog-write";
+    }
+
+    @RequestMapping(value = "/upload", method = RequestMethod.POST)
+    public @ResponseBody
+    MdImageUploadDTO upload(@RequestParam(value = "editormd-image-file", required = false)
+                                   MultipartFile multipartFile) {
+        if (!multipartFile.isEmpty()) {
+            logger.info("img not null");
+            //判断multipartFile是否空
+            //判断文件是否是规定格式的图片
+            //判断文件的大小
+
+            //指定文件的存储路径
+            String filePath = getRequest().getSession()
+                    .getServletContext().getRealPath(File.separator + "blog_imags");
+            logger.info(getContext().getContextPath());
+            File rootFile = new File(filePath);
+            if (!rootFile.exists()) {
+                rootFile.mkdirs();
+            }
+            File imgFile =
+                    new File(filePath + File.separator + multipartFile.getOriginalFilename());
+            MdImageUploadDTO mdImageUploadDTO = null;
+            try {
+                multipartFile.transferTo(imgFile);
+                mdImageUploadDTO = new MdImageUploadDTO();
+                mdImageUploadDTO.setSuccess(1);
+                mdImageUploadDTO.setMessage("上传成功");
+                String url =
+                        getContext().getContextPath() +
+                                File.separator +
+                                "blog_imags" + File.separator + imgFile.getName();
+                mdImageUploadDTO.setUrl(url);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return mdImageUploadDTO;
+        } else {
+            logger.info("img is null");
+        }
+
+        return null;
     }
 
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
@@ -94,5 +141,7 @@ public class AdminBlogController extends AbstractController {
 
         return deleteResult;
     }
+
+
 
 }

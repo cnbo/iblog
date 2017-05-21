@@ -49,7 +49,7 @@
           </li>
 
           <li>
-            <a href="${pageContext.request.contextPath}/author/resume.do">ABOUT</a>
+            <a href="${pageContext.request.contextPath}/about.do">ABOUT</a>
           </li>
 
           <li>
