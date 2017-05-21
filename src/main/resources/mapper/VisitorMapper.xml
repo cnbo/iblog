@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.developer.iblog.dao.mapper.VisitorMapper">
+    
+    <resultMap id="BaseResultMap" type="com.developer.iblog.model.persistent.WebVisitor">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="visitor_name" property="visitorName" jdbcType="VARCHAR"/>
+        <result column="password" property="password" jdbcType="VARCHAR"/>
+        <result column="password_slat" property="passwordSalt" jdbcType="VARCHAR"/>
+        <result column="avatar" property="avatar" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="getByPage" resultMap="BaseResultMap">
+        SELECT
+        id, create_time, update_time, visitor_name, password, password_salt, avatar
+        FROM
+        web_visitor
+        <if test="visitorName != null">
+            WHERE
+            visitor_name
+            LIKE
+            "%${visitorName}%"
+        </if>
+        LIMIT
+        #{start, jdbcType=INTEGER}, #{pageCount, jdbcType=INTEGER}
+    </select>
+
+    <select id="getVisitorCount" resultType="java.lang.Integer">
+        SELECT
+        count(id)
+        FROM
+        web_visitor
+        <if test="visitorName != null">
+            WHERE
+            visitor_name
+            LIKE
+            "%${visitorName}%"
+        </if>
+
+    </select>
+
+    <select id="getCommnetCount" resultType="java.lang.Integer">
+        SELECT
+        count(id)
+        FROM
+        blog_comment
+        WHERE
+        web_visitor_id = #{visitorId, jdbcType=INTEGER}
+    </select>
+
+    <delete id="deleteVisitor" parameterType="java.lang.Integer">
+        DELETE FROM
+        web_visitor
+        WHERE
+        id = #{visitorId, jdbcType=INTEGER}
+    </delete>
+
+    <select id="getCommentVisitor" parameterType="java.lang.Integer"
+            resultMap="BaseResultMap">
+        SELECT
+        id, create_time, update_time, visitor_name, password, password_salt, avatar
+        FROM
+        web_visitor
+        WHERE
+        id = #{visitorId, jdbcType=INTEGER}
+    </select>
+
+</mapper>

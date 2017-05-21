@@ -87,10 +87,12 @@
         count(id)
         FROM
         blog_category
-        WHERE
-        category_name
-        LIKE
-        "%${categoryName}%"
+        <if test="categoryName != null">
+            WHERE
+            category_name
+            LIKE
+            "%${categoryName}%"
+        </if>
     </select>
 
 </mapper>

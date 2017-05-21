@@ -85,12 +85,12 @@
                     <li class="has_sub">
                         <a href="javascript:void(0)" class="waves-effect #if(has_sub=='other') active subdrop #end"><i class="fa fa-cubes"></i><span> 其他管理 </span><span class="pull-right"><i class="fa fa-plus"></i></span></a>
                         <ul class="list-unstyled">
-                            <%--<li #if(active=='page') class="active" #end>--%>
-                                <%--<a href="/admin/page" class="waves-effect #if(active=='page') active #end"><i class="fa fa-file-text" aria-hidden="true"></i><span> 页面管理 </span></a>--%>
-                            <%--</li>--%>
-                            <%--<li #if(active=='comments') class="active" #end>--%>
-                                <%--<a href="/admin/comments" class="waves-effect #if(active=='comments') active #end"><i class="fa fa-comments" aria-hidden="true"></i><span> 评论管理 </span></a>--%>
-                            <%--</li>--%>
+                            <li #if(active=="visitor") class="active" #end>
+                                <a href="/iblog/admin/visitor/manage.do" class="waves-effect #if(active=='visitor') active #end"><i class="fa fa-user" aria-hidden="true"></i><span> 访客管理 </span></a>
+                            </li>
+                            <li #if(active=='comments') class="active" #end>
+                                <a href="/iblog/admin/comment/manage.do" class="waves-effect #if(active=='comments') active #end"><i class="fa fa-comments" aria-hidden="true"></i><span> 评论管理 </span></a>
+                            </li>
                             <li #if(active=='category') class="active" #end>
                                 <a href="/iblog/admin/category/manage.do" class="waves-effect #if(active=='category') active #end"><i class="fa fa-tags" aria-hidden="true"></i><span> 分类/标签 </span></a>
                             </li>
