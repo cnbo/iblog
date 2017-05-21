@@ -407,41 +407,6 @@
     <div class="row">
       <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
         <ul class="list-inline text-center">
-
-
-
-          <!-- add Weibo, Zhihu by Hux, add target = "_blank" to <a> by Hux -->
-
-          <%--<li>--%>
-            <%--<a target="_blank" href="https://www.zhihu.com/people/huxpro">--%>
-                            <%--<span class="fa-stack fa-lg">--%>
-                                <%--<i class="fa fa-circle fa-stack-2x"></i>--%>
-                                <%--<i class="fa  fa-stack-1x fa-inverse">知</i>--%>
-                            <%--</span>--%>
-            <%--</a>--%>
-          <%--</li>--%>
-
-
-          <%--<li>--%>
-            <%--<a target="_blank" href="http://weibo.com/huxpro">--%>
-                            <%--<span class="fa-stack fa-lg">--%>
-                                <%--<i class="fa fa-circle fa-stack-2x"></i>--%>
-                                <%--<i class="fa fa-weibo fa-stack-1x fa-inverse"></i>--%>
-                            <%--</span>--%>
-            <%--</a>--%>
-          <%--</li>--%>
-
-
-
-
-          <%--<li>--%>
-            <%--<a target="_blank" href="https://www.facebook.com/huxpro">--%>
-                            <%--<span class="fa-stack fa-lg">--%>
-                                <%--<i class="fa fa-circle fa-stack-2x"></i>--%>
-                                <%--<i class="fa fa-facebook fa-stack-1x fa-inverse"></i>--%>
-                            <%--</span>--%>
-            <%--</a>--%>
-          <%--</li>--%>
             <li>
                 <a target="_blank" href="mailto:${requestScope.admin.email}">
                             <span class="fa-stack fa-lg">

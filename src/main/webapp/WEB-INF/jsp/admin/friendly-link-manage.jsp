@@ -25,7 +25,7 @@
 
     #page-next, #page-previous{
         text-align: center;
-        margin:5px;
+        /*margin:5px;*/
     }
 
 </style>
@@ -48,12 +48,12 @@
 
     </div>
 
-    <div id="page-previous">
-
-    </div>
-    <div id="page-next">
-
-    </div>
+<div>
+    <ul style="list-style: none">
+        <li id="page-previous" style="float: left"></li>
+        <li id="page-next" style="float: right"></li>
+    </ul>
+</div>
 
 
 <div class="col-md-12" style="margin-top: 30px;">

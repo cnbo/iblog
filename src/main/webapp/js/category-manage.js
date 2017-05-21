@@ -60,7 +60,7 @@ function refresh(msg) {
     pages = msg.pages;
     currentPage = msg.page;
 
-    var table = "<table class='table table-striped '>" +
+    var table = "<table class='table table-striped'>" +
         "<thead>" +
         "<tr>" +
         "<th>ID</th>" +
@@ -69,17 +69,19 @@ function refresh(msg) {
         "<th>修改时间</th>" +
         "<th>操作</th>" +
         "</tr>" +
-        "<thead>";
+        "<thead><tbody>";
     for (var index = 0; index < categories.length; index++) {
         var category = categories[index];
         var id = category.id;
         var categoryName = category.categoryName;
+        var createTime = formatDate(category.createTime);
+        var updateTime = formatDate(category.updateTime);
         table += "<tr>" +
             "<td>" + id + "</td>" +
-            "<td><input class='form-control' id='category-input-" + id + "' value='" +
-            categoryName + "' style='border-width: 0px;'></td>" +
-            "<td>" + category.createTime + "</td>" +
-            "<td>" + category.updateTime + "</td>" +
+            "<td><input id='category-input-" + id + "' value='" +
+            categoryName + "' style='border-width: 0px; background: transparent;' readonly='readonly'></td>" +
+            "<td>" + createTime + "</td>" +
+            "<td>" + updateTime + "</td>" +
             "<td>" +
             "<a type='button' style='margin: 0 5px 0 5px;' class='btn btn-primary btn-sm waves-effect waves-light m-b-5'" +
             "onclick='modifyMode(" + id + ")' " +
@@ -92,7 +94,7 @@ function refresh(msg) {
             "</td>" +
             "</tr>";
     }
-    table += "</table>";
+    table += "</tbody></table>";
 
     $("#category-table-div").html(table);
 
@@ -171,5 +173,22 @@ function deleteSubmit() {
                         tale.alertError("服务器请求失败!");
                     }
     });
+}
+
+function formatDate(createTime) {
+    var date = new Date(createTime);
+    var year = date.getFullYear();
+    var month = date.getMonth();
+    var day = date.getDay();
+    var hour = date.getHours();
+    var minute = date.getMinutes();
+
+    month = month < 10 ? ("0" + month) : month;
+    day = day < 10 ? ("0" + day) : day;
+    hour = hour < 10 ? ("0" + hour) : hour;
+    minute = minute < 10 ? ("0" + minute) : minute;
+
+    createTime = year + "-" + month + "-" + day + " " + hour + ":" + minute;
+    return createTime;
 }
 

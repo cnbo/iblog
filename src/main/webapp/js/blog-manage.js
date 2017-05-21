@@ -56,13 +56,16 @@ function refresh(msg) {
         var blog = blogs[index];
         var id = blog.id;
         var title = blog.title;
+        var createTime = formatDate(blog.createTime);
+        var updateTime = formatDate(blog.updateTime);
+        var publishTime = formatDate(blog.publishTime);
         table += "<tr>" +
             "<td>" + id + "</td>" +
-            "<td><input class='form-control' id='title-input-" + id + "' value='" +
-            title + "' style='border-width: 0px;'></td>" +
-            "<td>" + blog.createTime + "</td>" +
-            "<td>" + blog.updateTime + "</td>" +
-            "<td>" + blog.publishTime + "</td>" +
+            "<td><input id='title-input-" + id + "' value='" +
+            title + "' style='border-width: 0px; background: transparent;' readonly='readonly'></td>" +
+            "<td>" + createTime + "</td>" +
+            "<td>" + updateTime + "</td>" +
+            "<td>" + publishTime + "</td>" +
             "<td>" + 10 + "</td>" +
             "<td>" + 10 + "</td>" +
             "<td>" + 10 + "</td>" +
@@ -127,4 +130,21 @@ function deleteSubmit() {
                         tale.alertError("服务器请求失败!");
                     }
     });
+}
+
+function formatDate(createTime) {
+    var date = new Date(createTime);
+    var year = date.getFullYear();
+    var month = date.getMonth();
+    var day = date.getDay();
+    var hour = date.getHours();
+    var minute = date.getMinutes();
+
+    month = month < 10 ? ("0" + month) : month;
+    day = day < 10 ? ("0" + day) : day;
+    hour = hour < 10 ? ("0" + hour) : hour;
+    minute = minute < 10 ? ("0" + minute) : minute;
+
+    createTime = year + "-" + month + "-" + day + " " + hour + ":" + minute;
+    return createTime;
 }

@@ -21,7 +21,7 @@
 
     #page-next, #page-previous{
         text-align: center;
-        margin:5px;
+        /*margin:5px;*/
     }
 
 </style>
@@ -30,7 +30,7 @@
 
     <div class="col-sm-3" >
         <div class="input-group">
-         <input type="text" id="searchKey" class="form-control" placeholder="搜索友链">
+         <input type="text" id="searchKey" class="form-control" placeholder="搜索类别">
             <span class="input-group-btn">
                 <button onclick="search()" class="btn btn-primary">搜索</button>
             </span>
@@ -44,12 +44,12 @@
 
     </div>
 
-    <div id="page-previous">
-
-    </div>
-    <div id="page-next">
-
-    </div>
+<div>
+    <ul style="list-style: none">
+        <li id="page-previous" style="float: left"></li>
+        <li id="page-next" style="float: right"></li>
+    </ul>
+</div>
 
     <div class="col-md-12" style="margin-top:20px">
         <div class="panel panel-default">

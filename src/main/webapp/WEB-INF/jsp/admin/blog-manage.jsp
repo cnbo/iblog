@@ -42,18 +42,18 @@
     </div>
 
     <div class="col-sm-12">
-        <h4 class="page-title">文章管理</h4>
+        <h4 class="page-title">博客管理</h4>
     </div>
 
     <div class="col-md-12" id="blog-table-div">
 
     </div>
 
-    <div id="page-previous">
-
-    </div>
-    <div id="page-next">
-
+    <div>
+        <ul style="list-style: none">
+            <li id="page-previous" style="float: left"></li>
+            <li id="page-next" style="float: right"></li>
+        </ul>
     </div>
 
 

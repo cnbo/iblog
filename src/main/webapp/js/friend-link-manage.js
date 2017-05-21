@@ -71,18 +71,20 @@ function refresh(msg) {
     for (var index = 0; index < links.length; index++) {
         var link = links[index];
         var id = link.id;
+        var createTime = formatDate(link.createTime);
+        var updateTime = formatDate(link.updateTime)
         table += "<tr>" +
             "<td>" + id + "</td>" +
             "<td>" +
-            "<input class='form-control' id='friend-name-" + id + "' value='" + link.friendName + "'" +
-            "style='border-width: 0px;'>" +
+            "<input id='friend-name-" + id + "' value='" + link.friendName + "'" +
+            "style='border-width: 0px; background: transparent;' readonly='readonly'>" +
             "</td>" +
             "<td>" +
-            "<input class='form-control' id='url-" + id + "' value='" + link.url + "'" +
-            "style='border-width: 0px;'>" +
+            "<input id='url-" + id + "' value='" + link.url + "'" +
+            "style='border-width: 0px; background: transparent;' readonly='readonly'>" +
             "</td>" +
-            "<td>" + link.createTime + "</td>" +
-            "<td>" + link.updateTime + "</td>" +
+            "<td>" + createTime + "</td>" +
+            "<td>" + updateTime + "</td>" +
             "<td>" +
             "<a type='button' class='btn btn-primary btn-sm waves-effect waves-light m-b-5'" +
             "onclick='modifyMode(" + id + ")' " +
@@ -178,5 +180,22 @@ function modifySubmit() {
             tale.alertError("服务器请求失败!");
         }
     });
+}
+
+function formatDate(createTime) {
+    var date = new Date(createTime);
+    var year = date.getFullYear();
+    var month = date.getMonth();
+    var day = date.getDay();
+    var hour = date.getHours();
+    var minute = date.getMinutes();
+
+    month = month < 10 ? ("0" + month) : month;
+    day = day < 10 ? ("0" + day) : day;
+    hour = hour < 10 ? ("0" + hour) : hour;
+    minute = minute < 10 ? ("0" + minute) : minute;
+
+    createTime = year + "-" + month + "-" + day + " " + hour + ":" + minute;
+    return createTime;
 }
 

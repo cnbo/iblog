@@ -198,21 +198,25 @@
 
       <div>
         <ul class="pager">
-          <li class="next">
             <c:choose>
               <c:when test="${requestScope.page == 1 and requestScope.pages > requestScope.page}">
+              <li class="next">
                 <a href="index.do?page=${requestScope.page + 1}">下一页</a>
+              </li>
               </c:when>
               <c:otherwise>
                 <c:if test="${requestScope.page > 1}">
-                  <a href="index.do?page=${requestScope.page - 1}">上一页</a>
+                  <li class="previous">
+                    <a href="index.do?page=${requestScope.page - 1}">上一页</a>
+                  </li>
                 </c:if>
                 <c:if test="${requestScope.page != requestScope.pages}">
-                  <a href="index.do?page=${requestScope.page + 1}">下一页</a>
+                  <li class="next">
+                    <a href="index.do?page=${requestScope.page + 1}">下一页</a>
+                  </li>
                 </c:if>
               </c:otherwise>
             </c:choose>
-          </li>
         </ul>
       </div>
 
@@ -246,80 +250,6 @@
         </c:if>
       </section>
 
-      <%--<section>--%>
-        <%--<hr class="hidden-sm hidden-xs">--%>
-        <%--<h5><a href="/tags/">CATEGORYS</a></h5>--%>
-        <%--<div class="tags">--%>
-
-
-
-
-
-
-        <%--</div>--%>
-      <%--</section>--%>
-
-
-      <!-- Short About -->
-      <%--<section class="visible-md visible-lg">--%>
-        <%--<hr><h5><a href="/about/">ABOUT ME</a></h5>--%>
-        <%--<div class="short-about">--%>
-
-          <%--<img src="/img/avatar-hux.jpg" />--%>
-
-
-          <%--<p>写写代码，做做设计，<br>离开世界之前，一切都是过程</p>--%>
-
-          <%--<!-- SNS Link -->--%>
-          <%--<ul class="list-inline">--%>
-
-
-
-            <%--<li>--%>
-              <%--<a target="_blank" href="https://www.zhihu.com/people/huxpro">--%>
-                                    <%--<span class="fa-stack fa-lg">--%>
-                                        <%--<i class="fa fa-circle fa-stack-2x"></i>--%>
-                                        <%--<i class="fa  fa-stack-1x fa-inverse">知</i>--%>
-                                    <%--</span>--%>
-              <%--</a>--%>
-            <%--</li>--%>
-
-
-            <%--<li>--%>
-              <%--<a target="_blank" href="http://weibo.com/huxpro">--%>
-                                    <%--<span class="fa-stack fa-lg">--%>
-                                        <%--<i class="fa fa-circle fa-stack-2x"></i>--%>
-                                        <%--<i class="fa fa-weibo fa-stack-1x fa-inverse"></i>--%>
-                                    <%--</span>--%>
-              <%--</a>--%>
-            <%--</li>--%>
-
-
-            <%--<li>--%>
-              <%--<a target="_blank" href="https://www.facebook.com/huxpro">--%>
-                                    <%--<span class="fa-stack fa-lg">--%>
-                                        <%--<i class="fa fa-circle fa-stack-2x"></i>--%>
-                                        <%--<i class="fa fa-facebook fa-stack-1x fa-inverse"></i>--%>
-                                    <%--</span>--%>
-              <%--</a>--%>
-            <%--</li>--%>
-
-
-            <%--<li>--%>
-              <%--<a target="_blank" href="https://github.com/huxpro">--%>
-                                    <%--<span class="fa-stack fa-lg">--%>
-                                        <%--<i class="fa fa-circle fa-stack-2x"></i>--%>
-                                        <%--<i class="fa fa-github fa-stack-1x fa-inverse"></i>--%>
-                                    <%--</span>--%>
-              <%--</a>--%>
-            <%--</li>--%>
-
-
-          <%--</ul>--%>
-        <%--</div>--%>
-      <%--</section>--%>
-      <!-- Friends Blog -->
-
       <hr>
       <h5>FRIENDS</h5>
       <ul class="list-inline">
@@ -338,72 +268,11 @@
   </div>
 </div>
 
-
-
-
-<%--<div>--%>
-  <%--<!-- 排行榜 -->--%>
-  <%--<div>--%>
-    <%--<h4>TOP BLOG</h4>--%>
-    <%--<c:if test="${requestScope.topBlogs != null}">--%>
-      <%--<c:forEach items="${requestScope.topBlogs}" var="blog">--%>
-        <%--<a href="${blog.id}">${blog.title}</a>--%>
-      <%--</c:forEach>--%>
-    <%--</c:if>--%>
-  <%--</div>--%>
-<%--</div>--%>
-<%--<div>--%>
-  <%--<h4>NEW BLOG</h4>--%>
-  <%--<!-- 最新文章 -->--%>
-  <%--<div>--%>
-    <%--<c:if test="${requestScope.recentBlogs != null}">--%>
-      <%--<c:forEach items="${requestScope.recentBlogs}" var="blog">--%>
-        <%--<a href="${blog.id}">${blog.title}</a>--%>
-      <%--</c:forEach>--%>
-    <%--</c:if>--%>
-  <%--</div>--%>
-<%--</div>--%>
-
 <footer>
   <div class="container">
     <div class="row">
       <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
         <ul class="list-inline text-center">
-
-
-
-          <!-- add Weibo, Zhihu by Hux, add target = "_blank" to <a> by Hux -->
-
-          <%--<li>--%>
-            <%--<a target="_blank" href="https://www.zhihu.com/people/huxpro">--%>
-                            <%--<span class="fa-stack fa-lg">--%>
-                                <%--<i class="fa fa-circle fa-stack-2x"></i>--%>
-                                <%--<i class="fa  fa-stack-1x fa-inverse">知</i>--%>
-                            <%--</span>--%>
-            <%--</a>--%>
-          <%--</li>--%>
-
-
-          <%--<li>--%>
-            <%--<a target="_blank" href="http://weibo.com/huxpro">--%>
-                            <%--<span class="fa-stack fa-lg">--%>
-                                <%--<i class="fa fa-circle fa-stack-2x"></i>--%>
-                                <%--<i class="fa fa-weibo fa-stack-1x fa-inverse"></i>--%>
-                            <%--</span>--%>
-            <%--</a>--%>
-          <%--</li>--%>
-
-
-
-
-          <%--<li>--%>
-            <%--<a target="_blank" href="https://www.facebook.com/huxpro">--%>
-                            <%--<span class="fa-stack fa-lg">--%>
-                                <%--<i class="fa fa-circle fa-stack-2x"></i>--%>
-                                <%--<i class="fa fa-facebook fa-stack-1x fa-inverse"></i>--%>
-                            <%--</span>--%>
-            <%--</a>--%>
-          <%--</li>--%>
             <li>
                 <a target="_blank" href="mailto:${requestScope.admin.email}">
                             <span class="fa-stack fa-lg">
