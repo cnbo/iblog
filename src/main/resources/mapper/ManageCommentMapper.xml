@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.developer.iblog.dao.mapper.ManageCommentMapper">
+
+    <resultMap id="BaseResultMap" type="com.developer.iblog.model.persistent.BlogComment">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="web_visitor_id" property="webVisitorId" jdbcType="INTEGER"/>
+        <result column="blog_id" property="blogId" jdbcType="INTEGER"/>
+        <result column="comment" property="comment" jdbcType="VARCHAR"/>
+        <result column="reply_comment_id" property="replyCommentId" jdbcType="INTEGER"/>
+        <result column="parents_comment_id" property="parentsCommentId" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="getByPage" resultMap="BaseResultMap">
+      SELECT
+      id, create_time, update_time, web_visitor_id, blog_id, comment, reply_comment_id, parents_comment_id
+      FROM
+      blog_comment
+      <if test="comment != null">
+        WHERE
+        comment
+        LIKE
+        "%${comment}%"
+      </if>
+      LIMIT
+      #{start, jdbcType=INTEGER}, #{pageCount, jdbcType=INTEGER}
+
+    </select>
+
+
+    <select id="getCommentCount" resultType="java.lang.Integer">
+      SELECT
+      count(id)
+      FROM
+      blog_comment
+      <if test="comment != null">
+        WHERE
+        comment
+        LIKE
+        "%${comment}%"
+      </if>
+    </select>
+
+    <delete id="deleteComment" parameterType="java.lang.Integer">
+        DELETE FROM
+        blog_comment
+        WHERE
+        id = #{commentId, jdbcType=INTEGER}
+    </delete>
+
+</mapper>
