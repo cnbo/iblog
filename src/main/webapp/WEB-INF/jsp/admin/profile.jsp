@@ -20,11 +20,29 @@
 
 
           <style>
+            .box-header.with-border {
+              border-bottom: 1px solid #f4f4f4;
+            }
+            
+            .box-header {
+              color: #444;
+              display: block;
+              padding: 10px;
+              position: relative;
+            }
+            
+            .box-header .box-title {
+              display: inline-block;
+              font-size: 18px;
+              margin: 0;
+              line-height: 1;
+            }
+            
             .box.box-info {
               border-top-color: #00c0ef;
             }
             
-            .box-danger {
+            .box.box-danger {
               border-top-color: #dd4b39;
             }
             
@@ -41,14 +59,39 @@
               padding-left: 30px;
             }
             
+            .box-footer {
+              border-top-left-radius: 0;
+              border-top-right-radius: 0;
+              border-bottom-right-radius: 3px;
+              border-bottom-left-radius: 3px;
+              border-top: 1px solid #f4f4f4;
+              padding: 10px;
+              background-color: #fff;
+            }
+            
             .box {
-              /*position: relative;*/
+              position: relative;
               border-radius: 3px;
               background: #ffffff;
               border-top: 3px solid #d2d6de;
               margin-bottom: 20px;
               width: 100%;
-              box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+              box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+            }
+            
+            .box-header:after,
+            .box-body::after,
+            .box-footer::after {
+              content: '';
+              display: table;
+              clear: both;
+            }
+            
+            .box-header:before,
+            .box-body::before,
+            .box-footer::before {
+              content: '';
+              display: table;
             }
             
             .kv-avatar .file-preview-frame,
@@ -76,10 +119,11 @@
             <div class="row">
               <div class="col-md-6">
                 <div class="box box-info">
-                  <form id="profile-form" enctype="multipart/form-data" class="form horizontal">
-                    <div class="box-header with-border">
-                      <h3 class=box-title>个人信息</h3>
-                    </div>
+                  <div class="box-header with-border">
+                    <h3 class=box-title>个人信息</h3>
+                  </div>
+
+                  <form id="profile-form" enctype="multipart/form-data" class="form-horizontal">
                     <div class="box-body">
                       <div class="form-group">
                         <label for="nickname" class="col-sm-2 control-label">昵称</label>
@@ -115,9 +159,9 @@
                   </form>
 
                 </div>
-                <div class=" box-danger">
+                <div class="box box-danger">
 
-                  <form id="modify-password-form" enctype="multipart/form-data" class="form horizontal">
+                  <form id="modify-password-form" enctype="multipart/form-data" class="form-horizontal">
                     <div class="box-header with-border">
                       <h3 class=box-title>修改密码</h3>
                     </div>
