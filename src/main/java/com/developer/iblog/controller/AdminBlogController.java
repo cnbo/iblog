@@ -121,7 +121,7 @@ public class AdminBlogController extends AbstractController {
 
     @RequestMapping(value = "/page",  produces = "application/json", method = RequestMethod.POST)
     public @ResponseBody BlogPageDTO page(@RequestBody BlogPageDTO blogPageDTO) {
-        Integer pageCount = 2;
+        Integer pageCount = 6;
         int page = blogPageDTO.getPage();
         List<Blog> blogs = blogService.getBlogByPage((page - 1) * pageCount,
                 pageCount, blogPageDTO.getTitle());

@@ -24,7 +24,7 @@
 
     <style>
         .editormd-html-preview {
-            width: 90%;
+            width: 65%;
             margin: 0 auto;
         }
 

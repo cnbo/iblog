@@ -13,9 +13,9 @@ $(function () {
 function getCommentByPage(page) {
     var dataJSON;
     if (searchKey != "" && searchKey != null) {
-        dataJSON = JSON.stringify({"page":page, "comment":searchKey, "pageCount":2});
+        dataJSON = JSON.stringify({"page":page, "comment":searchKey, "pageCount":6});
     } else {
-        dataJSON = JSON.stringify({"page":page, "pageCount":2});
+        dataJSON = JSON.stringify({"page":page, "pageCount":6});
     }
     $.ajax({
         type        : "POST",

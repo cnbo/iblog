@@ -27,7 +27,7 @@ public class BlogCategoryController extends AbstractController {
 
     @RequestMapping(value = "/page",  produces = "application/json", method = RequestMethod.POST)
     public @ResponseBody CategoryPageDTO page(@RequestBody CategoryPageDTO categoryPageDTO) {
-        Integer pageCount = 2;
+        Integer pageCount = 5;
         int page = categoryPageDTO.getPage();
         List<BlogCategory> blogCategories =
             blogCategoryService.getCategoriesByPage((page - 1) * pageCount,

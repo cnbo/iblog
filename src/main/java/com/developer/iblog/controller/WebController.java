@@ -33,7 +33,7 @@ public class WebController extends AbstractController {
 
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public String index() {
-        int pageCount = 5;
+        int pageCount = 6;
         String pageStr =  getRequest().getParameter("page");
         String title = getRequest().getParameter("title");
         Integer page = 1;

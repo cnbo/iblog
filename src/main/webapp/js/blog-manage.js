@@ -76,6 +76,10 @@ function refresh(msg) {
             "onclick='deleteMode(" + id + ")' " +
             "data-toggle='modal' data-target='#delete-blog-modal' style='margin-left: 3px;margin-right: 3px; width: 5em';><i class='fa fa-trash-o'></i><span>删除</span>" +
             "</a>" +
+            "<a type='button' class='btn btn-success btn-sm waves-effect waves-light m-b-5'" +
+            "style='margin-left: 3px;margin-right: 3px; width: 5em';><span>发布</span>" +
+            "</a>" +
+            "</td>" +
             "</tr>";
     }
     table += "</tbody></table>";

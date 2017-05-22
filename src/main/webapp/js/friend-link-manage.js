@@ -33,9 +33,9 @@ $(function () {
 function getCategoryByPage(page) {
     var dataJSON;
     if (searchKey != "" && searchKey != null) {
-        dataJSON = JSON.stringify({"page":page, "friendName":searchKey, "url":searchKey, "pageCount":2});
+        dataJSON = JSON.stringify({"page":page, "friendName":searchKey, "url":searchKey, "pageCount":5});
     } else {
-        dataJSON = JSON.stringify({"page":page, "pageCount":2});
+        dataJSON = JSON.stringify({"page":page, "pageCount":5});
     }
     $.ajax({
         type        : "POST",

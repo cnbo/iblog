@@ -48,7 +48,7 @@
             padding:5px 0 5px 20px;
         }
         .editormd-html-preview {
-            width: 90%;
+            width: 65%;
             margin: 0 auto;
         }
 
