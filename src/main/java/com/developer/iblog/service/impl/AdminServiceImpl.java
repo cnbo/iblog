@@ -1,6 +1,7 @@
 package com.developer.iblog.service.impl;
 
 import com.developer.iblog.dao.mapper.AdminMapper;
+import com.developer.iblog.model.dto.AdminDTO;
 import com.developer.iblog.model.persistent.Admin;
 import com.developer.iblog.service.IAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,10 +29,9 @@ public class AdminServiceImpl implements IAdminService {
     }
 
     @Override
-    public boolean modifyPassword(String username, String newPassword, String oldPassword) {
-        Admin admin = adminMapper.selectAdminByName(username);
-        if (admin.getPassword().equals(oldPassword)) {
-            admin.setPassword(newPassword);
+    public boolean modifyPassword(Admin admin, AdminDTO adminDTO) {
+        if (admin.getPassword().equals(adminDTO.getOldPassword())) {
+            admin.setPassword(adminDTO.getNewPassword());
             adminMapper.updateAdmin(admin);
             return true;
         }

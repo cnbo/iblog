@@ -1,5 +1,6 @@
 package com.developer.iblog.service.impl;
 
+import com.developer.iblog.dao.mapper.BlogCommentMapper;
 import com.developer.iblog.dao.mapper.BlogMapper;
 import com.developer.iblog.dao.mapper.ManageCommentMapper;
 import com.developer.iblog.dao.mapper.VisitorMapper;
@@ -29,6 +30,7 @@ public class ManageCommentServiceImpl implements IManageCommentService {
 
     @Autowired
     private VisitorMapper visitorMapper;
+
 
     @Override
     public List<CommentInfoDTO> getByPage(AdminCommentDTO adminCommentDTO) {
@@ -60,6 +62,21 @@ public class ManageCommentServiceImpl implements IManageCommentService {
 
     @Override
     public Integer deleteComment(Integer commentId) {
+        List<BlogComment> comments = commentMapper.getReplyCommentByCommentKey(commentId);
+        for (BlogComment comment : comments) {
+            commentMapper.deleteComment(comment.getId());
+        }
         return commentMapper.deleteComment(commentId);
     }
+
+    @Override
+    public Integer getCommentCount() {
+        return commentMapper.getCommentCount(null);
+    }
+
+    @Override
+    public List<BlogComment> getRecentComment() {
+        return commentMapper.getRecentComment();
+    }
+
 }

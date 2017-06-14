@@ -31,7 +31,7 @@ public class IWebCategoryBlogServiceImpl implements IWebCategoryBlogService {
 
         for (BlogCategory category : categories) {
             WebCateogriesBlogsDTO webCateogriesBlogsDTO = new WebCateogriesBlogsDTO();
-            List<Blog> blogs = blogMapper.getAllBlogByCategory(category.getId());
+            List<Blog> blogs = blogMapper.getAllPublishBlogByCategory(category.getId());
             webCateogriesBlogsDTO.setCategory(category);
             webCateogriesBlogsDTO.setBlogs(blogs);
             webCateogriesBlogsDTOS.add(webCateogriesBlogsDTO);

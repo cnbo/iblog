@@ -108,6 +108,9 @@
             <if test="status != null">
                 status = #{status, jdbcType=INTEGER},
             </if>
+            <if test="publishTime != null">
+                publish_time = #{publishTime, jdbcType=TIMESTAMP}
+            </if>
         </set>
         WHERE
         id = #{id, jdbcType=INTEGER}
@@ -141,6 +144,25 @@
         #{start, jdbcType=INTEGER}, #{pageCount, jdbcType=INTEGER}
     </select>
 
+    <select id="getPublishBlogsByPage" resultMap="BaseResultMap">
+        SELECT
+        id, create_time, update_time, publish_time,
+        category_id, title, blog_md, blog_html, read_times,
+        comment_times, love_times, status
+        FROM
+        blog
+        WHERE
+        <if test="title != null">
+            title
+            LIKE
+            "%${title}%"
+            AND
+        </if>
+        status = 1
+        LIMIT
+        #{start, jdbcType=INTEGER}, #{pageCount, jdbcType=INTEGER}
+    </select>
+
     <select id="getBlogCount" resultType="java.lang.Integer">
         SELECT
         count(id)
@@ -154,6 +176,21 @@
         </if>
     </select>
 
+    <select id="getPublishBlogCount" resultType="java.lang.Integer">
+        SELECT
+        count(id)
+        FROM
+        blog
+        WHERE
+        <if test="title != null">
+            title
+            LIKE
+            "%${title}%"
+            AND
+        </if>
+        status = 1
+    </select>
+
     <select id="getTopFiveBlog" resultMap="BaseResultMap">
         SELECT
         id, create_time, update_time, publish_time,
@@ -161,6 +198,8 @@
         comment_times, love_times, status
         FROM
         blog
+        WHERE
+        status = 1
         ORDER BY
         read_times DESC, love_times DESC, comment_times DESC
         LIMIT
@@ -180,6 +219,21 @@
         5
     </select>
 
+    <select id="getRecentFivePublishBlog" resultMap="BaseResultMap">
+        SELECT
+        id, create_time, update_time, publish_time,
+        category_id, title, blog_md, blog_html, read_times,
+        comment_times, love_times, status
+        FROM
+        blog
+        WHERE
+        status = 1
+        ORDER BY
+        publish_time DESC
+        LIMIT
+        5
+    </select>
+
     <select id="getAllBlogByCategory" resultMap="BaseResultMap">
         SELECT
         id, create_time, update_time, publish_time,
@@ -190,5 +244,54 @@
         WHERE
         category_id = #{categoryId, jdbcType=VARCHAR}
     </select>
+
+    <select id="getAllPublishBlogByCategory" resultMap="BaseResultMap">
+        SELECT
+        id, create_time, update_time, publish_time,
+        category_id, title, blog_md, blog_html, read_times,
+        comment_times, love_times, status
+        FROM
+        blog
+        WHERE
+        category_id = #{categoryId, jdbcType=VARCHAR}
+        AND
+        status = 1
+    </select>
+
+    <update id="updateCommentTimes" useGeneratedKeys="true" keyProperty="id">
+        UPDATE
+        blog
+        <set>
+            <if test="commentTimes != null">
+                comment_times = #{commentTimes, jdbcType=INTEGER},
+            </if>
+        </set>
+        WHERE
+        id = #{blogId, jdbcType=INTEGER}
+    </update>
+
+    <update id="updateReadTimes">
+        UPDATE
+        blog
+        <set>
+            <if test="readTimes != null">
+                read_times = #{readTimes, jdbcType=INTEGER},
+            </if>
+        </set>
+        WHERE
+        id = #{blogId, jdbcType=INTEGER}
+    </update>
+
+    <update id="updateBlogsCategory">
+        UPDATE
+        blog
+        <set>
+            <if test="newCategoryId != null">
+                category_id = #{newCategoryId, jdbcType=INTEGER},
+            </if>
+        </set>
+        WHERE
+        category_id = #{oldCategoryId, jdbcType=INTEGER}
+    </update>
 
 </mapper>

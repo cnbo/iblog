@@ -1,5 +1,6 @@
 package com.developer.iblog.service;
 
+import com.developer.iblog.model.dto.AdminDTO;
 import com.developer.iblog.model.persistent.Admin;
 
 /**
@@ -11,7 +12,7 @@ public interface IAdminService {
 
     void updateAdmin(Admin admin);
 
-    boolean modifyPassword(String username, String newPassword, String oldPassword);
+    boolean modifyPassword(Admin admin, AdminDTO adminDTO);
 
     Admin selectAdminByName(String username);
 

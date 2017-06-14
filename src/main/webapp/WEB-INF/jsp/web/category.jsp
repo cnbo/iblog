@@ -16,7 +16,7 @@
           href="${pageContext.request.contextPath}/lib/bootstrap/css/bootstrap.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/hux-blog.min.css">
     <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-
+    <%--<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/css/font-awesome.css">--%>
 </head>
 <body>
 <nav class="navbar navbar-default navbar-custom navbar-fixed-top">
@@ -142,11 +142,11 @@
     <div class="row">
       <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 ">
         <div class="site-heading">
-          <h1>IBLOG</h1>
-          <!--<hr class="small">-->
-          <span class="subheading">
-              求知若饥，虚心若愚
-          </span>
+            <h1>${requestScope.admin.nickname}</h1>
+            <!--求知若饥，虚心若愚-->
+            <span class="subheading">
+                ${requestScope.admin.introduction}
+            </span>
         </div>
       </div>
     </div>
@@ -188,73 +188,11 @@
 </div>
 
 
-<footer>
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-        <ul class="list-inline text-center">
+<!-- footer -->
+<%@include file="footer.jsp"%>
 
-          <!-- add Weibo, Zhihu by Hux, add target = "_blank" to <a> by Hux -->
-
-          <%--<li>--%>
-            <%--<a target="_blank" href="https://www.zhihu.com/people/huxpro">--%>
-                            <%--<span class="fa-stack fa-lg">--%>
-                                <%--<i class="fa fa-circle fa-stack-2x"></i>--%>
-                                <%--<i class="fa  fa-stack-1x fa-inverse">知</i>--%>
-                            <%--</span>--%>
-            <%--</a>--%>
-          <%--</li>--%>
-
-
-          <%--<li>--%>
-            <%--<a target="_blank" href="http://weibo.com/huxpro">--%>
-                            <%--<span class="fa-stack fa-lg">--%>
-                                <%--<i class="fa fa-circle fa-stack-2x"></i>--%>
-                                <%--<i class="fa fa-weibo fa-stack-1x fa-inverse"></i>--%>
-                            <%--</span>--%>
-            <%--</a>--%>
-          <%--</li>--%>
-
-
-
-
-          <%--<li>--%>
-            <%--<a target="_blank" href="https://www.facebook.com/huxpro">--%>
-                            <%--<span class="fa-stack fa-lg">--%>
-                                <%--<i class="fa fa-circle fa-stack-2x"></i>--%>
-                                <%--<i class="fa fa-facebook fa-stack-1x fa-inverse"></i>--%>
-                            <%--</span>--%>
-            <%--</a>--%>
-          <%--</li>--%>
-            <li>
-                <a target="_blank" href="mailto:${requestScope.admin.email}">
-                            <span class="fa-stack fa-lg">
-                                <i class="fa fa-circle fa-stack-2x"></i>
-                        <i class="fa fa-envelope-o fa-stack-1x fa-inverse"></i>
-                            </span>
-                </a>
-            </li>
-            <li>
-            <a target="_blank" href="${requestScope.admin.github}">
-                            <span class="fa-stack fa-lg">
-                                <i class="fa fa-circle fa-stack-2x"></i>
-                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
-                            </span>
-            </a>
-          </li>
-
-
-        </ul>
-        <p class="copyright text-muted">
-          Copyright &copy; 2017 by iblog deveploer
-          <br>
-       </p>
-      </div>
-    </div>
-  </div>
-</footer>
-
-<script src="${pageContext.request.contextPath}/lib/jquery/jquery-1.12.4.js"></script>
+<script src="${pageContext.request.contextPath}/lib/js/jquery-1.12.4.js"></script>
 <script src="${pageContext.request.contextPath}/lib/bootstrap/js/bootstrap.js"></script>
+<%@include file="../common/visitor-js.jsp"%>
 </body>
 </html>

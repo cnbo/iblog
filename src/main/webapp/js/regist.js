@@ -70,7 +70,7 @@ function registValidate() {
 
     $.ajax({
         type        : "POST",
-        url         : "visitor/validate.do?visitorName=" + visitorName,
+        url         : "/iblog/visitor/validate.do?visitorName=" + visitorName,
         async       : false,
         success     : function(msg) {
 

@@ -134,7 +134,7 @@ public class AdminBlogController extends AbstractController {
     }
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
-    public @ResponseBody Integer deleteCategory(@PathVariable Integer id) {
+    public @ResponseBody Integer deleteBLog(@PathVariable Integer id) {
         Integer deleteResult = blogService.deleteBlogById(id);
 
         logger.info("delete blog result============" + deleteResult);

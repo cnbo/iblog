@@ -11,14 +11,20 @@
     <link rel="shortcut icon" href="/static/admin/images/favicon.png" />
     <link href="//cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <%--<link href="${pageContext.request.contextPath}/lib/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css">--%>
+    <%--<link href="${pageContext.request.contextPath}/css/font-awesome.css" rel="stylesheet" type="text/css">--%>
     <link href="${pageContext.request.contextPath}/css/style.min.css" rel="stylesheet" type="text/css">
     <link href="//cdn.bootcss.com/limonte-sweetalert2/6.4.1/sweetalert2.min.css" rel="stylesheet">
+
+
+    <%--<link href="${pageContext.request.contextPath}/css/limonte-sweetalert2.css" rel="stylesheet" type="text/css">--%>
+
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <script src="httpss://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
   </head>
 
@@ -49,7 +55,7 @@
 
               <ul class="nav navbar-nav navbar-right pull-right">
                 <li class="dropdown">
-                  <a href="#" class="dropdown-toggle profile" data-toggle="dropdown" aria-expanded="true"><img src="${pageContext.request.contextPath}/uploads/iblog-admin-user.jpg" alt="user-img" class="img-circle"> </a>
+                  <a href="#" class="dropdown-toggle profile" data-toggle="dropdown" aria-expanded="true"><img src="${pageContext.request.contextPath}/uploads/avatar.jpg" alt="user-img" class="img-circle"> </a>
                   <ul class="dropdown-menu">
                     <%--<li><a href="${site_url()}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> 查看网站</a></li>--%>
                       <%--<li><a href="/admin/profile"><i class="fa fa-sun-o"></i> 个人设置</a></li>--%>

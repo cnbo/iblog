@@ -2,10 +2,13 @@ package com.developer.iblog.service.impl;
 
 import com.developer.iblog.dao.mapper.BlogMapper;
 import com.developer.iblog.dao.mapper.CategoryMapper;
+import com.developer.iblog.dao.mapper.ManageCommentMapper;
 import com.developer.iblog.model.dto.BlogDTO;
 import com.developer.iblog.model.persistent.Blog;
 import com.developer.iblog.model.persistent.BlogCategory;
+import com.developer.iblog.model.persistent.BlogComment;
 import com.developer.iblog.service.IBlogService;
+import com.developer.iblog.service.IManageCommentService;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +27,12 @@ public class BlogServiceImpl implements IBlogService {
 
     @Autowired
     private CategoryMapper categoryMapper;
+
+    @Autowired
+    private ManageCommentMapper commentMapper;
+
+    @Autowired
+    private IManageCommentService commentService;
 
     @Override
     public Integer saveBlog(BlogDTO blogDTO) {
@@ -51,7 +60,15 @@ public class BlogServiceImpl implements IBlogService {
     }
 
     public Integer deleteBlogById(Integer id) {
-        return blogMapper.deleteBlogById(id);
+        Integer deleteResult =  blogMapper.deleteBlogById(id);
+        if (deleteResult > 0) {
+            List<BlogComment> comments = commentMapper.getCommentsByBlogId(id);
+            for (BlogComment comment : comments) {
+                commentService.deleteComment(comment.getId());
+            }
+        }
+
+        return deleteResult;
     }
 
     @Override
@@ -68,18 +85,32 @@ public class BlogServiceImpl implements IBlogService {
         blog.setBlogHtml(blogDTO.getBlogHtml());
         blog.setTitle(blogDTO.getTitle());
         blog.setStatus(blogDTO.getStatus());
+        blog.setPublishTime(blogDTO.getPublishTime());
 
         return blogMapper.updateBlog(blog);
     }
 
     @Override
     public Blog getBlogById(Integer id) {
-        return blogMapper.getBlogById(id);
+        Blog blog = blogMapper.getBlogById(id);
+        if (blog != null) {
+            blogMapper.updateReadTimes(blog.getReadTimes() + 1, id);
+        }
+
+        return blog;
     }
 
     @Override
     public List<Blog> getBlogByPage(Integer start, Integer pageCount, String title) {
         List<Blog> blogs = blogMapper.getByPage(start, pageCount, title);
+        transBlogHtmlToText(blogs);
+
+        return blogs;
+    }
+
+    @Override
+    public List<Blog> getPublishBlogByPage(Integer start, Integer pageCount, String title) {
+        List<Blog> blogs = blogMapper.getPublishBlogsByPage(start, pageCount, title);
         transBlogHtmlToText(blogs);
 
         return blogs;
@@ -105,6 +136,14 @@ public class BlogServiceImpl implements IBlogService {
     }
 
     @Override
+    public Integer getPublishPages(Integer pageCount, String title) {
+        int blogCount = blogMapper.getPublishBlogCount(title);
+        int pages = (int) Math.ceil((double)blogCount / pageCount);
+
+        return pages;
+    }
+
+    @Override
     public List<Blog> getTopFiveBlog() {
         return blogMapper.getTopFiveBlog();
     }
@@ -112,6 +151,16 @@ public class BlogServiceImpl implements IBlogService {
     @Override
     public List<Blog> getRecentFiveBlog() {
         return blogMapper.getRecentFiveBlog();
+    }
+
+    @Override
+    public List<Blog> getRecentFivePublishBlog() {
+        return blogMapper.getRecentFivePublishBlog();
+    }
+
+    @Override
+    public Integer getPublishBlogCount() {
+        return blogMapper.getPublishBlogCount(null);
     }
 
 }

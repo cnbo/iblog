@@ -74,7 +74,7 @@
                 </button>
 
                 <div class="form">
-                    <div id="loginFalse" style="height:8px;padding:0px 0px 10px 25px" ></div>
+
                     <form class="form-signin login-form" id="submit_login">
                         <input type="text" id="visitorName" class="signin-form-control" name="visitorName"
                                placeholder="请输入用户名" required="" >
@@ -86,6 +86,7 @@
                         <div style="height:22px" id="upassLoginVali">
 
                         </div>
+                        <div id="loginFalse" style="height:22px;" ></div>
                         <button class="btn btn-lg btn-primary btn-block" type="submit">
                             登录
                         </button>

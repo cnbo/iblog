@@ -3,6 +3,8 @@ package com.developer.iblog.model.dto;
 import com.developer.iblog.model.persistent.Blog;
 import lombok.Data;
 
+import java.util.Date;
+
 /**
  * Created by cnbo on 17-3-21.
  */
@@ -28,5 +30,7 @@ public class BlogDTO {
     private Integer loveTimes;
 
     private Integer status;
+
+    private Date publishTime;
 
 }

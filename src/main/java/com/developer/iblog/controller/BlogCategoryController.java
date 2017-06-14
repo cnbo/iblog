@@ -54,7 +54,7 @@ public class BlogCategoryController extends AbstractController {
     public @ResponseBody Integer deleteCategory(@PathVariable Integer id) {
 
        Integer deleteResult = blogCategoryService.deleteCategory(id);
-//        logger.info(""+deleteId);
+        logger.info("deleteResult======="+deleteResult);
 
         return deleteResult;
     }

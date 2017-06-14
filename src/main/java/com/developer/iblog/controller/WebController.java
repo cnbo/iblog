@@ -40,14 +40,14 @@ public class WebController extends AbstractController {
         if (pageStr != null) {
             page = Integer.valueOf(pageStr);
         }
-        List<Blog> blogs = blogService.getBlogByPage((page - 1) * pageCount,
+        List<Blog> blogs = blogService.getPublishBlogByPage((page - 1) * pageCount,
                 pageCount, title);
-        int pages = blogService.getPages(pageCount, title);
+        int pages = blogService.getPublishPages(pageCount, title);
 
         List<FriendlyLink> friendlyLinks = friendlyLinkService.getAll();
         Admin admin = adminService.selectAdmin();
         List<Blog> topBlogs = blogService.getTopFiveBlog();
-        List<Blog> recentBlogs = blogService.getRecentFiveBlog();
+        List<Blog> recentBlogs = blogService.getRecentFivePublishBlog();
 
         setModelAttribute("friendlyLinks", friendlyLinks);
         setModelAttribute("admin", admin);

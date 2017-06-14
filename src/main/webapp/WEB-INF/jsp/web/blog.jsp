@@ -21,108 +21,8 @@
  <!-- Custom CSS -->
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/hux-blog.min.css">
   <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-
-    <style>
-        .addComment a{
-            font-size:14px;
-            cursor: pointer;
-            color: #969696 !important;
-        }
-        .commentC{
-            margin:0 0 5px;
-            font-size:14px;
-            line-height:1.5;
-        }
-        .dateTime{
-            font-size:12px;
-            color: #969696;
-        }
-        .dateTime a{
-            font-size:12px;
-            margin-left: 10px;
-            color: #969696 !important;
-        }
-        .reply-block{
-            border-left:2px solid #d9d9d9;
-            margin-top: 20px;
-            padding:5px 0 5px 20px;
-        }
-        .editormd-html-preview {
-            width: 65%;
-            margin: 0 auto;
-        }
-
-        .comment-textarea {
-            height: 90px;
-            width: 480px;
-            border: 1px solid #dcdcdc;
-            background-color: hsla(0,0%,71%,.1);
-            resize:none;  //去掉右下角的三角
-        }
-
-        .comment {
-            width:600px;
-            margin: 30px auto;
-        }
-        .comment-info{
-            padding-left: 61px;
-        }
-        #comment-content{
-            max-resolution: 10px;
-            padding-left:60px;
-        }
-        #comment-footer{
-            text-align: right;
-        }
-        .operate-btn a[type='button']{
-            float: right;
-            margin-left: 10px;
-        }
-        .operate-btn a.cancel{
-            display: block;
-            padding:15px 20px;
-            line-height:1.4;
-        }
-        .comment-textarea{
-            padding: 10px 15px;
-            font-size: 13px;
-            border: 1px solid #dcdcdc;
-            border-radius: 4px;
-            background-color: hsla(0,0%,71%,.1);
-            resize: none;
-            display: inline-block;
-            vertical-align: top;
-            outline-style: none;
-            margin-bottom: 20px;
-            width: 540px;
-        }
-        #no-comment{
-            text-align:center;
-            font-size: 12px;
-        }
-        #no-comment div.pic{
-            background: url("${pageContext.request.contextPath}/uploads/no-comment.png") no-repeat;
-            margin: 30px auto 20px;
-            width: 226px;
-            height:92px;
-            background-size: contain;
-        }
-        #no-comment a{
-            color: #3194d0;
-            cursor: pointer;
-            text-decoration: none;;
-        }
-        #comments-block{
-            width: 600px;
-            margin:0 auto;
-        }
-        #comments-block div.top{
-            padding-bottom: 20px;
-            font-size:  17px;
-            font-weight: 700;
-            border-bottom:1px solid #f0f0f0;
-        }
-    </style>
+    <%--<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/css/font-awesome.css">--%>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/comment.css">
 </head>
 <body>
 <nav class="navbar navbar-default navbar-custom navbar-fixed-top">
@@ -142,8 +42,6 @@
     <div id="huxblog_navbar">
       <div class="navbar-collapse">
         <ul class="nav navbar-nav navbar-right">
-
-
           <li>
             <a href="${pageContext.request.contextPath}/index.do">${requestScope.admin.nickname}</a>
           </li>
@@ -160,10 +58,6 @@
           </li>
 
 
-          <%--<li>--%>
-          <%--<a href="/portfolio/">Portfolio</a>--%>
-          <%--</li>--%>
-
          <c:choose>
             <c:when test="${sessionScope.visitorName == null}">
               <li>
@@ -174,6 +68,7 @@
               </li>
             </c:when>
             <c:otherwise>
+                <input type="hidden" id="visitor-name" value="${sessionScope.visitorName}">
               ${sessionScope.visitorName}
               <li>
                 <a href="javascript:void(0);" onclick="logout()">LOGOUT</a>
@@ -191,9 +86,7 @@
 <!-- blogId -->
 
 <script>
-    // Drop Bootstarp low-performance Navbar
-    // Use customize navbar with high-quality material design animation
-    // in high-perf jank-free CSS3 implementation
+
     var $body = document.body;
     var $toggle = document.querySelector('.navbar-toggle');
     var $navbar = document.querySelector('#huxblog_navbar');
@@ -225,17 +118,6 @@
         }
     })
 
-    /**
-     * Since Fastclick is used to delegate 'touchstart' globally
-     * to hack 300ms delay in iOS by performing a fake 'click',
-     * Using 'e.stopPropagation' to stop 'touchstart' event from
-     * $toggle/$collapse will break global delegation.
-     *
-     * Instead, we use a 'e.target' filter to prevent handler
-     * added to document close HuxNav.
-     *
-     * Also, we use 'click' instead of 'touchstart' as compromise
-     */
     document.addEventListener('click', function(e) {
         if (e.target == $toggle) return;
         if (e.target.className == 'icon-bar') return;
@@ -256,7 +138,7 @@
             ${requestScope.admin.introduction}
           </span>
             <span class="meta">
-              <fmt:formatDate value="${blog.publishTime}" pattern="yyyy-MM-dd HH:mm" /> 浏览 ${blog.readTimes} 评论 ${blog.commentTimes} 喜欢 ${blog.loveTimes}
+              <fmt:formatDate value="${blog.publishTime}" pattern="yyyy-MM-dd HH:mm" /> 浏览 ${blog.readTimes} 评论 ${blog.commentTimes}
             </span>
         </div>
       </div>
@@ -264,20 +146,9 @@
   </div>
 </header>
 
-<%--<div>--%>
-    <%--<h4>${blog.title}<h4>--%>
-    <%--发表于<fmt:formatDate value="${blog.publishTime}"  pattern="yyyy-MM-dd HH:mm"/>--%>
-    <%--浏览 ${blog.readTimes}--%>
-    <%--评论 ${blog.commentTimes}--%>
-    <%--喜欢 ${blog.loveTimes}--%>
-<%--</div>--%>
 
 <div id="layout">
-    <div id="blog-editormd">
-        <textarea>
-            ${requestScope.blog.blogMd}
-        </textarea>
-    </div>
+    <div id="blog-editormd"><textarea>${requestScope.blog.blogMd}</textarea></div>
 </div>
 
 <!-- 评论部分 -->
@@ -309,7 +180,6 @@
 </div>
 
 
-<%--<h2>评论</h2>--%>
 <!-- 展示评论 -->
 <div id="comments-block" style="clear: both">
     <div class="top">
@@ -367,8 +237,7 @@
                                 <div id="reply-${blogCommentDTO.comment.id}">
                                     <div>
                                         <div class="commentC">
-                                            <span id="name-${blogCommentDTO.comment.id}">
-                                                ${blogCommentDTO.visitor.visitorName}</span>
+                                            <span id="name-${blogCommentDTO.comment.id}">${blogCommentDTO.visitor.visitorName}</span>
                                             <span>：@</span>
                                             <span>${blogCommentDTO.parentVisitor.visitorName}&nbsp&nbsp</span>
                                             <spqn>${blogCommentDTO.comment.comment}</spqn>
@@ -401,61 +270,16 @@
 </div>
 
 <!-- footer -->
-
-<footer>
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-        <ul class="list-inline text-center">
-            <li>
-                <a target="_blank" href="mailto:${requestScope.admin.email}">
-                            <span class="fa-stack fa-lg">
-                                <i class="fa fa-circle fa-stack-2x"></i>
-                        <i class="fa fa-envelope-o fa-stack-1x fa-inverse"></i>
-                            </span>
-                </a>
-            </li>
-            <li>
-            <a target="_blank" href="${requestScope.admin.github}">
-                            <span class="fa-stack fa-lg">
-                                <i class="fa fa-circle fa-stack-2x"></i>
-                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
-                            </span>
-            </a>
-          </li>
-
-
-        </ul>
-        <p class="copyright text-muted">
-          Copyright &copy; 2017 by iblog deveploer
-          <br>
-       </p>
-      </div>
-    </div>
-  </div>
-</footer>
-
+<%@include file="footer.jsp"%>
 
 <%@include file="regist.jsp"%>
 <%@include file="login.jsp"%>
 
-    <script src="${pageContext.request.contextPath}/lib/jquery/jquery-1.12.4.js"></script>
+    <script src="${pageContext.request.contextPath}/lib/js/jquery-1.12.4.js"></script>
     <script type="application/javascript"
         src="${pageContext.request.contextPath}/lib/bootstrap/js/bootstrap.js"></script>
-    <script src="${pageContext.request.contextPath}/lib/editor-md/lib/marked.min.js"></script>
-    <script src="${pageContext.request.contextPath}/lib/editor-md/lib/prettify.min.js"></script>
-    <script src="${pageContext.request.contextPath}/lib/editor-md/lib/raphael.min.js"></script>
-    <script src="${pageContext.request.contextPath}/lib/editor-md/lib/underscore.min.js"></script>
-    <script src="${pageContext.request.contextPath}/lib/editor-md/lib/sequence-diagram.min.js"></script>
-    <script src="${pageContext.request.contextPath}/lib/editor-md/lib/flowchart.min.js"></script>
-    <script src="${pageContext.request.contextPath}/lib/editor-md/lib/jquery.flowchart.min.js"></script>
-    <script src="${pageContext.request.contextPath}/lib/editor-md/js/editormd.js"></script>
-    <script type="text/javascript"
-            src="${pageContext.request.contextPath}/js/regist.js"></script>
-    <script type="text/javascript"
-            src="${pageContext.request.contextPath}/js/login.js"></script>
-    <script type="application/javascript"
-            src="${pageContext.request.contextPath}/js/logout.js"></script>
+<%@include file="../common/editor.jsp"%>
+<%@include file="../common/visitor-js.jsp"%>
     <script type="text/javascript">
         $(function() {
             var blogEditormd;
@@ -524,7 +348,7 @@
                                 "width='45' height='45' style='float: left; border-radius: 100%;'/>" +
                             "<div>" +
                                 "<div class='comment-info' >" +
-                                    "<span>" + visitorName + "</span>" +
+                                    "<span id='name-" + commentId + "'>" + visitorName + "</span>" +
                                 "</div>" +
                                 "<div class='comment-info'>" +
                                     "<span>" + createTime + "</span>" +
@@ -535,10 +359,10 @@
                             "<span>" + blogComment.comment + "</span>" +
                         "</div>" +
                         "<div id='comment-footer'>" +
-                            "<a onclick='showReplyTextarea(commentId, commentId)' id='a-" + commentId + "'>回复</a>" +
+                            "<a id='a-" + commentId + "'>回复</a>" +
                         "</div>" +
                     "</div>" +
-                    "<div id='reply-block-" + commentId + "' style='border-left: 5px solid red;'>" +
+                    "<div class='reply-block' id='reply-block-" + commentId + "'>" +
                         "<div class='addComment' id='add-comment-" + commentId + "'></div>" +
                         "<div id='reply-area-" + commentId + "'></div>" +
                     "</div>" +
@@ -564,11 +388,25 @@
             return createTime;
         }
 
+        function checkLogin() {
+            var visitorName = $("#visitor-name");
+            if (visitorName.length > 0) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
         function showReplyTextarea(commentId, replyCommentId) {
+            var isLogin = checkLogin();
+            if (!isLogin) {
+                alert("请先登录!");
+                return;
+            }
             var replyTextareaHtml = "";
             replyTextareaHtml += "<form class='new-comment' style='display: block; '>" +
                                     "<div class='panel-body comment-text'>" +
-                                        "<textarea style='width: 567pxstyle='width: 567px' ' id='reply-textarea-" + commentId + "'" +
+                                        "<textarea tyle='width: 567px'  id='reply-textarea-" + commentId + "'" +
                                                 "class='comment-textarea' placeholder='写下你的评论…' " +
                                                 "maxlength='2000'></textarea>" +
                                         "<div class='operate-btn'>" +
@@ -609,9 +447,9 @@
                                         var addCommentHtml =
                                             "<a onclick='showReplyTextarea(commentId, commentId)'>添加新评论</a>";
                                         $("#add-comment-"+commentId).html(addCommentHtml);
-//                                        $("#add-comment-"+commentId+" > a").click(function () {
-//                                            showReplyTextarea(commentId, commentId);
-//                                        });
+                                        $("#add-comment-"+commentId+" > a").click(function () {
+                                            showReplyTextarea(commentId, commentId);
+                                        });
                                     }
                                 }
                             },
@@ -626,7 +464,7 @@
         function generateReplyHtml(superCommentId, replyCommentId, blogComment) {
             var commentId = blogComment.id;
             var visitorName = $("#visitor-name").val();
-            var replyVisitorName = superCommentId != replyCommentId ? $("#name-"+replyCommentId).val() : "";
+            var replyVisitorName = $("#name-"+replyCommentId).text();
             var createTime = formatDate(blogComment.createTime);
             var replyHtml =
                 "<div id='reply-" + commentId + "'>" +
@@ -634,7 +472,7 @@
                         "<div class='commentC'>" +
                             "<span id='name-" + commentId + "'>" + visitorName + "</span>" +
                             "<span>：@</span>" +
-                            "<span>" + replyVisitorName + "</span>" +
+                            "<span>" + replyVisitorName + "&nbsp&nbsp</span>" +
                             "<spqn>" + blogComment.comment + "</spqn>" +
                         "</div>" +
                         "<div class='dateTime'>" +

@@ -1,0 +1,103 @@
+.addComment a{
+    font-size:14px;
+    cursor: pointer;
+    color: #969696 !important;
+}
+.commentC{
+    margin:0 0 5px;
+    font-size:14px;
+    line-height:1.5;
+}
+.dateTime{
+    font-size:12px;
+    color: #969696;
+}
+.dateTime a{
+    font-size:12px;
+    margin-left: 10px;
+    color: #969696 !important;
+}
+.reply-block{
+    border-left:2px solid #d9d9d9;
+    margin-top: 20px;
+    padding:0px 0px 0px 20px;
+}
+.editormd-html-preview {
+    width: 65%;
+    margin: 0 auto;
+}
+
+.comment-textarea {
+    height: 90px;
+    width: 480px;
+    border: 1px solid #dcdcdc;
+    background-color: hsla(0,0%,71%,.1);
+    resize:none;  //去掉右下角的三角
+}
+
+.comment {
+    width:600px;
+    margin: 30px auto;
+}
+.comment-info{
+    padding-left: 61px;
+}
+#comment-content{
+    max-resolution: 10px;
+    padding-left:60px;
+}
+#comment-footer{
+    text-align: right;
+}
+.operate-btn a[type='button']{
+    float: right;
+    margin-left: 10px;
+}
+.operate-btn a.cancel{
+    display: block;
+    padding:15px 20px;
+    line-height:1.4;
+}
+.comment-textarea{
+    padding: 10px 15px;
+    font-size: 13px;
+    border: 1px solid #dcdcdc;
+    border-radius: 4px;
+    background-color: hsla(0,0%,71%,.1);
+    resize: none;
+    display: inline-block;
+    vertical-align: top;
+    outline-style: none;
+    margin-bottom: 20px;
+    width: 540px;
+}
+#no-comment{
+    text-align:center;
+    font-size: 12px;
+}
+#no-comment div.pic{
+    background: url("../uploads/no-comment.png") no-repeat;
+    margin: 30px auto 20px;
+    width: 226px;
+    height:92px;
+    background-size: contain;
+}
+#no-comment a{
+    color: #3194d0;
+    cursor: pointer;
+    text-decoration: none;;
+}
+#comments-block{
+    width: 600px;
+    margin:0 auto;
+}
+#comments-block div.top{
+    padding-bottom: 20px;
+    font-size:  17px;
+    font-weight: 700;
+    border-bottom:1px solid #f0f0f0;
+}
+
+.btn {
+    padding: 10px 20px;
+}

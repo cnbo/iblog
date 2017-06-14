@@ -146,7 +146,7 @@ function modifySubmit() {
 
 function deleteMode(id) {
     var categoryName = $("#category-input-"+id).val();
-    var deleteWarning = "您确定删除" + categoryName + "及其有关的文章？";
+    var deleteWarning = "您确定删除" + categoryName + "？";
     $("#delete-warning").html(deleteWarning);
     $("#delete-id").val(id);
 }

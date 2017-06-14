@@ -21,10 +21,18 @@ public interface IBlogService {
 
     List<Blog> getBlogByPage(Integer start, Integer pageCount, String title);
 
+    List<Blog> getPublishBlogByPage(Integer start, Integer pageCount, String title);
+
     Integer getPages(Integer pageCount, String titile);
+
+    Integer getPublishPages(Integer pageCount, String titile);
 
     List<Blog> getTopFiveBlog();
 
     List<Blog> getRecentFiveBlog();
+
+    List<Blog> getRecentFivePublishBlog();
+
+    Integer getPublishBlogCount();
 
 }

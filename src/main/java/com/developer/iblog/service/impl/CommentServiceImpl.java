@@ -3,9 +3,11 @@ package com.developer.iblog.service.impl;
 import com.developer.iblog.common.bean.ExceptionType;
 import com.developer.iblog.common.exception.BusinessException;
 import com.developer.iblog.dao.mapper.BlogCommentMapper;
+import com.developer.iblog.dao.mapper.BlogMapper;
 import com.developer.iblog.dao.mapper.WebVisitorMapper;
 import com.developer.iblog.model.dto.BlogCommentAndReplyDTO;
 import com.developer.iblog.model.dto.BlogCommentDTO;
+import com.developer.iblog.model.persistent.Blog;
 import com.developer.iblog.model.persistent.BlogComment;
 import com.developer.iblog.model.persistent.WebVisitor;
 import com.developer.iblog.service.ICommentService;
@@ -33,6 +35,9 @@ public class CommentServiceImpl implements ICommentService {
 
     @Autowired
     private WebVisitorMapper visitorMapper;
+
+    @Autowired
+    private BlogMapper blogMapper;
 
     /**
      * 查看评论
@@ -137,6 +142,8 @@ public class CommentServiceImpl implements ICommentService {
 
         if (insertResult > 0) {
             //更新文章评论的条数
+            Blog blog = blogMapper.getBlogById(commentInsert.getBlogId());
+            blogMapper.updateCommentTimes(blog.getCommentTimes() + 1, blog.getId());
 
             return commentMapper.selectByPrimaryKey(commentInsert.getId());
         } else {

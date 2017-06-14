@@ -21,7 +21,6 @@ function getCommentByPage(page) {
         type        : "POST",
         url         : "page.do",
         success     : function (msg) {
-            // alert(msg.links.length);
             refresh(msg);
         },
         data        : dataJSON,
@@ -99,7 +98,7 @@ function getSimpleComment(comment) {
 
 function search() {
     searchKey = $("#searchKey").val();
-    getVisitorByPage(1);
+    getCommentByPage(1);
 }
 
 function deleteMode(id) {

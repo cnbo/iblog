@@ -3,15 +3,24 @@ package com.developer.iblog.controller;
 import com.developer.iblog.common.web.AbstractController;
 import com.developer.iblog.model.dto.AdminDTO;
 import com.developer.iblog.model.persistent.Admin;
+import com.developer.iblog.model.persistent.Blog;
+import com.developer.iblog.model.persistent.BlogComment;
+import com.developer.iblog.model.persistent.FriendlyLink;
 import com.developer.iblog.service.IAdminService;
+import com.developer.iblog.service.IBlogService;
+import com.developer.iblog.service.IFriendlyLinkService;
+import com.developer.iblog.service.IManageCommentService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Created by cnbo on 17-3-22.
@@ -22,6 +31,15 @@ public class AdminController extends AbstractController {
 
     @Autowired
     private IAdminService adminService;
+
+    @Autowired
+    private IBlogService blogService;
+
+    @Autowired
+    private IFriendlyLinkService linkService;
+
+    @Autowired
+    private IManageCommentService commentService;
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String toLogin() {
@@ -49,6 +67,19 @@ public class AdminController extends AbstractController {
 
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public String toAdminIndex() {
+        List<FriendlyLink> links = linkService.getAll();
+        List<Blog> recentBlogs = blogService.getRecentFiveBlog();
+        Integer countOfPublishBlog = blogService.getPublishBlogCount();
+        List<BlogComment> comments = commentService.getRecentComment();
+        Integer countOfComment = commentService.getCommentCount();
+
+        Integer linkCount = links == null ? 0 : links.size();
+        setModelAttribute("linkCount", linkCount);
+        setModelAttribute("recentBlogs", recentBlogs);
+        setModelAttribute("publishCount", countOfPublishBlog);
+        setModelAttribute("comments", comments);
+        setModelAttribute("commentCount", countOfComment);
+
         return "admin/index";
     }
 
@@ -62,14 +93,11 @@ public class AdminController extends AbstractController {
         return "admin/profile";
     }
 
-    /*
-    NOTE:谨记@RequestParam的用法
-     */
     @RequestMapping(value = "/profile", method = RequestMethod.POST)
-    public void profile(Admin admin, @RequestParam("file") MultipartFile multipartFile) {
-        Admin sessionAdmin = (Admin) getSessionAttribute("admin");
-        admin.setUsername(sessionAdmin.getUsername());
-        adminService.updateAdmin(admin);
+    public void profile(@RequestParam("avatar") MultipartFile multipartFile) {
+        Admin admin = (Admin) getSessionAttribute("admin");
+        setAdmin(admin);
+                adminService.updateAdmin(admin);
 
         if (!multipartFile.isEmpty()) {
 
@@ -93,17 +121,32 @@ public class AdminController extends AbstractController {
         }
     }
 
-    @RequestMapping(value = "/modify/pass", method = RequestMethod.POST)
-    public String modifyPassword(String newPassword, String oldPassword) {
-        String username = (String) getSessionAttribute("admin");
-        boolean modifySuccess = adminService.modifyPassword(username, newPassword, oldPassword);
-        if (modifySuccess) {
+    private void setAdmin(Admin admin) {
+        HttpServletRequest request = getRequest();
+        String nickName = request.getParameter("nickname");
+        String email = request.getParameter("email");
+        String github = request.getParameter("github");
+        String introduction = request.getParameter("introduction");
+
+        admin.setNickname(nickName);
+        admin.setEmail(email);
+        admin.setGithub(github);
+        admin.setIntroduction(introduction);
+
+    }
+
+
+    @RequestMapping(value = "/modify/pass", produces = "application/json", method = RequestMethod.POST)
+    public @ResponseBody Boolean modifyPassword(@RequestBody AdminDTO adminDTO) {
+        Admin admin = (Admin) getSessionAttribute("admin");
+        Boolean modifyResult = adminService.modifyPassword(admin, adminDTO);
+        if (modifyResult) {
             logger.info("success");
         } else {
             logger.info("failure");
         }
 
-        return "admin/profile";
+        return modifyResult;
     }
 
     @RequestMapping(value = "/save/resume", produces = "application/json", method = RequestMethod.POST)

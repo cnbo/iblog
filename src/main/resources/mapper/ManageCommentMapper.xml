@@ -50,4 +50,43 @@
         id = #{commentId, jdbcType=INTEGER}
     </delete>
 
+
+
+    <select id="getReplyCommentByCommentKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        SELECT
+        id
+        FROM
+        blog_comment
+        WHERE
+        parents_comment_id LIKE concat('0,','%,',concat(#{id, jdbcType=INTEGER},',%'))
+        ORDER BY id ASC
+    </select>
+
+    <select id="getCommentsByVisitorId" resultMap="BaseResultMap">
+        SELECT
+        id
+        FROM
+        blog_comment
+        WHERE
+        web_visitor_id = #{visitorId, jdbcType=INTEGER}
+    </select>
+
+    <select id="getCommentsByBlogId" resultMap="BaseResultMap">
+        SELECT
+        id
+        FROM
+        blog_comment
+        WHERE
+        blog_id = #{blogId, jdbcType=INTEGER}
+    </select>
+
+    <select id="getRecentComment" resultMap="BaseResultMap">
+        SELECT
+        id, create_time, update_time, web_visitor_id, blog_id, comment, reply_comment_id, parents_comment_id
+        FROM
+        blog_comment
+        ORDER BY
+        id DESC
+        LIMIT 5
+    </select>
 </mapper>

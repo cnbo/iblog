@@ -21,4 +21,8 @@ public class AdminDTO {
 
     private String github;
 
+    private String newPassword;
+
+    private String oldPassword;
+
 }

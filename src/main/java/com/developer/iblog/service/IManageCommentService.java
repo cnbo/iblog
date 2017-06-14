@@ -2,6 +2,7 @@ package com.developer.iblog.service;
 
 import com.developer.iblog.model.dto.AdminCommentDTO;
 import com.developer.iblog.model.dto.CommentInfoDTO;
+import com.developer.iblog.model.persistent.BlogComment;
 
 import java.util.List;
 
@@ -15,5 +16,9 @@ public interface IManageCommentService {
     Integer getPages(AdminCommentDTO adminCommentDTO);
 
     Integer deleteComment(Integer commentId);
+
+    Integer getCommentCount();
+
+    List<BlogComment> getRecentComment();
 
 }

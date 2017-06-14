@@ -1,6 +1,8 @@
 package com.developer.iblog.service.impl;
 
+import com.developer.iblog.dao.mapper.BlogMapper;
 import com.developer.iblog.dao.mapper.CategoryMapper;
+import com.developer.iblog.model.persistent.Blog;
 import com.developer.iblog.model.persistent.BlogCategory;
 import com.developer.iblog.service.IBlogCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,9 @@ public class BlogCategoryServiceImpl implements IBlogCategoryService {
 
     @Autowired
     private CategoryMapper categoryMapper;
+
+    @Autowired
+    private BlogMapper blogMapper;
 
     @Override
     public Integer saveCategory(String  categoryName) {
@@ -45,7 +50,19 @@ public class BlogCategoryServiceImpl implements IBlogCategoryService {
 
     @Override
     public Integer deleteCategory(Integer id) {
-        return categoryMapper.deleteCategoryById(id);
+        Integer deleteResult = categoryMapper.deleteCategoryById(id);
+        List<Blog> blogs = blogMapper.getAllBlogByCategory(id);
+        if (deleteResult > 0 && blogs.size() > 0) {
+            BlogCategory category = categoryMapper.getCategoryByName("java");
+            if (category == null) {
+                category = new BlogCategory();
+                category.setCategoryName("java");
+                categoryMapper.saveCategory(category);
+            }
+            blogMapper.updateBlogsCategory(category.getId(), id);
+        }
+
+        return deleteResult;
     }
 
     @Override

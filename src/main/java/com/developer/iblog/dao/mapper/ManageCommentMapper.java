@@ -20,4 +20,12 @@ public interface ManageCommentMapper {
 
     Integer deleteComment(Integer commentId);
 
+    List<BlogComment> getReplyCommentByCommentKey(Integer id);
+
+    List<BlogComment> getCommentsByVisitorId(@Param("visitorId") Integer visitorId);
+
+    List<BlogComment> getCommentsByBlogId(@Param("blogId") Integer blogId);
+
+    List<BlogComment> getRecentComment();
+
 }

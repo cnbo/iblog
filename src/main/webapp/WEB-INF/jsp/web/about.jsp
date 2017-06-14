@@ -21,7 +21,7 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/hux-blog.min.css">
     <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-
+    <%--<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/css/font-awesome.css">--%>
     <style>
         .editormd-html-preview {
             width: 65%;
@@ -177,60 +177,17 @@
 </div>
 
 <!-- footer -->
-<footer>
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                <ul class="list-inline text-center">
-                    <li>
-                        <a target="_blank" href="mailto:${requestScope.adminDTO.email}">
-                            <span class="fa-stack fa-lg">
-                                <i class="fa fa-circle fa-stack-2x"></i>
-                        <i class="fa fa-envelope-o fa-stack-1x fa-inverse"></i>
-                            </span>
-                        </a>
-                    </li>
-                    <li>
-                        <a target="_blank" href="${requestScope.adminDTO.github}">
-                            <span class="fa-stack fa-lg">
-                                <i class="fa fa-circle fa-stack-2x"></i>
-                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
-                            </span>
-                        </a>
-                    </li>
-
-
-                </ul>
-                <p class="copyright text-muted">
-                    Copyright &copy; 2017 by iblog deveploer
-                    <br>
-                </p>
-            </div>
-        </div>
-    </div>
-</footer>
+<%@include file="footer.jsp"%>
 
 
 <%@include file="regist.jsp"%>
 <%@include file="login.jsp"%>
 
-<script src="${pageContext.request.contextPath}/lib/jquery/jquery-1.12.4.js"></script>
+<script src="${pageContext.request.contextPath}/lib/js/jquery-1.12.4.js"></script>
 <script type="application/javascript"
         src="${pageContext.request.contextPath}/lib/bootstrap/js/bootstrap.js"></script>
-<script src="${pageContext.request.contextPath}/lib/editor-md/lib/marked.min.js"></script>
-<script src="${pageContext.request.contextPath}/lib/editor-md/lib/prettify.min.js"></script>
-<script src="${pageContext.request.contextPath}/lib/editor-md/lib/raphael.min.js"></script>
-<script src="${pageContext.request.contextPath}/lib/editor-md/lib/underscore.min.js"></script>
-<script src="${pageContext.request.contextPath}/lib/editor-md/lib/sequence-diagram.min.js"></script>
-<script src="${pageContext.request.contextPath}/lib/editor-md/lib/flowchart.min.js"></script>
-<script src="${pageContext.request.contextPath}/lib/editor-md/lib/jquery.flowchart.min.js"></script>
-<script src="${pageContext.request.contextPath}/lib/editor-md/js/editormd.js"></script>
-<script type="text/javascript"
-        src="${pageContext.request.contextPath}/js/regist.js"></script>
-<script type="text/javascript"
-        src="${pageContext.request.contextPath}/js/login.js"></script>
-<script type="application/javascript"
-        src="${pageContext.request.contextPath}/js/logout.js"></script>
+<%@include file="../common/editor.jsp"%>
+<%@include file="../common/visitor-js.jsp"%>
 <script type="text/javascript">
     $(function() {
         var blogEditormd;
